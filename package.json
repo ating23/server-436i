@@ -5,6 +5,7 @@
   "main": ".eslintrc.js",
   "scripts": {
     "build": "rimraf ./build && tsc",
+    "lint": "eslint . --ext .ts",
     "start:dev": "nodemon",
     "start": "npm run build && node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,6 +23,9 @@
   "homepage": "https://github.com/eduardocgarza/server-436i#readme",
   "devDependencies": {
     "@types/node": "^14.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "eslint": "^7.0.0",
     "nodemon": "^2.0.3",
     "rimraf": "^3.0.2",
     "ts-node": "^8.10.1",
