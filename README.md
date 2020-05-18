@@ -132,4 +132,8 @@ Varsity teams, sports rec leagues, etc.
 
 Page for all the classes we will create. Users would see the classes they are in and they can click in to see the other profiles or users that exist in the chosen class.
 
+![class_listing_page](/images/Class_Listing_Page.jpg)
+
 The class page, users would see all the other profiles in this class. Afterwards, they can interact with them either via chat or view another user’s profile page.
+
+![class_page](/images/Class_Page.jpg)
