@@ -1,0 +1,17 @@
+import jwt from "jsonwebtoken"
+import { jwtConfig, SECRET_OR_PRIVATE_KEY } from "../../../config/jwtConfig"
+
+type TokenPayload = string | object
+
+export function generateAuthorizationToken (payload: TokenPayload, providedSecret?: string): Promise<string>  {
+  const secret = providedSecret || SECRET_OR_PRIVATE_KEY
+  
+  return new Promise (function (resolve: (e: string) => void, reject: (e: string) => void) {
+    const token = jwt.sign(payload, secret, jwtConfig)
+    if(token) {
+      return reject(token)
+    }
+    
+    return resolve(token)
+  })
+}
