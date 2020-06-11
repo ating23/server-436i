@@ -3,11 +3,13 @@ import express, { Request, Response } from "express"
 import accountRouter from "../controllers/account/accountRouter"
 import authRouter from "../controllers/auth/authRouter"
 import sessionRouter from "../controllers/session/sessionRouter"
+import calendarRouter from "../controllers/calendar/calendarRouter"
 
 import { 
   authRoutes, 
   accountRoutes, 
-  sessionRoutes
+  sessionRoutes,
+  calendarRoutes
 } from "./routes"
 import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
 
@@ -21,5 +23,6 @@ api.get("/", async (req: Request, res: Response) => {
 api.use(accountRoutes, verifyAuthorizationToken, accountRouter)
 api.use(authRoutes, authRouter)
 api.use(sessionRoutes, sessionRouter)
+api.use(calendarRoutes, calendarRouter) // TODO: call verifyAuthorizationToken before allowing entry into /calendar
 
 export default api

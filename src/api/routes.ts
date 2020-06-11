@@ -29,3 +29,10 @@ export const accountRoutes = "/account"
 export const getAccountRoute    = new Route (MethodTypes.GET, accountRoutes, "/:accountId")
 export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "/:accountId")
 export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, "/:accountId")
+
+/**
+ * @Calendar Routes
+ */
+export const calendarRoutes = "/calendar"
+
+export const postCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "");
