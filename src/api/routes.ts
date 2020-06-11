@@ -34,3 +34,10 @@ export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, 
  * @TestRoutes
  */
 export const testRoutes = "/test"
+
+/*
+ * @Calendar Routes
+ */
+export const calendarRoutes = "/calendar"
+
+export const postCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "");
