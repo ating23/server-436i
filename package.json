@@ -48,10 +48,14 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.5.0",
-    "ical": "^0.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.18",
+<<<<<<< HEAD
     "nodemailer": "^6.4.8",
     "nodemailer-mailgun-transport": "^2.0.0"
+=======
+    "multer": "^1.4.2",
+    "node-ical": "^0.11.3"
+>>>>>>> created Calendar class, need to write to DB when the ics is done parse
   }
 }
