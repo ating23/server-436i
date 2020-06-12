@@ -16,6 +16,10 @@ export const validateEmailAlreadyExists =
     Logger.Log ("Checking if email already exists: ", value)
     Account.findOne ({ email: value }, function (err, account) {
       Logger.Log ("Checking mongodb: ", account)
+      if (err) {
+        Logger.Log ("Failed because errro: ", err)
+        return Promise.reject("Problem with MongoDB.")
+      }
       if (account) {
         Logger.Log ("Account found and rejecting: ", account)
         return Promise.reject("This email already exists.")

@@ -1,7 +1,7 @@
 import ErrorHandler from "../ErrorHandler"
 import statusCodes from "../../api/statusCodes"
 
-export const PosgresUnavaiableError = new ErrorHandler(
+export const MongoUnavaiableError = new ErrorHandler(
   "Postgres Unavailable",
   statusCodes.INTERNAL_SERVER_ERROR,
   "The database is currently offline."

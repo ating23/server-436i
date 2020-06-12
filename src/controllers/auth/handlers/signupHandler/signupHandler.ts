@@ -21,7 +21,7 @@ function handleSignup (req: Request, res: Response, next: NextFunction): void {
       return next (err)
     }
     Logger.Log("Saved new account on mongodb.")
-    return res.json({ account: account })
+    return res.json({ account })
   })
 }
 
