@@ -26,7 +26,7 @@ async function handleLogin (req: Request, res: Response, next: NextFunction): Pr
       return next (InvalidLoginError)
     }
 
-    const { id, name, email, password: hashedPassword } = account
+    const { _id: id, name, email, password: hashedPassword } = account
     bcrypt.compare (password, hashedPassword, (error: Error) => {
       if(error) {
         Logger.Error ("Error in login. Password incorrect: ", error)

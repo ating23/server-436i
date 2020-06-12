@@ -18,8 +18,8 @@ api.get("/", async (req: Request, res: Response) => {
   res.json ({ received: true })
 })
 
-api.use(accountRoutes, verifyAuthorizationToken, accountRouter)
+// api.use(accountRoutes, verifyAuthorizationToken, accountRouter)
 api.use(authRoutes, authRouter)
-api.use(sessionRoutes, sessionRouter)
+// api.use(sessionRoutes, sessionRouter)
 
 export default api

@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose"
 
 // https://medium.com/@tomanagle/strongly-typed-models-with-mongoose-and-typescript-7bc2f7197722
 interface AccountDocument extends Document {
-  id: number;
+  _id: number;
   email: string;
   password: string;
   name: string;
@@ -12,10 +12,6 @@ interface AccountDocument extends Document {
 }
 
 const accountSchema: Schema = new mongoose.Schema({
-  id: {
-    type: mongoose.Types.ObjectId(),
-    required: true,
-  },
   email: {
     type: String,
     required: true,
