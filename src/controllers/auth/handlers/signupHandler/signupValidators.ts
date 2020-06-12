@@ -12,21 +12,24 @@ export const validateName =
 
 export const validateEmailAlreadyExists = 
   body("email")
-  .custom(value => {
+  .custom(async value => {
     Logger.Log ("Checking if email already exists: ", value)
-    Account.findOne ({ email: value }, function (err, account) {
+    
+    try {
+      const account = await Account.findOne ({ email: value })
       Logger.Log ("Checking mongodb: ", account)
-      if (err) {
-        Logger.Log ("Failed because errro: ", err)
-        return Promise.reject("Problem with MongoDB.")
-      }
       if (account) {
         Logger.Log ("Account found and rejecting: ", account)
         return Promise.reject("This email already exists.")
       }
       Logger.Log ("Was not rejected")
       return true
-    })
+    } 
+    catch (error) {
+      
+      Logger.Log ("Failed because errro: ", error)
+      return Promise.reject("Problem with MongoDB.")
+    }
   })
 
 export function handleErrors (req: Request, _res: Response, next: NextFunction): void {
