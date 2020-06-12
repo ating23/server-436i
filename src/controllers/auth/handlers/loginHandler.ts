@@ -13,27 +13,30 @@ import Account from "../../../db/models/Account.model"
  * @Handler
  */
 async function handleLogin (req: Request, res: Response, next: NextFunction): Promise<void> {
-  const { email, password }: LoginInterface = req.body
-  Logger.Log (`Received login request for: ${email}`)
+  const { email: clientEmail, password: clientPassword }: LoginInterface = req.body
+  Logger.Log (`Received login request for: ${clientEmail}`)
 
-  Account.findOne ({ email }, (error, account) => {
-    if (error) {
-      Logger.Error ("Error in login. No account found: ", error)
-      return next (MongoUnavaiableError)
-    }
-    else if (!account)  {
-      Logger.Error ("Error in login. No account found: ", error)
+  try {
+    const account = await Account.findOne ({ email: clientEmail })
+    Logger.Log ("Mongo query complete.")
+    if (!account)  {
+      Logger.Error ("Error in login. No account found.")
       return next (InvalidLoginError)
     }
-
+    
+    Logger.Log ("Found account: ", account)
     const { _id: id, name, email, password: hashedPassword } = account
-    bcrypt.compare (password, hashedPassword, (error: Error) => {
+
+    Logger.Log ("Beginning password has compare.")
+    bcrypt.compare (clientPassword, hashedPassword, (error: Error) => {
       if(error) {
         Logger.Error ("Error in login. Password incorrect: ", error)
         return next(InvalidLoginError)
       }
+      Logger.Log ("Passwords match.")
       generateAuthorizationToken({ id })
         .then((token: string) => {
+          Logger.Log ("Token generated. Responding to client: ", token)
           return res.status(statusCodes.OK).json({
             token,
             name,
@@ -42,7 +45,11 @@ async function handleLogin (req: Request, res: Response, next: NextFunction): Pr
         })
         .catch((error: Error) => next(error))
     })
-  })
+  }
+  catch (error) {
+    Logger.Error ("Error in login. No account found: ", error)
+    return next (MongoUnavaiableError)
+  }
 }
 
 const loginHandler = [

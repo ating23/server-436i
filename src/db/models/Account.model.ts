@@ -26,7 +26,10 @@ const accountSchema: Schema = new mongoose.Schema({
   },
   university: String,
   program: String,
-  dateCreated: Date,
+  dateCreated: {
+    type: Date,
+    default: Date.now
+  },
 })
 
 export default mongoose.model<AccountDocument>("Account", accountSchema)

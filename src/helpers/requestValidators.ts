@@ -14,10 +14,8 @@ export const validatePassword =
 
 export const validatePasswordConfirm = 
   check("passwordConfirmation")
-  .notEmpty()
-    .withMessage ("Please provide a password.")
-  .isLength ({ min: 8})
-    .withMessage("Please provide a password with at least 8 characters long.")
+  .notEmpty().withMessage ("Please provide a password.")
+  .isLength ({ min: 8}).withMessage("Please provide a password with at least 8 characters long.")
   .custom((inputPwdConfirm: string, { req }) => {
     if(inputPwdConfirm !== req.body.password) {
       throw Error("Passwords do not match.")

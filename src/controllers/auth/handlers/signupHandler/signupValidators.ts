@@ -14,7 +14,6 @@ export const validateEmailAlreadyExists =
   body("email")
   .custom(async value => {
     Logger.Log ("Checking if email already exists: ", value)
-    
     try {
       const account = await Account.findOne ({ email: value })
       Logger.Log ("Checking mongodb: ", account)
@@ -26,7 +25,6 @@ export const validateEmailAlreadyExists =
       return true
     } 
     catch (error) {
-      
       Logger.Log ("Failed because errro: ", error)
       return Promise.reject("Problem with MongoDB.")
     }
@@ -39,6 +37,5 @@ export function handleErrors (req: Request, _res: Response, next: NextFunction):
     Logger.Log ("No errors found in request.")
     return next()
   }
-
   return next(new ErrorHandler ("Validation Error", statusCodes.BAD_REQUEST, "Validation errors in Signup"))
 }
