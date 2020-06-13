@@ -4,10 +4,10 @@
   "description": "",
   "main": ".eslintrc.js",
   "scripts": {
-    "build": "rimraf ./build && tsc",
+    "build": "rm -rf ./build && tsc",
     "lint": "eslint . --ext .ts",
     "start:dev": "nodemon",
-    "start": "npm run build && node build/index.js"
+    "start": "node build/index.js"
   },
   "engines": {
     "node": "10.x"

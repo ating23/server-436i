@@ -49,9 +49,11 @@ var testRouter = express_1.default.Router();
  * @Test api
  */
 testRouter.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
+    var _a, NODE_ENV, JWT_KEY, MAILGUN_API_KEY, MONGODB_URI;
+    return __generator(this, function (_b) {
+        _a = process.env, NODE_ENV = _a.NODE_ENV, JWT_KEY = _a.JWT_KEY, MAILGUN_API_KEY = _a.MAILGUN_API_KEY, MONGODB_URI = _a.MONGODB_URI;
         Logger_1.default.Log("Hit route: /");
-        Logger_1.default.Log("NODE_ENV = ", process.env.NODE_ENV);
+        Logger_1.default.Log("NODE_ENV = ", NODE_ENV, JWT_KEY, MAILGUN_API_KEY, MONGODB_URI);
         return [2 /*return*/, res.json({ received: true })];
     });
 }); });

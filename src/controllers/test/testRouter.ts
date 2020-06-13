@@ -10,8 +10,19 @@ const testRouter = express.Router ()
  * @Test api
  */
 testRouter.get("/", async (req: Request, res: Response) => {
+  const {
+    NODE_ENV,
+    JWT_KEY,
+    MAILGUN_API_KEY,
+    MONGODB_URI
+  } = process.env
   Logger.Log  ("Hit route: /")
-  Logger.Log ("NODE_ENV = ", process.env.NODE_ENV)
+  Logger.Log ("NODE_ENV = ", 
+    NODE_ENV,
+    JWT_KEY,
+    MAILGUN_API_KEY,
+    MONGODB_URI
+  )
   return res.json ({ received: true })
 })
 
