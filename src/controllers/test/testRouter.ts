@@ -10,7 +10,8 @@ const testRouter = express.Router ()
  * @Test api
  */
 testRouter.get("/", async (req: Request, res: Response) => {
-  Logger.Log ("Testing api")
+  Logger.Log  ("Hit route: /")
+  Logger.Log ("NODE_ENV = ", process.env.NODE_ENV)
   return res.json ({ received: true })
 })
 
@@ -18,7 +19,7 @@ testRouter.get("/", async (req: Request, res: Response) => {
  * @Test Mongoose/Mongo
  */
 testRouter.get("/mongo", async (req: Request, res: Response) => {
-  Logger.Log  ("Hit route: /")
+  Logger.Log  ("Hit route: /mongo")
   try {
     const result = await AccountModel.find ({})
     Logger.Log  ("Result: ", result)
