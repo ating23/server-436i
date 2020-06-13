@@ -12,8 +12,8 @@ import {
   loginRoute, 
   signupRoute, 
   forgotPasswordRoute, 
-  resetPasswordRoute, 
-  verifyResetPasswordTokenRoute
+  resetPasswordRoute,
+  verifyResetRoute
 } from "../../api/routes"
 import Account from "../../db/models/Account.model"
 
@@ -35,8 +35,9 @@ authRouter.get("/", async (req: Request, res: Response) => {
 
 authRouter.post(loginRoute.relative, loginHandler)
 authRouter.post(signupRoute.relative, signupHandler)
+
 authRouter.post(forgotPasswordRoute.relative, forgotPasswordHandler)
-authRouter.get(verifyResetPasswordTokenRoute.relative, resetPasswordGetHandler)
+authRouter.get(verifyResetRoute.relative, resetPasswordGetHandler)
 authRouter.post(resetPasswordRoute.relative, resetPasswordPostHandler)
 
 export default authRouter

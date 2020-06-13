@@ -11,7 +11,7 @@ interface AccountDocument extends Document {
   dateCreated: Date;
 }
 
-const accountSchema: Schema = new mongoose.Schema({
+const accountSchema: Schema = new mongoose.Schema ({
   email: {
     type: String,
     required: true,
