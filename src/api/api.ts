@@ -17,7 +17,7 @@ const api = express()
 
 api.use(accountRoutes, verifyAuthorizationToken, accountRouter)
 api.use(authRoutes, authRouter)
-api.use(sessionRoutes, sessionRouter)
+// api.use(sessionRoutes, sessionRouter)
 api.use(testRoutes, testRouter)
 
 export default api

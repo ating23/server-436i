@@ -4,11 +4,6 @@ import loginHandler from "./handlers/loginHandler"
 import signupHandler from "./handlers/signupHandler/signupHandler"
 import forgotPasswordHandler from "./handlers/forgotPasswordHandler"
 import { 
-  resetPasswordGetHandler, 
-  resetPasswordPostHandler 
-} from "./handlers/resetPasswordHandler"
-
-import { 
   loginRoute, 
   signupRoute, 
   forgotPasswordRoute, 
@@ -16,13 +11,15 @@ import {
   verifyResetRoute
 } from "../../api/routes"
 import { verifyAuthorizationToken } from "./helpers/verifyAuthorizationToken"
+import resetPasswordHandler from "./handlers/resetPasswordHandler"
+import verifyResetCodeHandler from "./handlers/verifyResetCodeHandler"
 
 const authRouter = express.Router()
 
 authRouter.post(loginRoute.relative, loginHandler)
 authRouter.post(signupRoute.relative, signupHandler)
 authRouter.post(forgotPasswordRoute.relative, forgotPasswordHandler)
-authRouter.get(verifyResetRoute.relative, resetPasswordGetHandler)
-authRouter.post(resetPasswordRoute.relative, verifyAuthorizationToken, resetPasswordPostHandler)
+authRouter.get(verifyResetRoute.relative, verifyResetCodeHandler)
+authRouter.post(resetPasswordRoute.relative, verifyAuthorizationToken, resetPasswordHandler)
 
 export default authRouter

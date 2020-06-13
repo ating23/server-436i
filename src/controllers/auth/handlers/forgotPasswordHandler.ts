@@ -17,11 +17,8 @@ async function handleForgotPassword(req: Request, res: Response, next: NextFunct
       Logger.Error ("Error in forgot password. No account found.")
       return next (NoAccountFoundError)
     }
-
     const { _id: accountId, name } = account
-
     const newCodeRecord = new ResetCodeModel ({ accountId })
-
     newCodeRecord.save ((err, { _id: code }) => {
       if (err) {
         Logger.Error("Error in saving new account on mongodb.")

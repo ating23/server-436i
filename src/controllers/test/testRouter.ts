@@ -17,7 +17,7 @@ testRouter.get("/", async (req: Request, res: Response) => {
 /**
  * @Test Mongoose/Mongo
  */
-testRouter.get("/", async (req: Request, res: Response) => {
+testRouter.get("/mongo", async (req: Request, res: Response) => {
   Logger.Log  ("Hit route: /")
   try {
     const result = await AccountModel.find ({})

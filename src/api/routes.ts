@@ -18,13 +18,13 @@ export const authRoutes = "/auth"
 export const loginRoute                     = new Route (MethodTypes.POST, authRoutes, "/login")
 export const signupRoute                    = new Route (MethodTypes.POST, authRoutes, "/signup")
 export const forgotPasswordRoute            = new Route (MethodTypes.POST, authRoutes, "/forgot")
-export const verifyResetRoute               = new Route (MethodTypes.GET, authRoutes, "/reset/verify")
+export const verifyResetRoute               = new Route (MethodTypes.GET, authRoutes, "/verify")
 export const resetPasswordRoute             = new Route (MethodTypes.POST, authRoutes, "/reset")
 
 /**
  * @AccountRoutes
  */
-export const accountRoutes = "/account"
+export const accountRoutes = "/profile"
 
 export const getAccountRoute    = new Route (MethodTypes.GET, accountRoutes, "/:accountId")
 export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "/:accountId")

@@ -13,7 +13,7 @@ import {
 const accountRouter = express.Router()
 
 accountRouter.get(getAccountRoute.relative, getAccountHandler)
-accountRouter.patch(updateAccountRoute.relative, updateAccountHandler)
-accountRouter.delete(deleteAccountRoute.relative, deleteAccountHandler)
+// accountRouter.patch(updateAccountRoute.relative, updateAccountHandler)
+// accountRouter.delete(deleteAccountRoute.relative, deleteAccountHandler)
 
 export default accountRouter

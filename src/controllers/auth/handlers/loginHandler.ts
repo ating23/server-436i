@@ -29,12 +29,13 @@ async function handleLogin (req: Request, res: Response, next: NextFunction): Pr
     const { _id: id, password: hashedPassword } = account
 
     Logger.Log ("Beginning password has compare.")
-    bcrypt.compare (clientPassword, hashedPassword, (error: Error) => {
-      if(error) {
-        Logger.Error ("Error in login. Password incorrect: ", error)
+    bcrypt.compare (clientPassword, hashedPassword)
+    .then ((result) => {
+      if(!result) {
+        Logger.Error ("Error in login. Password incorrect: ")
         return next(InvalidLoginError)
       }
-      Logger.Log ("Passwords match.")
+      Logger.Log ("Passwords match: ", result)
       generateAuthorizationToken({ id })
         .then((token: string) => {
           Logger.Log ("Token generated. Responding to client: ", token)
