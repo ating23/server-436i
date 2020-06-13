@@ -8,6 +8,7 @@ import { validateEmail, validatePassword } from "../../../helpers/requestValidat
 import { LoginInterface } from "../interfaces/AuthRouteInterfaces"
 import Logger from "../../../errors/Logger"
 import Account from "../../../db/models/Account.model"
+import generateURI from "../helpers/generateURI"
 
 /**
  * @Handler
@@ -25,7 +26,7 @@ async function handleLogin (req: Request, res: Response, next: NextFunction): Pr
     }
     
     Logger.Log ("Found account: ", account)
-    const { _id: id, name, email, password: hashedPassword } = account
+    const { _id: id, password: hashedPassword } = account
 
     Logger.Log ("Beginning password has compare.")
     bcrypt.compare (clientPassword, hashedPassword, (error: Error) => {
@@ -39,8 +40,7 @@ async function handleLogin (req: Request, res: Response, next: NextFunction): Pr
           Logger.Log ("Token generated. Responding to client: ", token)
           return res.status(statusCodes.OK).json({
             token,
-            name,
-            email
+            profile: generateURI (`/profile/${id}`)
           })
         })
         .catch((error: Error) => next(error))

@@ -5,6 +5,9 @@ import Account from "../../../../db/models/Account.model"
 import { validateName, validateEmailAlreadyExists, handleErrors } from "./signupValidators"
 import { validateEmail, validatePassword, validatePasswordConfirm } from "../../../../helpers/requestValidators"
 import Logger from "../../../../errors/Logger"
+import { generateAuthorizationToken } from "../../helpers/generateAuthorizationToken"
+import statusCodes from "../../../../api/statusCodes"
+import generateURI from "../../helpers/generateURI"
 
 function handleSignup (req: Request, res: Response, next: NextFunction): void {
   const { name, email, password }: SignupInterface = req.body
@@ -21,7 +24,17 @@ function handleSignup (req: Request, res: Response, next: NextFunction): void {
       return next (err)
     }
     Logger.Log("Saved new account on mongodb.")
-    return res.json({ account })
+
+    const { _id: id } = account
+    generateAuthorizationToken ({ id })
+      .then((token: string) => {
+        Logger.Log ("Token generated. Responding to client: ", token)
+        return res.status(statusCodes.CREATED).json({
+          token,
+          profile: generateURI (`/profile/${id}`)
+        })
+      })
+      .catch((error: Error) => next(error))
   })
 }
 

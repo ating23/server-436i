@@ -6,7 +6,8 @@ import Account from "../../../db/models/Account.model"
 import { MongoUnavaiableError, NoAccountFoundError } from "../../../errors/messages/ServicesErrorMessages"
 import Logger from "../../../errors/Logger"
 import Nodemailer from "../../../helpers/nodemailer/Nodemailer"
-import ResetTokenModel from "../../../db/models/ResetToken.model"
+import ResetCodeModel from "../../../db/models/ResetCode.model"
+import generateVerifyCodeEmail from "../../../helpers/nodemailer/emails/generateVerifyCodeEmail"
 
 async function handleForgotPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { email }: ForgotPasswordInterface = req.body
@@ -17,19 +18,28 @@ async function handleForgotPassword(req: Request, res: Response, next: NextFunct
       return next (NoAccountFoundError)
     }
 
-    const { _id: accountId } = account
-    const newTokenRecord = new ResetTokenModel ({ accountId })
-    newTokenRecord.save ((err, { token }) => {
+    const { _id: accountId, name } = account
+
+    const newCodeRecord = new ResetCodeModel ({ accountId })
+
+    newCodeRecord.save ((err, { _id: code }) => {
       if (err) {
         Logger.Error("Error in saving new account on mongodb.")
         return next (err)
       }
-      Logger.Log ("Saved new tokeno on mongodb.")
-      const newMail = new Nodemailer ("Name", email, "Reset Password", String(token))
+      Logger.Log ("Generated code: ", code)
+
+      const subject = `${code} is your Educonnections account recovery code`
+      const newMail = new Nodemailer (
+        name, 
+        email,
+        subject,
+        generateVerifyCodeEmail (String (code), name, email)
+      )
       newMail.sendMail ()
         .then((info: object) => {
           Logger.Log ("Resolved = ", info)
-          return res.status(StatusCodes.OK)
+          return res.status(StatusCodes.OK).json({ success: true })
         })
         .catch(error => {
           Logger.Error ("Could not send mail: ", error)

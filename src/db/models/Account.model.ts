@@ -12,15 +12,15 @@ interface AccountDocument extends Document {
 }
 
 const accountSchema: Schema = new mongoose.Schema ({
+  name: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
   },
   password: {
-    type: String,
-    required: true,
-  },
-  name: {
     type: String,
     required: true,
   },

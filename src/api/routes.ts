@@ -1,7 +1,7 @@
 import Route from "../types/Route"
 import { MethodTypes } from "../types/MethodTypes"
 
-export const apiRoute = "/api"
+export const apiRoute = "/"
 
 /**
  * @Session Routes
@@ -29,3 +29,8 @@ export const accountRoutes = "/account"
 export const getAccountRoute    = new Route (MethodTypes.GET, accountRoutes, "/:accountId")
 export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "/:accountId")
 export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, "/:accountId")
+
+/**
+ * @TestRoutes
+ */
+export const testRoutes = "/test"

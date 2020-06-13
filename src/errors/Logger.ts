@@ -1,4 +1,5 @@
-type Message = string | number | object | null
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Message = any
 
 export default class Logger {
   public static Error (...args: Array<Message>): void {

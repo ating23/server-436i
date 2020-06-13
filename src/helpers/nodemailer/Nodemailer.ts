@@ -3,22 +3,23 @@ import mg from "nodemailer-mailgun-transport"
 import ErrorHandler from "../../errors/ErrorHandler"
 import statusCodes from "../../api/statusCodes"
 import { MAILGUN_CONFIG } from "./mailgunConfig"
+import Logger from "../../errors/Logger"
 
 export default class Nodemailer {
   toName: string
   toEmail: string
   subject: string
-  link: string
+  htmlBody: string
 
-  constructor (toName: string, toEmail: string, subject: string, link: string) {
+  constructor (toName: string, toEmail: string, subject: string, htmlBody: string) {
     this.toName = toName
     this.toEmail = toEmail
     this.subject = subject
-    this.link = link
+    this.htmlBody = htmlBody
   }
 
   public sendMail (): Promise<object> {
-    const { toName, toEmail, subject, link } = this
+    const { toName, toEmail, subject, htmlBody } = this
     
     return new Promise((resolve, reject) => {
       const { MAILGUN_API_KEY } = process.env
@@ -44,17 +45,15 @@ export default class Nodemailer {
         from: MAILGUN_CONFIG.sender,
         to: `${toName} <${toEmail}>`,
         subject: subject,
-        html: `
-        <p>
-          Click on this link to reset password: <a href="${link}">Reset Password</a>
-        </p>
-        `
+        html: htmlBody
       })
       .then((info: object) => {
-        resolve(info)
+        Logger.Log ("Successully sent mail: " , info)
+        return resolve(info)
       })
-      .catch((err: Error) => {
-        reject(err)
+      .catch(error => {
+        Logger.Error ("Error in sending mail: ", error)
+        return reject(error)
       })
     })
   }

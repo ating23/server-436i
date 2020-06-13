@@ -4,6 +4,8 @@ import dotenv from "dotenv"
 import express from "express"
 import mongoose from "mongoose"
 
+dotenv.config()
+
 import api from "./api/api"
 import { apiRoute } from "./api/routes"
 import startServer from "./config/startServer"
@@ -15,7 +17,6 @@ import LogErrorHandler from "./errors/LogErrorHandler"
 import catchAllErrorHandler from "./errors/handlers/catchAllErrorHandler"
 import Logger from "./errors/Logger"
 
-dotenv.config()
 
 /**
  * @Connect Mongoose
