@@ -25,7 +25,7 @@ import Logger from "./errors/Logger"
  */
 const { connection: db } = mongoose
 
-mongoose.connect("mongodb://localhost/db", { 
+mongoose.connect(String(process.env.MONGODB_URI), { 
   useNewUrlParser: true, 
   useUnifiedTopology: true 
 })
