@@ -18,6 +18,9 @@ const api = express()
 api.use(accountRoutes, verifyAuthorizationToken, accountRouter)
 api.use(authRoutes, authRouter)
 // api.use(sessionRoutes, sessionRouter)
-api.use(testRoutes, testRouter)
+
+if (process.env.NODE_ENV === "development") {
+  api.use(testRoutes, testRouter)
+}
 
 export default api
