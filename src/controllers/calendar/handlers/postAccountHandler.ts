@@ -29,32 +29,34 @@ const createCalendarFromIcsData = (accountId: number, icsData: Record<string, an
   return new Calendar(accountId, arr);
 }
 
-function handlePostCalendar(req: any, res: Response, next: NextFunction): Response<any>  {
+const checkFileisICS = (name: string): boolean => {
+  return name.split('.').pop() === "ics"
+}
+
+function handlePostCalendar(req: any, res: Response, next: NextFunction): void {
   const storage = multer.memoryStorage();
   const upload = multer({storage: storage}).single('calendar');
+  console.log(res.locals.token);
 
-  try {
-    upload(req, res, async function (err: any) {
-      if (err) {
-        return res.status(statusCodes.BAD_REQUEST).send(err);
-      } else if (req.file === undefined || req.file === null) {
-        return res.status(statusCodes.BAD_REQUEST).send({error: "ICS file is empty or nothing was uploaded"})        
-      } else {
-        await ical.async.parseICS(`${Buffer.from(req.file.buffer)}`)
-          .then((calendarData: Record<string, any>) => {
-            // write to DB
-            // 
-            const accountId = 1;
-            const ret = createCalendarFromIcsData(accountId, Object.values(calendarData));
-            return res.status(statusCodes.CREATED).send(ret);    
-          });
-        }
-    })
-  } catch(err) {
-    console.log(err);
-    return res.status(statusCodes.BAD_REQUEST).send({error: `${err}`});
-  }
-  return res.status(statusCodes.BAD_REQUEST);
+  upload(req, res, function (err: any) {
+    if (err) {
+      return res.status(statusCodes.BAD_REQUEST).send(err);
+    } else if (req.file === undefined || req.file === null) {
+      return res.status(statusCodes.BAD_REQUEST).send({error: "ICS file is empty or nothing was uploaded"})
+    // TODO: check if file is of ics file type
+    } else if (!checkFileisICS(req.file.originalname)) {   
+      return res.status(statusCodes.BAD_REQUEST).send({error: "file type is not an ics calendar"});
+    } else {
+      console.log(req.file);
+      const calendarData = ical.sync.parseICS(`${Buffer.from(req.file.buffer)}`);
+
+      // TODO: write to DB
+
+      const accountId = res.locals.token.id;
+      const ret = createCalendarFromIcsData(accountId, Object.values(calendarData));
+      return res.status(statusCodes.CREATED).send(ret);    
+    }
+  })
 }
 
 export {
