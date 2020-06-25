@@ -18,8 +18,6 @@ import startServer from "./config/startServer"
 import LogErrorHandler from "./errors/LogErrorHandler"
 import catchAllErrorHandler from "./errors/handlers/catchAllErrorHandler"
 import Logger from "./errors/Logger"
-import CourseModel from "./db/models/Course.model"
-
 
 /**
  * @Connect Mongoose
@@ -44,8 +42,6 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 app.use(apiRoute, api)
-
-CourseModel.find ({}, (err, res) => console.log(res))
 
 /**
  * @Error Handling

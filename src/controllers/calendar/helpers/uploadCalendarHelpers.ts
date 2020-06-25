@@ -1,53 +1,6 @@
-// import Calendar from "../../../models/Calendar.model"
-// import ClassModel from "../../../db/models/Class.model"
-
-// export default class ParseCalendarFile {
-//   private accountId: string
-//   private calendarFile: Express.Multer.File
-  
-//   constructor (accountId: string, calendarFile: Express.Multer.File) {
-//     this.accountId = accountId
-//     this.calendarFile = calendarFile
-//   }
-
-//   public parse (): Calendar {
-//     if (!this.isICS()) {
-//       throw new Error ("The file type you uploaded is invalid.")
-//     }
-//     const calendar = this.parseICS ()
-//   }
-  
-  // private isICS (): boolean {
-  //   const fileName = this.calendarFile.originalname
-  //   return fileName.split(".").pop() === "ics"
-  // }
-  
-//   private parseICS (): Calendar {
-//     const icsData = Buffer.from (String (this.calendarFile.buffer))
-    
-//     const classes = icsData.map ((item: Record<string, string>) => {
-
-//     })
-    
-//     const arr: string[] = []
-
-  
-//     icsData.forEach((item: Record<string, string>) => {
-//       if (item.type === "VEVENT") {
-//         const index = item.summary.indexOf(" ", item.summary.indexOf( " " ) + 1)
-//         const classCode = item.summary.substr(0, index)
-//         if (!arr.includes(classCode)) {
-//           arr.push(classCode)
-//         }
-//       }  
-//     })
-            
-//     return new Calendar (accountId, arr)
-//   }
-
-  
-
-// }
+import ical from "node-ical"
+import CourseModel, { CourseDocument } from "../../../db/models/Course.model"
+import { ClassItem } from "./calendarTypes"
 
 // export async function checkClassExists (classCode: string): Promise<boolean> {
 //   const existingClass = await ClassModel.findOne({classCode: classCode})
@@ -82,29 +35,41 @@
 //   })
 // }
 
-export default function isICS (fileName: string): boolean {
+function isICS (fileName: string): boolean {
   return fileName.split(".").pop() === "ics"
 }
 
-  // private parseICS (): Calendar {
-  //   const icsData = Buffer.from (String (this.calendarFile.buffer))
-    
-  //   const classes = icsData.map ((item: Record<string, string>) => {
+export function validateCalendar (calendar: Express.Multer.File): void {
+  if (!calendar || calendar === undefined) {
+    throw new Error ("Calendar upload was unsuccessful.")
+  }
 
-  //   })
-    
-  //   const arr: string[] = []
+  if (!isICS (calendar.originalname)) {
+    throw new Error ("The file type that you uploaded is invalid.")
+  }
+}
 
-  
-  //   icsData.forEach((item: Record<string, string>) => {
-  //     if (item.type === "VEVENT") {
-  //       const index = item.summary.indexOf(" ", item.summary.indexOf( " " ) + 1)
-  //       const classCode = item.summary.substr(0, index)
-  //       if (!arr.includes(classCode)) {
-  //         arr.push(classCode)
-  //       }
-  //     }  
-  //   })
-            
-  //   return new Calendar (accountId, arr)
-  // }
+export function convertCalendarBufferToString (calendar: Express.Multer.File): string {
+  return Buffer.from (calendar.buffer).toString ("utf8")
+}
+
+export function convertCalendarStringToArray (calendarString: string): object[] {
+  return Object.values (ical.sync.parseICS (calendarString))
+}
+
+export function generateCalendarMongoDocuments (
+  accountId: string, 
+  classesResult: ClassItem[]): CourseDocument[] {
+  const courses = classesResult.map (course => (
+    new CourseModel ({
+      courseId: course.classId,
+      accountId,
+      courseDept: course.courseDept,
+      courseNumber: course.courseNumber,
+      courseSection: course.courseSection,
+      startDate: course.startDate,
+      endDate: course.endDate
+    })
+  ))
+  return courses
+}

@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose"
 
 // https://medium.com/@tomanagle/strongly-typed-models-with-mongoose-and-typescript-7bc2f7197722
-interface CourseDocument extends Document {
+export interface CourseDocument extends Document {
   courseId: string;
   accountId: number;
   courseDept: string;
