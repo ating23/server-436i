@@ -9,15 +9,18 @@ import {
   authRoutes, 
   accountRoutes, 
   sessionRoutes,
-  testRoutes
+  testRoutes,
+  spotifyRoutes
 } from "./routes"
 import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
+import spotifyRouter from "../controllers/spotify/spotifyRouter"
 
 const api = express()
 
 api.use(accountRoutes, verifyAuthorizationToken, accountRouter)
 api.use(authRoutes, authRouter)
-// api.use(sessionRoutes, sessionRouter)
+api.use(sessionRoutes, sessionRouter)
+api.use(spotifyRoutes, spotifyRouter)
 
 if (process.env.NODE_ENV === "development") {
   api.use(testRoutes, testRouter)

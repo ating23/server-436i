@@ -31,6 +31,16 @@ export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "
 export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, "/:accountId")
 
 /**
+ * @Spotify
+ */
+export const spotifyRoutes = "/spotify"
+
+export const authorizeSpotifyRoute = new Route (MethodTypes.GET, spotifyRoutes, "/authorize")
+export const getTokenSpotifyRoute = new Route (MethodTypes.GET, spotifyRoutes, "/callback")
+export const deauthorizeSpotifyRoute = new Route (MethodTypes.POST, spotifyRoutes, "/")
+export const deleteSpotifyRoute = new Route (MethodTypes.DELETE, spotifyRoutes, "/")
+
+/**
  * @TestRoutes
  */
 export const testRoutes = "/test"
