@@ -40,4 +40,4 @@ export const testRoutes = "/test"
  */
 export const calendarRoutes = "/calendar"
 
-export const postCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "");
+export const uploadCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "");

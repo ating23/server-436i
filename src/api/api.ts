@@ -22,6 +22,10 @@ api.use(authRoutes, authRouter)
 // api.use(sessionRoutes, sessionRouter)
 api.use(testRoutes, testRouter)
 api.use(sessionRoutes, sessionRouter)
-api.use(calendarRoutes, verifyAuthorizationToken, calendarRouter) // TODO: call verifyAuthorizationToken before allowing entry into /calendar
+api.use(
+  calendarRoutes, 
+  // verifyAuthorizationToken, 
+  calendarRouter
+)
 
 export default api

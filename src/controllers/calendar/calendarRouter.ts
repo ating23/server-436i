@@ -1,13 +1,9 @@
-import express from 'express'
+import express from "express"
+import { uploadCalendarRoute } from "../../api/routes"
+import calendarUploadHandler from "./handlers/calendarUploadHandler"
 
-import {handlePostCalendar} from "./handlers/postAccountHandler"
+const calendarRouter = express.Router()
 
-import {
-  postCalendarRoute
-} from "../../api/routes"
+calendarRouter.post(uploadCalendarRoute.relative, calendarUploadHandler)
 
-const calendarRouter = express.Router();
-
-calendarRouter.post(postCalendarRoute.relative, handlePostCalendar);
-
-export default calendarRouter;
+export default calendarRouter
