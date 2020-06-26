@@ -1,44 +1,43 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Request, Response, NextFunction } from "express"
 import Axios from "axios"
-import { getTokenSpotifyRoute } from "../../../api/routes"
+import querystring from "querystring"
+import { getTokenSpotifyRoute, ClientRoute } from "../../../api/routes"
+import Logger from "../../../errors/Logger"
 
-function getRedirectURI (): string {
-  const { NODE_ENV } = process.env 
-  let uri
-  if (NODE_ENV === "development") 
-    uri = `http://localhost:${process.env.PORT}/${getTokenSpotifyRoute.url}`
-  else 
-    uri = `https://api.educonnections.ca/${getTokenSpotifyRoute.url}`
-  return uri
-}
+export default async function getTokenSpotifyHandler (req: Request, res: Response, next: NextFunction): Promise<void> {
+  const { code, error } = req.query
+  Logger.Log ("Hit /callback")
+  Logger.Log (getTokenSpotifyRoute.getFullRoute ())
 
-const redirect_uri = getRedirectURI ()
-console.log ("redirect_uri: ", redirect_uri)
+  Logger.Log ("Error = ", error)
+  Logger.Log ("Code = ", code)
 
-export default function getTokenSpotifyHandler (
-  req: Request, 
-  res: Response, 
-  next: NextFunction
-): void {
-  // const code = req.query.code || null
-  console.log (req.query)
+  if (error !== undefined || !code) {
+    return next (error)
+  }
+  const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET } = process.env
 
-  res.json ({ res: req.query })
-  return 
-  
-  // const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET } = process.env
+  try {
+    const result = await Axios.post ("https://accounts.spotify.com/api/token", querystring.stringify({
+      grant_type: "authorization_code",
+      code: String(code),
+      redirect_uri: getTokenSpotifyRoute.getFullRoute (),
+      client_id: SPOTIFY_CLIENT_ID,
+      client_secret: SPOTIFY_SECRET,
+    }), 
+    { 
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' } 
+    })
+    Logger.Log ("Result: ", result)
 
-  // try {
-  //   const result = await Axios.post ("https://accounts.spotify.com/api/token", {
-  //     grant_type: "authorization_code",
-  //     code,
-  //     redirect_uri: 
-  //     client_id: SPOTIFY_CLIENT_ID,
-  //     client_secret: SPOTIFY_SECRET
-  //   })
-  // }
-  // catch (error) {
-  //   return next (error) 
-  // }
+    res.redirect (ClientRoute)
+    return 
+  }
+  catch (error) {
+    Logger.Log("???????????????????????????????????????????????????//")
+    Logger.Log(error)
+    Logger.Log("???????????????????????????????????????????????????//")
+    return next (error) 
+  }
 }

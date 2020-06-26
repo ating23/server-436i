@@ -1,6 +1,11 @@
 import Route from "../types/Route"
 import { MethodTypes } from "../types/MethodTypes"
 
+const { PORT } = process.env || 5000
+
+export const DEV_BASE_URL = `http://localhost:${PORT}`
+export const PROD_BASE_URL = "https://api.educonnections.ca"
+
 export const apiRoute = "/"
 
 /**
@@ -44,3 +49,15 @@ export const deleteSpotifyRoute = new Route (MethodTypes.DELETE, spotifyRoutes, 
  * @TestRoutes
  */
 export const testRoutes = "/test"
+
+/**
+ * @Client
+ */
+export const ClientRoute = ((): string => {
+  let route
+  if (process.env.NODE_ENV === "development")
+    route = "http://localhost:3000/"
+  else
+    route = "https://educonnections.ca/"
+  return route
+})()

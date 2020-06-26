@@ -24,10 +24,12 @@ import Logger from "./errors/Logger"
  * @Connect Mongoose
  */
 const { connection: db } = mongoose
+const uri = String(process.env.MONGODB_URI)
 
-mongoose.connect(String(process.env.MONGODB_URI), { 
+mongoose.connect(uri, { 
   useNewUrlParser: true, 
-  useUnifiedTopology: true 
+  useUnifiedTopology: true,
+  useCreateIndex: true,
 })
 
 db.on("error", console.error.bind(console, "connection error:"))
