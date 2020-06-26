@@ -57,19 +57,14 @@ export function convertCalendarStringToArray (calendarString: string): object[] 
   return Object.values (ical.sync.parseICS (calendarString))
 }
 
-export function generateCalendarMongoDocuments (
-  accountId: string, 
-  classesResult: ClassItem[]): CourseDocument[] {
-  const courses = classesResult.map (course => (
-    new CourseModel ({
-      courseId: course.classId,
-      accountId,
-      courseDept: course.courseDept,
-      courseNumber: course.courseNumber,
-      courseSection: course.courseSection,
-      startDate: course.startDate,
-      endDate: course.endDate
-    })
-  ))
-  return courses
+export function generateCalendarMongoDocument (accountId: string, classResult: ClassItem): CourseDocument {
+  return new CourseModel({
+    courseId: classResult.classId,
+    students: [accountId],
+    courseDept: classResult.courseDept,
+    courseNumber: classResult.courseNumber,
+    courseSection: classResult.courseSection,
+    startDate: classResult.startDate,
+    endDate: classResult.endDate
+  })
 }

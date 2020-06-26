@@ -81,6 +81,7 @@ function scrapeCalendarData (calendarData: object[]): CalendarItem[] {
   return rawCalendarArray
 }
 
+
 function generateCourseHashMap (rawCalendarArray: CalendarItem[]): Classes {
   const classes: Classes = {}
   rawCalendarArray.forEach (calendarClass => {

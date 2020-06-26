@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from "mongoose"
 // https://medium.com/@tomanagle/strongly-typed-models-with-mongoose-and-typescript-7bc2f7197722
 export interface CourseDocument extends Document {
   courseId: string;
-  accountId: number;
+  students: [string];
   courseDept: string;
   courseNumber: string;
   courseSection: string;
@@ -16,9 +16,10 @@ const courseSchema: Schema = new mongoose.Schema ({
     required: true,
     type: String
   },
-  accountId: {
+  students: {
     required: true,
-    type: Number
+    type: Array,
+    of: String
   },
   courseDept: {
     required: true,
