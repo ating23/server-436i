@@ -29,8 +29,17 @@ export default async function getTokenSpotifyHandler (req: Request, res: Respons
     { 
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' } 
     })
-    Logger.Log ("Result: ", result)
+    // Logger.Log ("Result: ", result)
 
+    const { 
+      access_token: accessToken,
+      token_type: tokenType,
+      expires_in: expiresIn,
+      refresh_token: refreshToken
+    } = result.data
+
+    Logger.Log (accessToken, tokenType, expiresIn, refreshToken)
+    
     res.redirect (ClientRoute)
     return 
   }
