@@ -28,9 +28,11 @@ async function writeCourseToDB(courseToQuery: ClassItem, accountId: string): Pro
   try {
     const existingClass = await CourseModel.findOne(query)
     if (existingClass) {
-      existingClass.students.push(accountId);
+      if (!existingClass.students.includes(accountId)) {
+        existingClass.students.push(accountId);
+        Logger.Log(`Course already exists, ${existingClass.courseDept}-${existingClass.courseNumber}-${existingClass.courseSection} list of students was incremented`);
+      }
       existingClass.save();
-      Logger.Log(`Course already exists, updated ${existingClass.courseDept}-${existingClass.courseNumber}-${existingClass.courseSection} list of students`);
       return Promise.resolve(existingClass);
     } else {
       const newCourse = generateCalendarMongoDocument(accountId, courseToQuery)
@@ -59,7 +61,6 @@ async function handleCalendarUpload (req: Request, res: Response, next: NextFunc
       return await writeCourseToDB(item, accountId);
     })).then((results => {
 
-      Logger.Log ("Successfully inserted courses: ", results)
       res.json (generateCalendarApiResponse(results));
     })).catch((err) => {
       return next(err);
