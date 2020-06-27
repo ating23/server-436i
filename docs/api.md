@@ -377,7 +377,7 @@ ___
 
 ##### Response Format
 
-On success, the HTTP status code in the response header is `200` OK and the response body contains an array of [CalendarApiResponse](#CalendarApiResponse) object in JSON format. Note that each JSON object in the array represents a Course/Class in the uploaded Calendar, if a Calendar has 4 classes, the array will return 4 CalendarApiResponse objects.
+On success, the HTTP status code in the response header is `200` OK and the response body contains an array of [CalendarApiResponse](#CalendarApiResponse) object in JSON format. **Note that each JSON object in the array represents a Course/Class in the uploaded Calendar, if a Calendar has 4 classes, the array will return 4 CalendarApiResponse objects.**
 
  On error, the header status code is an error code and the response body contains an [error object]().
 
@@ -403,7 +403,7 @@ On success, the HTTP status code in the response header is `200` OK and the resp
     "courseNum": "436I",
     "courseSection": "L1A",
     "uri": "https://api.educonnections.ca/courses/5ef6708bec0f5020c4816d75"
-}
+  }
 ]
 ```
 ___
