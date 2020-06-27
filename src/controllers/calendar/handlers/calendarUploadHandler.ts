@@ -24,17 +24,21 @@ async function writeCourseToDB(courseToQuery: ClassItem, accountId: string): Pro
     startDate: courseToQuery.startDate,
     endDate: courseToQuery.endDate
   }
-  const existingClass = await CourseModel.findOne(query)
-  if (existingClass) {
-    existingClass.students.push(accountId);
-    existingClass.save();
-    Logger.Log(`Course already exists, updated ${existingClass.courseDept}-${existingClass.courseNumber}-${existingClass.courseSection} list of students`);
-    return Promise.resolve(existingClass);
-  } else {
-    const newCourse = generateCalendarMongoDocument(accountId, courseToQuery)
-    newCourse.save();
-    Logger.Log(`Course does not exist, created new course and wrote ${newCourse} to DB`);
-    return Promise.resolve(newCourse);
+  try {
+    const existingClass = await CourseModel.findOne(query)
+    if (existingClass) {
+      existingClass.students.push(accountId);
+      existingClass.save();
+      Logger.Log(`Course already exists, updated ${existingClass.courseDept}-${existingClass.courseNumber}-${existingClass.courseSection} list of students`);
+      return Promise.resolve(existingClass);
+    } else {
+      const newCourse = generateCalendarMongoDocument(accountId, courseToQuery)
+      newCourse.save();
+      Logger.Log(`Course does not exist, created new course and wrote ${newCourse} to DB`);
+      return Promise.resolve(newCourse);
+    }
+  } catch(err) {
+    return Promise.reject(err);
   }
 }
 
@@ -55,7 +59,9 @@ async function handleCalendarUpload (req: Request, res: Response, next: NextFunc
 
       Logger.Log ("Successfully inserted courses: ", results)
       res.json (generateCalendarApiResponse(results));
-    }))
+    })).catch((err) => {
+      return next(err);
+    })
     return 
   } 
   catch (error) {
