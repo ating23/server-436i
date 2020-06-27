@@ -24,7 +24,7 @@ api.use(testRoutes, testRouter)
 api.use(sessionRoutes, sessionRouter)
 api.use(
   calendarRoutes, 
-  // verifyAuthorizationToken, 
+  verifyAuthorizationToken, 
   calendarRouter
 )
 

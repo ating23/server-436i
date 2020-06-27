@@ -5,24 +5,41 @@ import {
   convertCalendarBufferToString, 
   convertCalendarStringToArray, 
   generateCalendarMongoDocument, 
-  validateCalendar 
+  validateCalendar, 
+  generateCalendarApiResponse
 } from "../helpers/uploadCalendarHelpers"
 import CourseModel, { CourseDocument } from "../../../db/models/Course.model"
 import parseCalendar from "../helpers/parseCalendar"
 import { ClassItem } from "../helpers/calendarTypes"
 
-const accountId = "1"
+// const accountId = "1"
 
 const upload = multer()
 
-
-function writeCoursesToDB(): CourseDocument[] {
-
-  return [];
+async function writeCourseToDB(courseToQuery: ClassItem, accountId: string): Promise<CourseDocument> {
+  const query = {
+    courseDept: courseToQuery.courseDept,
+    courseNumber: courseToQuery.courseNumber,
+    courseSection: courseToQuery.courseSection,
+    startDate: courseToQuery.startDate,
+    endDate: courseToQuery.endDate
+  }
+  const existingClass = await CourseModel.findOne(query)
+  if (existingClass) {
+    existingClass.students.push(accountId);
+    existingClass.save();
+    Logger.Log(`Course already exists, updated ${existingClass.courseDept}-${existingClass.courseNumber}-${existingClass.courseSection} list of students`);
+    return Promise.resolve(existingClass);
+  } else {
+    const newCourse = generateCalendarMongoDocument(accountId, courseToQuery)
+    newCourse.save();
+    Logger.Log(`Course does not exist, created new course and wrote ${newCourse} to DB`);
+    return Promise.resolve(newCourse);
+  }
 }
 
 async function handleCalendarUpload (req: Request, res: Response, next: NextFunction): Promise<void> {
-  // const accountId = res.locals.token.accountId
+  const accountId = res.locals.token.id
   const calendar = req.file
   
   try {
@@ -31,42 +48,14 @@ async function handleCalendarUpload (req: Request, res: Response, next: NextFunc
     const calendarString = convertCalendarBufferToString (calendar)
     const calendarData = convertCalendarStringToArray (calendarString)
     const calendarParsed = parseCalendar (calendarData)
-    // const courses = generateCalendarMongoDocuments (accountId, calendarParsed)
+        
+    Promise.all(calendarParsed.map(async (item) => {
+      return await writeCourseToDB(item, accountId);
+    })).then((results => {
 
-    // TODO: 
-    // query if class exists
-    // push student into list of students into that class
-    // if class DNE
-    // create new class and add student to list of students in the newly created class
-    
-    let coursesModified: CourseDocument[] = [];
-
-    calendarParsed.forEach(async (courseToQuery: ClassItem) => {
-      const query = {
-        courseDept: courseToQuery.courseDept,
-        courseNumber: courseToQuery.courseNumber,
-        startDate: courseToQuery.startDate,
-        endDate: courseToQuery.endDate
-      }
-      const existingClass = await CourseModel.findOne(query)
-      if (existingClass) {
-        existingClass.students.push(accountId);
-        existingClass.save();
-        coursesModified.push(existingClass);
-        Logger.Log(`course was found, updated existingClass's list of students ${existingClass.students}`);
-      } else {
-        const courseToWrite = generateCalendarMongoDocument(accountId, courseToQuery)
-        courseToWrite.save();
-        coursesModified.push(courseToWrite);
-        Logger.Log(`Course was not found, wrote ${courseToWrite} to DB`);
-      }
-    })
-
-    
-
-    // const result = await CourseModel.insertMany (courses)
-    Logger.Log ("Successfully inserted courses: ", coursesModified)
-    res.json ({ coursesModified })
+      Logger.Log ("Successfully inserted courses: ", results)
+      res.json (generateCalendarApiResponse(results));
+    }))
     return 
   } 
   catch (error) {

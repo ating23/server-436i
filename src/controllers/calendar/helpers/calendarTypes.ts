@@ -29,3 +29,9 @@ export class ClassItem {
   }
 }
 
+export interface CalendarApiResponse {
+  courseDept: string;
+  courseNum: string;
+  courseSection: string;
+  uri: string;
+}

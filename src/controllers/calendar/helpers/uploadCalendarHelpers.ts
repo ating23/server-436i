@@ -1,6 +1,6 @@
 import ical from "node-ical"
 import CourseModel, { CourseDocument } from "../../../db/models/Course.model"
-import { ClassItem } from "./calendarTypes"
+import { ClassItem, CalendarApiResponse } from "./calendarTypes"
 
 // export async function checkClassExists (classCode: string): Promise<boolean> {
 //   const existingClass = await ClassModel.findOne({classCode: classCode})
@@ -35,6 +35,8 @@ import { ClassItem } from "./calendarTypes"
 //   })
 // }
 
+const api = "https://api.educonnections.ca/courses/";
+
 function isICS (fileName: string): boolean {
   return fileName.split(".").pop() === "ics"
 }
@@ -67,4 +69,19 @@ export function generateCalendarMongoDocument (accountId: string, classResult: C
     startDate: classResult.startDate,
     endDate: classResult.endDate
   })
+}
+
+export function generateCalendarApiResponse (courseDocuments: CourseDocument[]): CalendarApiResponse[] {
+  const x: CalendarApiResponse[] = [];
+
+  for (const course of courseDocuments) {
+    x.push({
+      courseDept: course.courseDept,
+      courseNum: course.courseNumber,
+      courseSection: course.courseSection,
+      uri: api + course._id
+    });
+  }
+  
+  return x;
 }
