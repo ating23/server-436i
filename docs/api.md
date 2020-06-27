@@ -344,7 +344,7 @@ ___
 
 | METHOD | ENDPOINT | USAGE | RETURNS |
 |-|-|-|-|
-| `POST` | /calendar | Allows a user to upload an ics file for their profile | returns a [CalendarApiResponse Object](#CalendarApiResponse) |
+| `POST` | /calendar | Allows a user to upload an ics file for their profile | returns an array of [CalendarApiResponse Object](#CalendarApiResponse) |
 
 #### Endpoints
 
@@ -367,8 +367,6 @@ ___
 
 ##### <ins>Post Current User's Calendar</ins>
 
-Get detailed profile information about the current user (including the current user’s username).
-
 ##### Endpoint
 
 `POST https://api.educonnections.ca/calendar`
@@ -379,23 +377,34 @@ Get detailed profile information about the current user (including the current u
 
 ##### Response Format
 
-On success, the HTTP status code in the response header is `200` OK and the response body contains a User [Profile]() object in JSON format. On error, the header status code is an error code and the response body contains an [error object]().
+On success, the HTTP status code in the response header is `200` OK and the response body contains an array of [CalendarApiResponse](#CalendarApiResponse) object in JSON format. Note that each JSON object in the array represents a Course/Class in the uploaded Calendar, if a Calendar has 4 classes, the array will return 4 CalendarApiResponse objects.
+
+ On error, the header status code is an error code and the response body contains an [error object]().
 
 | KEY | VALUE TYPE | VALUE DESCRIPTION |
 |-|-|-|
-| [profile]() | `string` | URI for User's profile route |
-| name | `string` | User's name |
-| email | `string` | User's name |
+| courseDept | `string` | A course's faculty/department |
+| courseNum | `string` | A course's code |
+| courseSection | `string` | A course's section |
+| uri | `string` | the URI for a created Course |
 
 **Response Example:** <a name="CalendarApiResponse"></a>
 
 ```js
-{
-  "courseDept": "CPSC",
-  "courseNum": "436I",
-  "courseSection": "901",
-  "uri": "https://api.educonnections.ca/courses/5ef6708bec0f5020c4816d74"
+[
+  {
+    "courseDept": "CPSC",
+    "courseNum": "436I",
+    "courseSection": "901",
+    "uri": "https://api.educonnections.ca/courses/5ef6708bec0f5020c4816d74"
+  },
+  {
+    "courseDept": "CPSC",
+    "courseNum": "436I",
+    "courseSection": "L1A",
+    "uri": "https://api.educonnections.ca/courses/5ef6708bec0f5020c4816d75"
 }
+]
 ```
 ___
 
