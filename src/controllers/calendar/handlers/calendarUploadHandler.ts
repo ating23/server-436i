@@ -1,49 +1,17 @@
 import { Request, Response, NextFunction } from "express"
 import multer from "multer"
 import Logger from "../../../errors/Logger"
+import parseCalendar from "../helpers/parseCalendar"
+import { CalendarNullUploadError, CalendarUploadFileTypeError } from "../../../errors/messages/ServicesErrorMessages"
+import writeCoursesToDB from "../helpers/writeCoursesToDB"
 import { 
   convertCalendarBufferToString, 
   convertCalendarStringToArray, 
-  generateCalendarMongoDocument, 
   validateCalendar, 
   generateCalendarApiResponse
 } from "../helpers/uploadCalendarHelpers"
-import CourseModel, { CourseDocument } from "../../../db/models/Course.model"
-import parseCalendar from "../helpers/parseCalendar"
-import { ClassItem } from "../helpers/calendarTypes"
-import { CalendarNullUploadError, CalendarUploadFileTypeError } from "../../../errors/messages/ServicesErrorMessages"
-
-// const accountId = "1"
 
 const upload = multer()
-
-async function writeCourseToDB(courseToQuery: ClassItem, accountId: string): Promise<CourseDocument> {
-  const query = {
-    courseDept: courseToQuery.courseDept,
-    courseNumber: courseToQuery.courseNumber,
-    courseSection: courseToQuery.courseSection,
-    startDate: courseToQuery.startDate,
-    endDate: courseToQuery.endDate
-  }
-  try {
-    const existingClass = await CourseModel.findOne(query)
-    if (existingClass) {
-      if (!existingClass.students.includes(accountId)) {
-        existingClass.students.push(accountId);
-        Logger.Log(`Course already exists, ${existingClass.courseDept}-${existingClass.courseNumber}-${existingClass.courseSection} list of students was incremented`);
-      }
-      existingClass.save();
-      return Promise.resolve(existingClass);
-    } else {
-      const newCourse = generateCalendarMongoDocument(accountId, courseToQuery)
-      newCourse.save();
-      Logger.Log(`Course does not exist, created new course and wrote ${newCourse} to DB`);
-      return Promise.resolve(newCourse);
-    }
-  } catch(err) {
-    return Promise.reject(err);
-  }
-}
 
 async function handleCalendarUpload (req: Request, res: Response, next: NextFunction): Promise<void> {
   const accountId = res.locals.token.id
@@ -58,12 +26,13 @@ async function handleCalendarUpload (req: Request, res: Response, next: NextFunc
     const calendarParsed = parseCalendar (calendarData)
         
     Promise.all(calendarParsed.map(async (item) => {
-      return await writeCourseToDB(item, accountId);
-    })).then((results => {
-
-      res.json (generateCalendarApiResponse(results));
-    })).catch((err) => {
-      return next(err);
+      return await writeCoursesToDB (item, accountId)
+    }))
+    .then((results => {
+      res.json (generateCalendarApiResponse(results))
+    }))
+    .catch((err) => {
+      return next(err)
     })
     return 
   } 

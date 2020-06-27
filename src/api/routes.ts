@@ -1,6 +1,5 @@
 import Route from "../types/Route"
 import { MethodTypes } from "../types/MethodTypes"
-import accountRouter from "../controllers/account/accountRouter"
 
 export const apiRoute = "/"
 
@@ -41,12 +40,12 @@ export const testRoutes = "/test"
  */
 export const calendarRoutes = "/calendar"
 
-export const uploadCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "");
+export const uploadCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "")
 
 /**
  * @Course Routes
  */
-export const courseRoutes = "/course";
+export const coursesRoutes = "/courses"
 
-export const getAllCourseRoute = new Route (MethodTypes.GET, courseRoutes, "");
-export const getCourseRoute = new Route (MethodTypes.GET, courseRoutes, "/:courseId");
+export const getAllCoursesRoute = new Route (MethodTypes.GET, coursesRoutes, "")
+export const getCourseRoute = new Route (MethodTypes.GET, coursesRoutes, "/:courseId")

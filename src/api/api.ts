@@ -5,7 +5,7 @@ import authRouter from "../controllers/auth/authRouter"
 import sessionRouter from "../controllers/session/sessionRouter"
 import testRouter from "../controllers/test/testRouter"
 import calendarRouter from "../controllers/calendar/calendarRouter"
-import courseRouter from "../controllers/course/courseRouter"
+import courseRouter from "../controllers/courses/coursesRouter"
 
 import { 
   authRoutes, 
@@ -13,7 +13,7 @@ import {
   sessionRoutes,
   testRoutes,
   calendarRoutes,
-  courseRoutes
+  coursesRoutes
 } from "./routes"
 import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
 
@@ -21,14 +21,10 @@ const api = express()
 
 api.use(accountRoutes, verifyAuthorizationToken, accountRouter)
 api.use(authRoutes, authRouter)
-// api.use(sessionRoutes, sessionRouter)
+api.use(sessionRoutes, sessionRouter)
 api.use(testRoutes, testRouter)
 api.use(sessionRoutes, sessionRouter)
-api.use(
-  calendarRoutes, 
-  verifyAuthorizationToken, 
-  calendarRouter
-)
-api.use (courseRoutes, courseRouter) // TODO: missing verifyAuthorizationToken
+api.use(calendarRoutes, verifyAuthorizationToken, calendarRouter)
+api.use (coursesRoutes, verifyAuthorizationToken, courseRouter)
 
 export default api
