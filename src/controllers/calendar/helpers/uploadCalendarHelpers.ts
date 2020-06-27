@@ -35,7 +35,7 @@ import { ClassItem, CalendarApiResponse } from "./calendarTypes"
 //   })
 // }
 
-const api = "https://api.educonnections.ca/courses/";
+const api = "https://api.educonnections.ca/course/";
 
 function isICS (fileName: string): boolean {
   return fileName.split(".").pop() === "ics"

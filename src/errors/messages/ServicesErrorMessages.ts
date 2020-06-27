@@ -30,3 +30,15 @@ export const MongoObjectIdCastError = new ErrorHandler(
   statusCodes.BAD_REQUEST,
   "The input courseId could not be queried as it failed to cast to a Mongo ObjectId "
 )
+
+export const CalendarNullUploadError = new ErrorHandler(
+  "No Calendar was uploaded",
+  statusCodes.BAD_REQUEST,
+  "No file was uploaded"
+)
+
+export const CalendarUploadFileTypeError = new ErrorHandler(
+  "Calendar uploaded has incorrect file type",
+  statusCodes.BAD_REQUEST,
+  "The file uploaded was not of file type .ics"
+)

@@ -11,6 +11,7 @@ import {
 import CourseModel, { CourseDocument } from "../../../db/models/Course.model"
 import parseCalendar from "../helpers/parseCalendar"
 import { ClassItem } from "../helpers/calendarTypes"
+import { CalendarNullUploadError, CalendarUploadFileTypeError } from "../../../errors/messages/ServicesErrorMessages"
 
 // const accountId = "1"
 
@@ -47,6 +48,7 @@ async function handleCalendarUpload (req: Request, res: Response, next: NextFunc
   const calendar = req.file
   
   try {
+    console.log("calendar: " + req.file)
     validateCalendar (calendar)
 
     const calendarString = convertCalendarBufferToString (calendar)
@@ -65,6 +67,12 @@ async function handleCalendarUpload (req: Request, res: Response, next: NextFunc
     return 
   } 
   catch (error) {
+    if (error.message === "Calendar upload was unsuccessful.") {
+      next(CalendarNullUploadError)
+    } 
+    if (error.message === "The file type that you uploaded is invalid.") {
+      next(CalendarUploadFileTypeError)
+    }
     Logger.Error (error)
     return next (error)
   }
