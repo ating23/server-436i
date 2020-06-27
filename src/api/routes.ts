@@ -31,6 +31,24 @@ export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "
 export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, "/:accountId")
 
 /**
+ * @Facebook
+ */
+export const facebookRoutes = "/facebook"
+
+export const authorizeFacebookRoute     = new Route (MethodTypes.GET, facebookRoutes, "/authorize")
+export const deauthorizeFacebookRoute   = new Route (MethodTypes.GET, facebookRoutes, "/deauthorize")
+export const deleteFacebookRoute        = new Route (MethodTypes.GET, facebookRoutes, "/delete")
+
+/**
+ * @Instagram
+ */
+export const instagramRoutes = "/instagram"
+
+export const authorizeInstagramRoute     = new Route (MethodTypes.GET, instagramRoutes, "/authorize")
+export const deauthorizeInstagramRoute   = new Route (MethodTypes.GET, instagramRoutes, "/deauthorize")
+export const deleteInstagramRoute        = new Route (MethodTypes.GET, instagramRoutes, "/delete")
+
+/**
  * @TestRoutes
  */
 export const testRoutes = "/test"
