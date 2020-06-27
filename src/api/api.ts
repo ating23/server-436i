@@ -5,13 +5,15 @@ import authRouter from "../controllers/auth/authRouter"
 import sessionRouter from "../controllers/session/sessionRouter"
 import testRouter from "../controllers/test/testRouter"
 import calendarRouter from "../controllers/calendar/calendarRouter"
+import courseRouter from "../controllers/course/courseRouter"
 
 import { 
   authRoutes, 
   accountRoutes, 
   sessionRoutes,
   testRoutes,
-  calendarRoutes
+  calendarRoutes,
+  courseRoutes
 } from "./routes"
 import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
 
@@ -27,5 +29,6 @@ api.use(
   verifyAuthorizationToken, 
   calendarRouter
 )
+api.use (courseRoutes, courseRouter) // TODO: missing verifyAuthorizationToken
 
 export default api
