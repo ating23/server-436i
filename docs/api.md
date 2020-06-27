@@ -340,6 +340,66 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 ___
 
 
+### Calendar
+
+| METHOD | ENDPOINT | USAGE | RETURNS |
+|-|-|-|-|
+| `POST` | /calendar | Allows a user to upload an ics file for their profile | returns a [CalendarApiResponse Object](#CalendarApiResponse) |
+
+#### Endpoints
+
+**Note:** All endpoints below require the `Authorization` header with the access token
+
+**Header Fields**
+
+| HEADER FIELD | VALUE | 
+|-|-|
+| Authorization | *Required*. A valid access token, issued on login or password reset |
+| Content-Type | *Required*. multipart/form-data |
+
+**Example Header**
+
+```js
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+}
+```
+
+##### <ins>Post Current User's Calendar</ins>
+
+Get detailed profile information about the current user (including the current user’s username).
+
+##### Endpoint
+
+`POST https://api.educonnections.ca/calendar`
+
+##### Request Parameters/Body
+
+*Request Body must contain a file of type .ics*
+
+##### Response Format
+
+On success, the HTTP status code in the response header is `200` OK and the response body contains a User [Profile]() object in JSON format. On error, the header status code is an error code and the response body contains an [error object]().
+
+| KEY | VALUE TYPE | VALUE DESCRIPTION |
+|-|-|-|
+| [profile]() | `string` | URI for User's profile route |
+| name | `string` | User's name |
+| email | `string` | User's name |
+
+**Response Example:** <a name="CalendarApiResponse"></a>
+
+```js
+{
+  "courseDept": "CPSC",
+  "courseNum": "436I",
+  "courseSection": "901",
+  "uri": "https://api.educonnections.ca/courses/5ef6708bec0f5020c4816d74"
+}
+```
+___
+
+
 
 
 
