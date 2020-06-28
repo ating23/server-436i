@@ -1,5 +1,5 @@
-import { MethodTypes } from "./MethodTypes";
-import { DEV_BASE_URL, PROD_BASE_URL } from "../api/routes";
+import { MethodTypes } from "./MethodTypes"
+import { DEV_BASE_URL, PROD_BASE_URL } from "../api/routes"
 
 const { NODE_ENV } = process.env
 
