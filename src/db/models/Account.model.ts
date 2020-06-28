@@ -1,17 +1,20 @@
-import mongoose, { Document, Schema } from "mongoose"
+import { Document, Schema, model } from "mongoose"
+import { SpotifyAccountSchema } from "../schemas/spotifySchemas"
+import { InstagramAccountSchema } from "../schemas/instagramSchemas"
+import { FacebookAccountSchema } from "../schemas/facebookSchemas"
+import { AccountModel } from "../models"
 
-// https://medium.com/@tomanagle/strongly-typed-models-with-mongoose-and-typescript-7bc2f7197722
 interface AccountDocument extends Document {
-  _id: number;
+  id: number;
+  name: string;
   email: string;
   password: string;
-  name: string;
-  university: string;
-  program: string;
-  dateCreated: Date;
+  facebook: typeof FacebookAccountSchema;
+  instagram: typeof InstagramAccountSchema;
+  spotify: typeof SpotifyAccountSchema;
 }
 
-const accountSchema: Schema = new mongoose.Schema ({
+const accountSchema: Schema = new Schema ({
   name: {
     type: String,
     required: true,
@@ -30,6 +33,9 @@ const accountSchema: Schema = new mongoose.Schema ({
     type: Date,
     default: Date.now
   },
+  facebook: FacebookAccountSchema,
+  instagram: InstagramAccountSchema,
+  spotify: SpotifyAccountSchema
 })
 
-export default mongoose.model<AccountDocument>("Account", accountSchema)
+export default model<AccountDocument>(AccountModel, accountSchema)

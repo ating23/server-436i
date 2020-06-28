@@ -56,10 +56,10 @@ interface SpotifyTracksSchema {
 interface FacebookAccountSchema {
   accessToken: string;
   refreshToken: string;
-  friends: FacebookAccountsSchema["id"][];
-  groups: FacebookGroupsSchema["id"][];
-  likes: FacebookLikesSchema["id"][];
-  music: FacebookMusicSchema["id"][];
+  friends: string[];
+  groups: string[];
+  likes: string[];
+  music: string[];
 }
 
 interface InstagramAccountSchema {
@@ -73,20 +73,6 @@ interface SpotifyAccountSchema {
   displayName: string;
   images: string[];
   country: string;
-  artists: SpotifyArtistsSchema["id"][];
-  tracks: SpotifyTracksSchema["id"][];
-}
-
-interface AuthAccountSchema {
-  email: string;
-  password: string;
-}
-
-interface AccountSchema {
-  id: number;
-  name: string;
-  auth: AuthAccountSchema;
-  facebook: FacebookAccountSchema;
-  instagram: InstagramAccountSchema;
-  spotify: SpotifyAccountSchema;
+  artists: string[];
+  tracks: string[];
 }

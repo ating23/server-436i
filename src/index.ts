@@ -30,6 +30,7 @@ mongoose.connect(uri, {
   useNewUrlParser: true, 
   useUnifiedTopology: true,
   useCreateIndex: true,
+  autoIndex: false,
 })
 
 db.on("error", console.error.bind(console, "connection error:"))
