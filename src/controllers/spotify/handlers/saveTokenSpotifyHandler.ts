@@ -4,15 +4,20 @@ import Axios from "axios"
 import querystring from "querystring"
 import { getTokenSpotifyRoute, ClientRoute } from "../../../api/routes"
 import Logger from "../../../errors/Logger"
-
-const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET } = process.env
+import AccountModel from "../../../db/models/Account.model"
 
 export default async function getTokenSpotifyHandler (req: Request, res: Response, next: NextFunction): Promise<void> {
   const { code, error } = req.query
+  Logger.Log ("Hit /callback")
+  Logger.Log (getTokenSpotifyRoute.getFullRoute ())
+
+  Logger.Log ("Error = ", error)
+  Logger.Log ("Code = ", code)
 
   if (error !== undefined || !code) {
     return next (error)
   }
+  const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET } = process.env
 
   try {
     const result = await Axios.post ("https://accounts.spotify.com/api/token", querystring.stringify({
@@ -36,18 +41,13 @@ export default async function getTokenSpotifyHandler (req: Request, res: Respons
 
     Logger.Log (accessToken, tokenType, expiresIn, refreshToken)
     
-    const params = querystring.stringify({
-      service: "spotify",
-      accessToken,
-      expiresIn,
-      refreshToken
-    })
-    const route = `${ClientRoute}/api?${params}`
-    Logger.Log ("Redirecting to: ", route)
-    res.redirect (route)
+    res.redirect (ClientRoute)
     return 
   }
   catch (error) {
+    Logger.Log("???????????????????????????????????????????????????//")
+    Logger.Log(error)
+    Logger.Log("???????????????????????????????????????????????????//")
     return next (error) 
   }
 }

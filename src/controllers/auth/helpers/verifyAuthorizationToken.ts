@@ -12,16 +12,17 @@ export function verifyAuthorizationToken (req: Request, res: Response, next: Nex
     Logger.Error ("Did not find a bearer token.")
     return next (NoTokenError)
   } 
-  else {
-    const token = bearerHeader.split(" ")[1]
-    const decoded = jwt.verify (token, SECRET_OR_PRIVATE_KEY)
 
-    if(!decoded) {
-      Logger.Error ("The jwt token did not successfully verify.")
-      return next(InvalidTokenError)
-    }
+  const token = bearerHeader.split(" ")[1]
+  try {
+    const decoded = jwt.verify (token, SECRET_OR_PRIVATE_KEY)
     Logger.Log ("Token successfully found on server. Decoded: ", decoded)
     res.locals.token = decoded
-    return next()
+    return next ()
   }
+  catch (error) {
+    Logger.Error ("The jwt token did not successfully verify.")
+    return next(InvalidTokenError)
+  }
+
 }

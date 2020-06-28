@@ -74,8 +74,8 @@ export const testRoutes = "/test"
 export const ClientRoute = ((): string => {
   let route
   if (process.env.NODE_ENV === "development")
-    route = "http://localhost:3000/"
+    route = "http://localhost:3000"
   else
-    route = "https://educonnections.ca/"
+    route = "https://educonnections.ca"
   return route
 })()
