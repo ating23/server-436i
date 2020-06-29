@@ -4,7 +4,6 @@ import Axios from "axios"
 import querystring from "querystring"
 import { getTokenSpotifyRoute, ClientRoute } from "../../../api/routes"
 import Logger from "../../../errors/Logger"
-import AccountModel from "../../../db/models/Account.model"
 
 export default async function getTokenSpotifyHandler (req: Request, res: Response, next: NextFunction): Promise<void> {
   const { code, error } = req.query
