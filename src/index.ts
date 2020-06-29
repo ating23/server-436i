@@ -1,10 +1,10 @@
 // https://expressjs.com/en/advanced/best-practice-performance.html
 
-import bodyParser from "body-parser"
 import cors from "cors"
 import dotenv from "dotenv"
 import express from "express"
 import mongoose from "mongoose"
+import bodyParser from "body-parser"
 
 dotenv.config()
 
@@ -18,7 +18,6 @@ import startServer from "./config/startServer"
 import LogErrorHandler from "./errors/LogErrorHandler"
 import catchAllErrorHandler from "./errors/handlers/catchAllErrorHandler"
 import Logger from "./errors/Logger"
-
 
 /**
  * @Connect Mongoose
@@ -43,7 +42,6 @@ const app = express()
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
 app.use(apiRoute, api)
 
 /**

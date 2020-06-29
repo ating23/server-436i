@@ -36,6 +36,21 @@ export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "
 export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, "/:accountId")
 
 /**
+ * @Calendar Routes
+ */
+export const calendarRoutes = "/calendar"
+
+export const uploadCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "")
+
+/**
+ * @Course Routes
+ */
+export const coursesRoutes = "/courses"
+
+export const getAllCoursesRoute = new Route (MethodTypes.GET, coursesRoutes, "")
+export const getCourseRoute = new Route (MethodTypes.GET, coursesRoutes, "/:courseId")
+
+/**
  * @Facebook
  */
 export const facebookRoutes = "/facebook"
