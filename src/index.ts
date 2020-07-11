@@ -1,10 +1,10 @@
 // https://expressjs.com/en/advanced/best-practice-performance.html
 
-import bodyParser from "body-parser"
 import cors from "cors"
 import dotenv from "dotenv"
 import express from "express"
 import mongoose from "mongoose"
+import bodyParser from "body-parser"
 
 dotenv.config()
 
@@ -19,15 +19,17 @@ import LogErrorHandler from "./errors/LogErrorHandler"
 import catchAllErrorHandler from "./errors/handlers/catchAllErrorHandler"
 import Logger from "./errors/Logger"
 
-
 /**
  * @Connect Mongoose
  */
 const { connection: db } = mongoose
+const uri = String(process.env.MONGODB_URI)
 
-mongoose.connect(String(process.env.MONGODB_URI), { 
+mongoose.connect(uri, { 
   useNewUrlParser: true, 
-  useUnifiedTopology: true 
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  autoIndex: false,
 })
 
 db.on("error", console.error.bind(console, "connection error:"))
@@ -40,7 +42,6 @@ const app = express()
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
 app.use(apiRoute, api)
 
 /**

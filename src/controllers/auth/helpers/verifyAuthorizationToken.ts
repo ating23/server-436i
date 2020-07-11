@@ -5,23 +5,28 @@ import { NoTokenError, InvalidTokenError } from "../../../errors/messages/Access
 import { SECRET_OR_PRIVATE_KEY } from "../../../config/jwtConfig"
 
 export function verifyAuthorizationToken (req: Request, res: Response, next: NextFunction): void {
+  Logger.Log ("Hit /verifyAuthorizationToken")
+
   const bearerHeader = req.headers["authorization"]
-  Logger.Log ("Header: ", bearerHeader)
+  Logger.Log ("bearerHeader: ", bearerHeader)
   
   if(!bearerHeader || bearerHeader === "") {
     Logger.Error ("Did not find a bearer token.")
     return next (NoTokenError)
   } 
-  else {
-    const token = bearerHeader.split(" ")[1]
-    const decoded = jwt.verify (token, SECRET_OR_PRIVATE_KEY)
 
-    if(!decoded) {
-      Logger.Error ("The jwt token did not successfully verify.")
-      return next(InvalidTokenError)
-    }
+  const token = bearerHeader.split(" ")[1]
+  Logger.Log ("Token: ", token)
+  
+  try {
+    const decoded = jwt.verify (token, SECRET_OR_PRIVATE_KEY)
     Logger.Log ("Token successfully found on server. Decoded: ", decoded)
     res.locals.token = decoded
-    return next()
+    return next ()
   }
+  catch (error) {
+    Logger.Error ("The jwt token did not successfully verify: ", error)
+    return next(InvalidTokenError)
+  }
+
 }

@@ -1,6 +1,11 @@
 import Route from "../types/Route"
 import { MethodTypes } from "../types/MethodTypes"
 
+const { PORT } = process.env || 5000
+
+export const DEV_BASE_URL = `http://localhost:${PORT}`
+export const PROD_BASE_URL = "https://api.educonnections.ca"
+
 export const apiRoute = "/"
 
 /**
@@ -31,6 +36,68 @@ export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "
 export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, "/:accountId")
 
 /**
+ * @Calendar Routes
+ */
+export const calendarRoutes = "/calendar"
+
+export const uploadCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "")
+
+/**
+ * @Course Routes
+ */
+export const coursesRoutes = "/courses"
+
+export const getAllCoursesRoute = new Route (MethodTypes.GET, coursesRoutes, "")
+export const getCourseRoute = new Route (MethodTypes.GET, coursesRoutes, "/:courseId")
+
+/**
+ * @Facebook
+ */
+export const facebookRoutes = "/facebook"
+
+export const authorizeFacebookRoute     = new Route (MethodTypes.GET, facebookRoutes, "/authorize")
+export const deauthorizeFacebookRoute   = new Route (MethodTypes.GET, facebookRoutes, "/deauthorize")
+export const deleteFacebookRoute        = new Route (MethodTypes.GET, facebookRoutes, "/delete")
+
+/**
+ * @Spotify
+ */
+export const spotifyRoutes = "/spotify"
+
+export const authorizeSpotifyRoute = new Route (MethodTypes.GET, spotifyRoutes, "/authorize")
+export const getTokenSpotifyRoute = new Route (MethodTypes.GET, spotifyRoutes, "/callback")
+export const deauthorizeSpotifyRoute = new Route (MethodTypes.POST, spotifyRoutes, "/deauthorize")
+export const deleteSpotifyRoute = new Route (MethodTypes.POST, spotifyRoutes, "/delete")
+
+/**
+ * @Instagram
+ */
+export const instagramRoutes = "/instagram"
+
+export const authorizeInstagramRoute     = new Route (MethodTypes.GET, instagramRoutes, "/authorize")
+export const deauthorizeInstagramRoute   = new Route (MethodTypes.POST, instagramRoutes, "/deauthorize")
+export const deleteInstagramRoute        = new Route (MethodTypes.POST, instagramRoutes, "/delete")
+
+/**
  * @TestRoutes
  */
 export const testRoutes = "/test"
+
+/**
+ * @TokenRoutes
+ */
+export const tokenRoutes = "/token"
+
+export const acceptTokenRoute = new Route (MethodTypes.POST, tokenRoutes, "")
+
+/**
+ * @Client
+ */
+export const ClientRoute = ((): string => {
+  let route
+  if (process.env.NODE_ENV === "development")
+    route = "http://localhost:3000"
+  else
+    route = "https://educonnections.ca"
+  return route
+})()
