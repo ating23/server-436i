@@ -1,7 +1,7 @@
 import Axios from "axios"
 import Logger from "../../../errors/Logger"
 
-export default async function getSpotifyUser (accessToken: string): Promise<void> {
+export default async function getSpotifyUser (accountId: string, accessToken: string): Promise<void> {
   try {
     const response = await Axios.get ("https://api.spotify.com/v1/me", {
       headers: { "Authorization": `Bearer ${accessToken}`}
