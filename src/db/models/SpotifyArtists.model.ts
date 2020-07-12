@@ -1,10 +1,10 @@
 import { Schema, Document, model } from "mongoose"
 import { SpotifyArtistsModel } from "../models"
-import { SpotifyArtist } from "../../controllers/spotify/api/types/spotifyTypes"
+import { SpotifyArtistInterface } from "../../controllers/spotify/api/types/spotifyTypes"
 
 export interface SpotifyArtistsDocument extends Document {
   accountId: string;
-  artists: [SpotifyArtist];
+  artists: [SpotifyArtistInterface];
   genres: [string];
 }
 
