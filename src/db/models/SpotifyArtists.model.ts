@@ -1,12 +1,28 @@
 import { Schema, Document, model } from "mongoose"
 import { SpotifyArtistsModel } from "../models"
+import { SpotifyArtist } from "../../controllers/spotify/api/types/spotifyTypes"
 
-interface SpotifyArtistsDocument extends Document {
-  name: string;
+export interface SpotifyArtistsDocument extends Document {
+  accountId: string;
+  artists: [SpotifyArtist];
+  genres: [string];
 }
 
 export const spotifyArtistsSchema: Schema = new Schema ({
-  name: String  
+  accountId: {
+    required: true,
+    type: String
+  },
+  artists: {
+    required: true,
+    type: Array,
+    of: Object
+  },
+  genres: {
+    required: true,
+    type: Array,
+    of: String
+  }
 })
 
 export default model<SpotifyArtistsDocument>(SpotifyArtistsModel, spotifyArtistsSchema)

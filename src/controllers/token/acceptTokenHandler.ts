@@ -10,5 +10,5 @@ export default function acceptTokenHandler (req: Request, res: Response, next: N
   const { service, accessToken, expiresAt, refreshToken } = req.body
   Logger.Log ("service, accessToken, expiresAt, refreshToken")
   Logger.Log (service, accessToken, expiresAt, refreshToken)
-  res.json ({ success: true })
+  next()
 }
