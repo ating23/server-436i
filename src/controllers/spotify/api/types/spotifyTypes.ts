@@ -12,6 +12,7 @@ export interface SpotifyArtistInterface {
 }
 
 export interface SpotifyUserInterface {
+  accountId: string;
   displayName: string;
   uri: string;
   href: string;
