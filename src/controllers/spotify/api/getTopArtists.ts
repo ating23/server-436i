@@ -6,7 +6,7 @@ import SpotifyArtistsModel, {SpotifyArtistsDocument} from "../../../db/models/Sp
 import { generateArtistItem, generateSpotifyArtistInterface } from "./helpers/spotifyHelpers";
 
 const SPOTIFY_BASE_URL = new URL("https://api.spotify.com/v1/me/top/artists")
-const LIMIT = 5;
+const LIMIT = 10;
 SPOTIFY_BASE_URL.searchParams.set('limit', LIMIT.toString());
 
 // async function writeToDB(item: SpotifyArtistsDocument): Promise<SpotifyArtistsDocument> {
@@ -46,7 +46,7 @@ export default async function getTopArtists (accountId: string, accessToken: str
     } else {
       const artists: Array<ArtistInterface> = []
       let genres: Array<string> = []
-      
+
       response.data.items.forEach((element: Record<string, any>) => {
         artists.push(generateArtistItem(element))
         genres = [...genres, ...element.genres]

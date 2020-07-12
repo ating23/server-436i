@@ -3,7 +3,9 @@ import Logger from "../../errors/Logger"
 import getSpotifyUser from "../spotify/api/getSpotifyUser"
 import getTopArtists from "../spotify/api/getTopArtists"
 import getTopTracks from "../spotify/api/getTopTracks"
-import { SpotifyArtistInterface, SpotifyUserInterface, SpotifyTracksInterface } from "../spotify/api/types/spotifyTypes"
+import { SpotifyArtistInterface, SpotifyUserInterface, TrackInterface, SpotifyTracksInterface } from "../spotify/api/types/spotifyTypes"
+
+
 
 export default async function fetch3rdPartyApi (req: Request, res: Response, next: NextFunction): Promise<void> {
   const accountId = res.locals.token.id

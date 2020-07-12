@@ -10,6 +10,7 @@ export default async function getSpotifyUser (accountId: string, accessToken: st
 
     if (response.data) {
       const ret: SpotifyUserInterface = {
+        accountId: accountId,
         displayName: response.data.display_name,
         uri: response.data.uri,
         href: response.data.href,
