@@ -1,7 +1,11 @@
 import { Schema } from "mongoose"
-import { coursesDec } from "../modelDeclarations"
 import { facebookAccountsSchema } from "./facebookSchemas"
-import { spotifyAccountSchema } from "./spotifySchemas"
+import { 
+  coursesDec, 
+  spotifyArtistsDec, 
+  spotifyTracksDec 
+} from "../modelDeclarations"
+import { SpotifyImageSchema } from "./spotifySchemas"
 
 const accountsSchema: Schema = new Schema({
   // _id: ObjectId // automatically created by Mongoose
@@ -23,7 +27,27 @@ const accountsSchema: Schema = new Schema({
     default: Date.now
   },
   facebook: facebookAccountsSchema,
-  spotify: spotifyAccountSchema,
+  spotify: {
+    // Authentication
+    accessToken: String,
+    refreshToken: String,
+    spotifyId: String,
+    // Data
+    displayName: String,
+    email: String,
+    url: String,
+    followers: Number,
+    image: SpotifyImageSchema,
+    country: String,
+    artists: [{
+      type: Schema.Types.ObjectId,
+      ref: spotifyArtistsDec
+    }],
+    tracks: [{
+      type: Schema.Types.ObjectId,
+      ref: spotifyTracksDec
+    }]
+  },
   courses: [{
     type: Schema.Types.ObjectId,
     ref: coursesDec

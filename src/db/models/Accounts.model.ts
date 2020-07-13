@@ -1,8 +1,7 @@
-import { Document, model, Schema } from "mongoose"
+import { Document, model } from "mongoose"
 import { accountsDec } from "../modelDeclarations"
 import accountSchema from "../schemas/accountSchema"
 import { facebookAccountsSchema } from "../schemas/facebookSchemas"
-import { spotifyAccountSchema } from "../schemas/spotifySchemas"
 
 interface AccountsDocument extends Document {
   id: string;
@@ -10,7 +9,25 @@ interface AccountsDocument extends Document {
   email: string;
   password: string;
   facebook: typeof facebookAccountsSchema;
-  spotify: typeof spotifyAccountSchema;
+  spotify: {
+    // Authentication
+    accessToken: string;
+    refreshToken: string;
+    spotifyId: string;
+    // Data
+    displayName: string;
+    email: string;
+    url: string;
+    followers: number;
+    image: {
+      height: number;
+      width: number;
+      url: string;
+    };
+    country: string;
+    artists: string[]
+    tracks: string[];
+  };
   courses: string[];
 }
 

@@ -57,10 +57,11 @@ export const deleteFacebookRoute        = new Route (MethodTypes.GET, facebookRo
  */
 export const spotifyRoutes = "/spotify"
 
-export const authorizeSpotifyRoute = new Route (MethodTypes.GET, spotifyRoutes, "/authorize")
-export const getTokenSpotifyRoute = new Route (MethodTypes.GET, spotifyRoutes, "/callback")
-export const deauthorizeSpotifyRoute = new Route (MethodTypes.POST, spotifyRoutes, "/deauthorize")
-export const deleteSpotifyRoute = new Route (MethodTypes.POST, spotifyRoutes, "/delete")
+export const getSpotifyDataRoute        = new Route (MethodTypes.POST, spotifyRoutes, "")
+export const authorizeSpotifyRoute      = new Route (MethodTypes.GET, spotifyRoutes, "/authorize")
+export const getTokenSpotifyRoute       = new Route (MethodTypes.GET, spotifyRoutes, "/callback")
+export const deauthorizeSpotifyRoute    = new Route (MethodTypes.POST, spotifyRoutes, "/deauthorize")
+export const deleteSpotifyRoute         = new Route (MethodTypes.POST, spotifyRoutes, "/delete")
 
 /**
  * @Instagram
@@ -75,13 +76,6 @@ export const deleteInstagramRoute        = new Route (MethodTypes.POST, instagra
  * @TestRoutes
  */
 export const testRoutes = "/test"
-
-/**
- * @TokenRoutes
- */
-export const tokenRoutes = "/token"
-
-export const acceptTokenRoute = new Route (MethodTypes.POST, tokenRoutes, "")
 
 /**
  * @Client
