@@ -2,12 +2,20 @@ import bcrypt from "bcryptjs"
 import { Request, Response, NextFunction } from "express"
 import { SignupInterface } from "../../interfaces/AuthRouteInterfaces"
 import AccountsModel from "../../../../db/models/Accounts.model"
-import { validateName, validateEmailAlreadyExists, handleErrors } from "./signupValidators"
-import { validateEmail, validatePassword, validatePasswordConfirm } from "../../../../helpers/requestValidators"
 import Logger from "../../../../errors/Logger"
 import { generateAuthorizationToken } from "../../helpers/generateAuthorizationToken"
 import statusCodes from "../../../../api/statusCodes"
 import generateURI from "../../helpers/generateURI"
+import { 
+  validateName, 
+  validateEmailAlreadyExists, 
+  handleErrors 
+} from "./signupValidators"
+import { 
+  validateEmail, 
+  validatePassword, 
+  validatePasswordConfirm 
+} from "../../../../helpers/requestValidators"
 
 function handleSignup (req: Request, res: Response, next: NextFunction): void {
   const { name, email, password }: SignupInterface = req.body

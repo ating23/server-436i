@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import bcrypt from "bcryptjs"
+import Logger from "../../../../../errors/Logger"
 import { CalendarItem, Classes, ClassItem } from "./calendarTypes"
-import Logger from "../../../errors/Logger"
 
 function isEalier (first: Date, second: Date): boolean {
   return first < second
@@ -40,7 +41,6 @@ function generateHash (
 
 function scrapeCalendarData (calendarData: object[]): CalendarItem[] {
   const rawCalendarArray: CalendarItem[] = []
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   calendarData.forEach ((item: any) => {
     if (item.type === "VEVENT") {
       const unparsedCourseName = item.summary.split (" ")
@@ -57,10 +57,12 @@ function scrapeCalendarData (calendarData: object[]): CalendarItem[] {
           const originOptions = rrule["origOptions"]
           courseStart = originOptions["dtstart"]
           courseEnd = originOptions["until"]
-        } else {
+        } 
+        else {
           throw new Error ("Invalid calendar file.")
         }
-      } else {
+      } 
+      else {
         throw new Error ("Invalid calendar file.")
       }
 
@@ -77,7 +79,6 @@ function scrapeCalendarData (calendarData: object[]): CalendarItem[] {
       })
     }
   })
-  // Logger.Log (rawCalendarArray)
   return rawCalendarArray
 }
 
@@ -93,7 +94,6 @@ function generateCourseHashMap (rawCalendarArray: CalendarItem[]): Classes {
       classes[keyName] = [calendarClass]
     }
   })
-  // Logger.Log (classes)
   return classes
 }
 
@@ -108,7 +108,6 @@ function generateUniqueCourses (classes: Classes): ClassItem[] {
     const hash = generateHash (courseDept, courseNumber, courseSection, earliestStart, latestEnd)
     classesResult.push(new ClassItem (hash, classItem, earliestStart, latestEnd))
   })
-  // Logger.Log (classesResult)
   return classesResult
 }
 

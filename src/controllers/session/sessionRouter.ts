@@ -27,7 +27,6 @@ sessionRouter.post(verifySessionRoute.relative, (req: Request, res: Response, ne
     Logger.Log ("Bad decode: ", error)
     return res.status(statusCodes.BAD_REQUEST).send({ error })
   }
-  
 })
 
 export default sessionRouter

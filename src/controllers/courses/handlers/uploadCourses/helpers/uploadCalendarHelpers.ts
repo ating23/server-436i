@@ -1,8 +1,6 @@
 import ical from "node-ical"
-import CourseModel, { CoursesDocument } from "../../../db/models/Courses.model"
-import { ClassItem, CalendarApiResponse } from "./calendarTypes"
-
-const api = "https://api.educonnections.ca/course/"
+import CoursesModel, { CoursesDocument } from "../../../../../db/models/Courses.model"
+import { ClassItem } from "./calendarTypes"
 
 function isICS (fileName: string): boolean {
   return fileName.split(".").pop() === "ics"
@@ -27,7 +25,7 @@ export function convertCalendarStringToArray (calendarString: string): object[] 
 }
 
 export function generateCalendarMongoDocument (accountId: string, classResult: ClassItem): CoursesDocument {
-  return new CourseModel({
+  return new CoursesModel({
     courseId: classResult.classId,
     accounts: [accountId],
     courseDept: classResult.courseDept,
@@ -36,13 +34,4 @@ export function generateCalendarMongoDocument (accountId: string, classResult: C
     startDate: classResult.startDate,
     endDate: classResult.endDate
   })
-}
-
-export function generateCalendarApiResponse (courseDocuments: CoursesDocument[]): CalendarApiResponse[] {
-  return courseDocuments.map (course => ({
-    courseDept: course.courseDept,
-    courseNum: course.courseNumber,
-    courseSection: course.courseSection,
-    uri: api + course._id
-  }))
 }

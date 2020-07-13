@@ -29,26 +29,19 @@ export const resetPasswordRoute             = new Route (MethodTypes.POST, authR
 /**
  * @AccountRoutes
  */
-export const accountRoutes = "/profile"
+export const accountRoutes = "/account"
 
 export const getAccountRoute    = new Route (MethodTypes.GET, accountRoutes, "/:accountId")
 export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "/:accountId")
 export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, "/:accountId")
 
 /**
- * @Calendar Routes
- */
-export const calendarRoutes = "/calendar"
-
-export const uploadCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "")
-
-/**
- * @Course Routes
+ * @Courses Routes
  */
 export const coursesRoutes = "/courses"
 
-export const getAllCoursesRoute = new Route (MethodTypes.GET, coursesRoutes, "")
-export const getCourseRoute = new Route (MethodTypes.GET, coursesRoutes, "/:courseId")
+export const getCoursesRoute = new Route (MethodTypes.GET, coursesRoutes, "")
+export const uploadCoursesRoute = new Route (MethodTypes.POST, coursesRoutes, "")
 
 /**
  * @Facebook

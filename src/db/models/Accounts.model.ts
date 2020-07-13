@@ -1,4 +1,4 @@
-import { Document, model } from "mongoose"
+import { Document, model, Schema } from "mongoose"
 import { accountsDec } from "../modelDeclarations"
 import accountSchema from "../schemas/accountSchema"
 import { facebookAccountsSchema } from "../schemas/facebookSchemas"
@@ -11,6 +11,7 @@ interface AccountsDocument extends Document {
   password: string;
   facebook: typeof facebookAccountsSchema;
   spotify: typeof spotifyAccountSchema;
+  courses: string[];
 }
 
 const AccountsModel = model<AccountsDocument>(accountsDec, accountSchema)

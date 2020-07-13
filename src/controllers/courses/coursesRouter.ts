@@ -1,11 +1,11 @@
 import express from "express"
-import getCourseHandler from "./handlers/getAllCoursesHandler"
-import getAllCoursesHandler from "./handlers/getAllCoursesHandler"
-import { getCourseRoute, getAllCoursesRoute } from "../../api/routes"
+import { getCoursesRoute, uploadCoursesRoute } from "../../api/routes"
+import getCoursesHandler from "./handlers/getCourses/getCoursesHandler"
+import uploadCoursesHandler from "./handlers/uploadCourses/uploadCoursesHandler"
 
 const coursesRouter = express.Router()
 
-coursesRouter.get(getAllCoursesRoute.relative, getAllCoursesHandler)
-coursesRouter.get(getCourseRoute.relative, getCourseHandler)
+coursesRouter.get(getCoursesRoute.relative, getCoursesHandler)
+coursesRouter.post(uploadCoursesRoute.relative, uploadCoursesHandler)
 
 export default coursesRouter

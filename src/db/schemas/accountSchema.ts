@@ -1,4 +1,5 @@
 import { Schema } from "mongoose"
+import { coursesDec } from "../modelDeclarations"
 import { facebookAccountsSchema } from "./facebookSchemas"
 import { spotifyAccountSchema } from "./spotifySchemas"
 
@@ -22,7 +23,11 @@ const accountsSchema: Schema = new Schema({
     default: Date.now
   },
   facebook: facebookAccountsSchema,
-  spotify: spotifyAccountSchema
+  spotify: spotifyAccountSchema,
+  courses: [{
+    type: Schema.Types.ObjectId,
+    ref: coursesDec
+  }]
 })
 
 export default accountsSchema

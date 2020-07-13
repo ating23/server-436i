@@ -28,10 +28,3 @@ export class ClassItem {
     this.endDate = endDate
   }
 }
-
-export interface CalendarApiResponse {
-  courseDept: string;
-  courseNum: string;
-  courseSection: string;
-  uri: string;
-}

@@ -1,24 +1,26 @@
 import { Request, Response, NextFunction } from "express"
 import multer from "multer"
-import Logger from "../../../errors/Logger"
-import parseCalendar from "../helpers/parseCalendar"
-import { CalendarNullUploadError, CalendarUploadFileTypeError } from "../../../errors/messages/ServicesErrorMessages"
-import writeCoursesToDB from "../helpers/writeCoursesToDB"
+import saveCourses from "./helpers/saveCourses"
+import parseCalendar from "./helpers/parseCalendar"
+import Logger from "../../../../errors/Logger"
+import generateResponse from "./helpers/generateResponse"
+import { 
+  CalendarNullUploadError, 
+  CalendarUploadFileTypeError 
+} from "../../../../errors/messages/ServicesErrorMessages"
 import { 
   convertCalendarBufferToString, 
   convertCalendarStringToArray, 
-  validateCalendar, 
-  generateCalendarApiResponse
-} from "../helpers/uploadCalendarHelpers"
+  validateCalendar
+} from "./helpers/uploadCalendarHelpers"
 
 const upload = multer()
 
-async function handleCalendarUpload (req: Request, res: Response, next: NextFunction): Promise<void> {
+async function handleUploadCourses (req: Request, res: Response, next: NextFunction): Promise<void> {
   const accountId = res.locals.token.id
   const calendar = req.file
   
   try {
-    console.log("calendar: " + req.file)
     validateCalendar (calendar)
 
     const calendarString = convertCalendarBufferToString (calendar)
@@ -26,15 +28,10 @@ async function handleCalendarUpload (req: Request, res: Response, next: NextFunc
     const calendarParsed = parseCalendar (calendarData)
         
     Promise.all(calendarParsed.map(async (item) => {
-      return await writeCoursesToDB (item, accountId)
+      return await saveCourses(item, accountId)
     }))
-    .then((results => {
-      res.json (generateCalendarApiResponse(results))
-    }))
-    .catch((err) => {
-      return next(err)
-    })
-    return 
+    .then(results => res.json(generateResponse(results)))
+    .catch((err) => next(err))
   } 
   catch (error) {
     if (error.message === "Calendar upload was unsuccessful.") {
@@ -48,9 +45,9 @@ async function handleCalendarUpload (req: Request, res: Response, next: NextFunc
   }
 }
 
-const calendarUploadHandler = [
+const uploadCoursesHandler = [
   upload.single ("calendar"),
-  handleCalendarUpload
+  handleUploadCourses
 ]
 
-export default calendarUploadHandler
+export default uploadCoursesHandler
