@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import AccountModel from "../../../db/models/Account.model";
+import AccountModel from "../../../db/models/Accounts.model";
 import { NoAccountFoundError } from "../../../errors/messages/ServicesErrorMessages";
 import statusCodes from "../../../api/statusCodes";
 import generateURI from "../../auth/helpers/generateURI";

@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express"
 import Logger from "../../errors/Logger"
 import Nodemailer from "../../helpers/nodemailer/Nodemailer"
-import AccountModel from "../../db/models/Account.model"
+import AccountModel from "../../db/models/Accounts.model"
 import generateVerifyCodeEmail from "../../helpers/nodemailer/emails/generateVerifyCodeEmail"
 
 const testRouter = express.Router ()

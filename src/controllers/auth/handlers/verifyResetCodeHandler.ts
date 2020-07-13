@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import ResetCodeModel from "../../../db/models/ResetCode.model"
+import ResetCodeModel from "../../../db/models/ResetCodes.model"
 import Logger from "../../../errors/Logger"
 import { generateAuthorizationToken } from "../helpers/generateAuthorizationToken"
 import statusCodes from "../../../api/statusCodes"

@@ -1,6 +1,6 @@
 import { Schema } from "mongoose"
 
-export const FacebookAccountSchema: Schema = new Schema ({
+export const facebookAccountsSchema: Schema = new Schema({
   accessToken: String,
   refreshToken: String,
 })

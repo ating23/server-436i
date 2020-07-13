@@ -1,12 +1,29 @@
-import { Schema, Document, model } from "mongoose"
-import { SpotifyTracksModel } from "../models"
+import { Document, model } from "mongoose"
+import { spotifyTracksDec } from "../modelDeclarations"
+import { spotifyTracksSchema } from "../schemas/spotifySchemas"
 
-interface SpotifyTracksDocument extends Document {
+interface SpotifyArtist {
+  spotifyId: string;
   name: string;
+  url: string;
 }
 
-export const spotifyTracksSchema: Schema = new Schema ({
-  name: String
-})
+interface SpotifyTracksDocument extends Document {
+  // Authentication
+  spotifyId: string;
+  accounts: string[];
+  // Data
+  name: string;
+  popularity: number;
+  url: string;
+  image: {
+    height: number;
+    width: number;
+    url: string;
+  };
+  audioPreviewURL: string;
+  artists: SpotifyArtist[];
+}
 
-export default model<SpotifyTracksDocument>(SpotifyTracksModel, spotifyTracksSchema)
+const SpotifyTracksModel = model<SpotifyTracksDocument>(spotifyTracksDec, spotifyTracksSchema)
+export default SpotifyTracksModel

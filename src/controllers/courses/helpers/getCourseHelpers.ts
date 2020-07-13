@@ -1,10 +1,10 @@
 import { CourseApiResponse } from "./courseTypes"
-import { CourseDocument } from "../../../db/models/Course.model";
+import { CoursesDocument } from "../../../db/models/Courses.model";
 
-export function generateCourseApiResponse(course: CourseDocument): CourseApiResponse {
+export function generateCourseApiResponse(course: CoursesDocument): CourseApiResponse {
   return {
     _id: course._id,
-    students: course.students,
+    accounts: course.accounts,
     courseDept: course.courseDept,
     courseNumber: course.courseNumber,
     courseSection: course.courseSection,

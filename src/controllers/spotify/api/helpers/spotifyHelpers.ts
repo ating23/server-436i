@@ -1,9 +1,6 @@
-import { ArtistInterface, SpotifyArtistInterface, TrackInterface, SpotifyUserInterface, SpotifyTracksInterface } from "../types/spotifyTypes";
-import { AxiosResponse, AxiosError } from "axios";
-import SpotifyArtistsModel, {UserSpotifyDataDocument} from "../../../../db/models/UserSpotifyData.model"
-import Logger from "../../../../errors/Logger";
-import SpotifyDataModel from "../../../../db/models/UserSpotifyData.model"
-
+import { ArtistInterface, SpotifyArtistInterface, TrackInterface, SpotifyUserInterface, SpotifyTracksInterface } from "../types/spotifyTypes"
+import { AxiosResponse } from "axios"
+import Logger from "../../../../errors/Logger"
 
 export function generateArtistItem (artist: Record<string, any>): ArtistInterface {
   const artistItem: ArtistInterface = {
@@ -12,7 +9,7 @@ export function generateArtistItem (artist: Record<string, any>): ArtistInterfac
     href: artist.href,
     images: artist.images
   }
-  return artistItem;
+  return artistItem
 }
 
 export function generateSpotifyArtistInterface(accountId: string, artists: Array<ArtistInterface>, genres: Array<string>): SpotifyArtistInterface {
@@ -21,7 +18,7 @@ export function generateSpotifyArtistInterface(accountId: string, artists: Array
     artists: artists,
     genres: genres
   }
-  return ret;
+  return ret
 }
 
 export function generateTrackItem(track: Record<string, any>, artists: Array<ArtistInterface>): TrackInterface {
@@ -33,7 +30,7 @@ export function generateTrackItem(track: Record<string, any>, artists: Array<Art
     "preview_url": track.preview_url,
     uri: track.uri
   }
-  return ret;
+  return ret
 }
 
 export function validateArtistsAndTracksResponse(response: AxiosResponse<any>): void {
@@ -42,7 +39,12 @@ export function validateArtistsAndTracksResponse(response: AxiosResponse<any>): 
   }
 }
 
-export function generateDbItem(accountId: string, spotifyUserData: SpotifyUserInterface, spotifyArtistData: SpotifyArtistInterface, spotifyTracksData: SpotifyTracksInterface): UserSpotifyDataDocument {
+export function generateDbItem(
+  accountId: string, 
+  spotifyUserData: SpotifyUserInterface, 
+  spotifyArtistData: SpotifyArtistInterface, 
+  spotifyTracksData: SpotifyTracksInterface
+): UserSpotifyDataDocument {
   const ret: UserSpotifyDataDocument = new SpotifyDataModel({
     accountId: accountId,
     favouriteArtists: spotifyArtistData.artists,
@@ -50,7 +52,7 @@ export function generateDbItem(accountId: string, spotifyUserData: SpotifyUserIn
     favouriteTracks: spotifyTracksData.tracks,
     user: spotifyUserData
   })
-  return ret;
+  return ret
 }
 
 export async function writeToDB(item: UserSpotifyDataDocument): Promise<UserSpotifyDataDocument> {
@@ -66,7 +68,7 @@ export async function writeToDB(item: UserSpotifyDataDocument): Promise<UserSpot
     if (existingSpotifyList) {
       Logger.Log(`Spotify data for user ${item.accountId} already exists, their Spotify data was overwritten with ${item}`)
       existingSpotifyList.overwrite(item)
-      const x = await existingSpotifyList.save();
+      const x = await existingSpotifyList.save()
       return x
     } else {
       const x = await item.save()

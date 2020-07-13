@@ -1,5 +1,5 @@
 import ical from "node-ical"
-import CourseModel, { CourseDocument } from "../../../db/models/Course.model"
+import CourseModel, { CoursesDocument } from "../../../db/models/Courses.model"
 import { ClassItem, CalendarApiResponse } from "./calendarTypes"
 
 const api = "https://api.educonnections.ca/course/"
@@ -26,10 +26,10 @@ export function convertCalendarStringToArray (calendarString: string): object[] 
   return Object.values (ical.sync.parseICS (calendarString))
 }
 
-export function generateCalendarMongoDocument (accountId: string, classResult: ClassItem): CourseDocument {
+export function generateCalendarMongoDocument (accountId: string, classResult: ClassItem): CoursesDocument {
   return new CourseModel({
     courseId: classResult.classId,
-    students: [accountId],
+    accounts: [accountId],
     courseDept: classResult.courseDept,
     courseNumber: classResult.courseNumber,
     courseSection: classResult.courseSection,
@@ -38,7 +38,7 @@ export function generateCalendarMongoDocument (accountId: string, classResult: C
   })
 }
 
-export function generateCalendarApiResponse (courseDocuments: CourseDocument[]): CalendarApiResponse[] {
+export function generateCalendarApiResponse (courseDocuments: CoursesDocument[]): CalendarApiResponse[] {
   return courseDocuments.map (course => ({
     courseDept: course.courseDept,
     courseNum: course.courseNumber,

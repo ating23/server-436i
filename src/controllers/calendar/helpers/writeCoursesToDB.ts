@@ -1,9 +1,9 @@
 import Logger from "../../../errors/Logger"
 import { generateCalendarMongoDocument } from "./uploadCalendarHelpers"
-import CourseModel, { CourseDocument } from "../../../db/models/Course.model"
+import CourseModel, { CoursesDocument } from "../../../db/models/Courses.model"
 import { ClassItem } from "./calendarTypes"
 
-export default async function writeCoursesToDB (courseToQuery: ClassItem, accountId: string): Promise<CourseDocument> {
+export default async function writeCoursesToDB (courseToQuery: ClassItem, accountId: string): Promise<CoursesDocument> {
   const query = {
     courseDept: courseToQuery.courseDept,
     courseNumber: courseToQuery.courseNumber,
@@ -14,8 +14,8 @@ export default async function writeCoursesToDB (courseToQuery: ClassItem, accoun
   try {
     const existingClass = await CourseModel.findOne(query)
     if (existingClass) {
-      if (!existingClass.students.includes(accountId)) {
-        existingClass.students.push(accountId)
+      if (!existingClass.accounts.includes(accountId)) {
+        existingClass.accounts.push(accountId)
         Logger.Log(`Course already exists, ${existingClass.courseDept}-${existingClass.courseNumber}-${existingClass.courseSection} list of students was incremented`)
       }
       existingClass.save()

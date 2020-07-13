@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import bcrypt from "bcryptjs"
 import { validatePassword, validatePasswordConfirm } from "../../../helpers/requestValidators"
-import AccountModel from "../../../db/models/Account.model"
+import AccountModel from "../../../db/models/Accounts.model"
 import Logger from "../../../errors/Logger"
 import { generateAuthorizationToken } from "../helpers/generateAuthorizationToken"
 import statusCodes from "../../../api/statusCodes"

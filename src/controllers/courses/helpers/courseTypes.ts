@@ -1,6 +1,6 @@
 export interface CourseApiResponse {
   _id: string;
-  students: [string];
+  accounts: string[];
   courseDept: string;
   courseNumber: string;
   courseSection: string;

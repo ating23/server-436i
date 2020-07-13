@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { MongoEmptyResultError, MongoObjectIdCastError } from "../../../errors/messages/ServicesErrorMessages"
-import CourseModel from "../../../db/models/Course.model"
+import CourseModel from "../../../db/models/Courses.model"
 import { generateCourseApiResponse } from "../helpers/getCourseHelpers"
 import { Mongoose } from "mongoose"
 import statusCodes from "../../../api/statusCodes"

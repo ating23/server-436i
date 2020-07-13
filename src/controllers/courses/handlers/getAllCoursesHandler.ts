@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import statusCodes from "../../../api/statusCodes"
-import CourseModel from "../../../db/models/Course.model"
+import CourseModel from "../../../db/models/Courses.model"
 import { generateCourseApiResponse } from "../helpers/getCourseHelpers"
 import { MongoEmptyResultError } from "../../../errors/messages/ServicesErrorMessages"
 import Logger from "../../../errors/Logger"

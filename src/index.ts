@@ -1,42 +1,20 @@
-// https://expressjs.com/en/advanced/best-practice-performance.html
-
-import cors from "cors"
 import dotenv from "dotenv"
-import express from "express"
-import mongoose from "mongoose"
-import bodyParser from "body-parser"
-
 dotenv.config()
 
+import cors from "cors"
+import express from "express"
+import bodyParser from "body-parser"
 import api from "./api/api"
 import { apiRoute } from "./api/routes"
 import startServer from "./config/startServer"
-
-/**
- * @Errors
- */
 import LogErrorHandler from "./errors/LogErrorHandler"
 import catchAllErrorHandler from "./errors/handlers/catchAllErrorHandler"
-import Logger from "./errors/Logger"
+import startMongo from "./db/startMongo"
 
-/**
- * @Connect Mongoose
- */
-const { connection: db } = mongoose
-const uri = String(process.env.MONGODB_URI)
+/** Start @Mongo */
+startMongo()
 
-mongoose.connect(uri, { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  autoIndex: false,
-})
-
-db.on("error", console.error.bind(console, "connection error:"))
-db.once("open", function() {
-  Logger.Log ("Mongoose running.")
-})
-
+/** Setup @App */
 const PORT = process.env.PORT || 5000
 const app = express()
 
@@ -44,13 +22,9 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(apiRoute, api)
 
-/**
- * @Error Handling
- */
+/** @Error Handling */
 app.use(LogErrorHandler)
 app.use(catchAllErrorHandler)
 
-/**
- * @Server Startup
- */
+/** @Server Startup */
 app.listen(PORT, startServer)

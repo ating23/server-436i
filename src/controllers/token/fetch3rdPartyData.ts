@@ -6,7 +6,6 @@ import getTopTracks from "../spotify/api/getTopTracks"
 import { SpotifyArtistInterface, SpotifyUserInterface, SpotifyTracksInterface } from "../spotify/api/types/spotifyTypes"
 import { SpotifyEmptyResultError, SpotifyServiceDownError, SpotifyBearerTokenError } from "../../errors/messages/ServicesErrorMessages"
 import { generateDbItem, writeToDB } from "../spotify/api/helpers/spotifyHelpers"
-import { UserSpotifyDataDocument } from "../../db/models/UserSpotifyData.model"
 
 function validateSpotifyData (spotifyUserData: SpotifyUserInterface, spotifyArtistData: SpotifyArtistInterface, spotifyTracksData: SpotifyTracksInterface): boolean {
   return spotifyUserData.accountId === spotifyArtistData.accountId && spotifyArtistData.accountId === spotifyTracksData.accountId && spotifyTracksData.accountId === spotifyUserData.accountId
@@ -25,9 +24,9 @@ export default async function fetch3rdPartyApi (req: Request, res: Response, nex
         const spotifyArtistData: SpotifyArtistInterface = await getTopArtists(accountId, accessToken);
         const spotifyTracksData: SpotifyTracksInterface = await getTopTracks(accountId, accessToken);
         if (validateSpotifyData(spotifyUserData, spotifyArtistData, spotifyTracksData)) {
-          const x: UserSpotifyDataDocument = generateDbItem(accountId, spotifyUserData, spotifyArtistData, spotifyTracksData)
+          // const x: UserSpotifyDataDocument = generateDbItem(accountId, spotifyUserData, spotifyArtistData, spotifyTracksData)
           try {
-            await writeToDB(x);
+            // await writeToDB(x);
             res.status(204).send({})
           } catch (e) {
             res.status(400).send("Failed to write to DB");
