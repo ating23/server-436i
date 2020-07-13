@@ -3,7 +3,6 @@ import Logger from "../../../../errors/Logger"
 import statusCodes from "../../../../api/statusCodes"
 import CoursesModel from "../../../../db/models/Courses.model"
 import { generateResponse } from "./getCourseHelpers"
-import { MongoEmptyResultError } from "../../../../errors/messages/ServicesErrorMessages"
 
 export default async function getCoursesHandler(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -11,8 +10,8 @@ export default async function getCoursesHandler(_req: Request, res: Response, ne
     Logger.Log ("Courses found: ", courses)
   
     if (!courses || courses.length === 0) {
-      Logger.Error("No courses found.")
-      return next(MongoEmptyResultError)
+      res.json({ courses: []})
+      return 
     } 
     const accountCourses = courses.map((courseItem) => generateResponse(courseItem))
     res.status(statusCodes.OK).json({ courses: accountCourses })
