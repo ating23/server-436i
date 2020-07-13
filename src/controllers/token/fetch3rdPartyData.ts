@@ -4,7 +4,7 @@ import getSpotifyUser from "../spotify/api/getSpotifyUser"
 import getTopArtists from "../spotify/api/getTopArtists"
 import getTopTracks from "../spotify/api/getTopTracks"
 import { SpotifyArtistInterface, SpotifyUserInterface, SpotifyTracksInterface } from "../spotify/api/types/spotifyTypes"
-import { SpotifyEmptyResultError, SpotifyServiceDownError, RequestToSpotifyError } from "../../errors/messages/ServicesErrorMessages"
+import { SpotifyEmptyResultError, SpotifyServiceDownError, SpotifyBearerTokenError } from "../../errors/messages/ServicesErrorMessages"
 import { generateDbItem, writeToDB } from "../spotify/api/helpers/spotifyHelpers"
 import { UserSpotifyDataDocument } from "../../db/models/UserSpotifyData.model"
 
@@ -26,21 +26,23 @@ export default async function fetch3rdPartyApi (req: Request, res: Response, nex
         const spotifyTracksData: SpotifyTracksInterface = await getTopTracks(accountId, accessToken);
         if (validateSpotifyData(spotifyUserData, spotifyArtistData, spotifyTracksData)) {
           const x: UserSpotifyDataDocument = generateDbItem(accountId, spotifyUserData, spotifyArtistData, spotifyTracksData)
-          const y = await writeToDB(x);
-          res.status(200).send(y)
-          // write to DB
-          // return 200 on successful write to DB
+          try {
+            await writeToDB(x);
+            res.status(204).send({})
+          } catch (e) {
+            res.status(400).send("Failed to write to DB");
+          }
         }
         return
       } catch (e) {
         if (e.message === "Response from Spotify API was empty.") {
           next(SpotifyEmptyResultError)
         } else if (e.message === "Spotify API returned 500, it may be down.") {
+          console.log("caught the malformed accessToken hereb");
           next(SpotifyServiceDownError)
-        } else if (e.message === "Our request to Spotify API was malformed.") {
-          next (RequestToSpotifyError)
+        } else if (e.message === "Spotify Bearer Token expired or invalid") {
+          next (SpotifyBearerTokenError)
         } else {
-          console.log(e)
           res.status(400).send(e);
         }
         return

@@ -4,7 +4,7 @@ import { TrackInterface, ArtistInterface, SpotifyTracksInterface } from "./types
 import { generateArtistItem, generateTrackItem, validateArtistsAndTracksResponse } from "./helpers/spotifyHelpers";
 
 const SPOTIFY_BASE_URL = new URL("https://api.spotify.com/v1/me/top/tracks")
-const LIMIT = 20;
+const LIMIT = 15;
 SPOTIFY_BASE_URL.searchParams.set('limit', LIMIT.toString());
 
 export default async function getTopTracks (accountId: string, accessToken: string): Promise<SpotifyTracksInterface> {
@@ -36,6 +36,16 @@ export default async function getTopTracks (accountId: string, accessToken: stri
     return ret
     
   } catch(err) {
-    throw err
+    if (err.isAxiosError) {
+      if (err.response?.status === 401) {
+        throw new Error("Spotify Bearer Token expired or invalid")
+      } else if (err.response?.status >= 500) {
+        throw new Error("Spotify API returned 500, it may be down.")
+      } else {
+        throw err
+      }
+    } else {
+      throw err
+    }
   }
 }

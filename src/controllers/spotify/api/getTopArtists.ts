@@ -30,6 +30,16 @@ export default async function getTopArtists (accountId: string, accessToken: str
     return x;
     
   } catch (error) {
-    throw error
+    if (error.isAxiosError) {
+      if (error.response?.status === 401) {
+        throw new Error("Spotify Bearer Token expired or invalid")
+      } else if (error.response?.status >= 500) {
+        throw new Error("Spotify API returned 500, it may be down.")
+      } else {
+        throw error
+      }
+    } else {
+      throw error
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { ArtistInterface, SpotifyArtistInterface, TrackInterface, SpotifyUserInterface, SpotifyTracksInterface } from "../types/spotifyTypes";
-import { AxiosResponse } from "axios";
+import { AxiosResponse, AxiosError } from "axios";
 import SpotifyArtistsModel, {UserSpotifyDataDocument} from "../../../../db/models/UserSpotifyData.model"
 import Logger from "../../../../errors/Logger";
 import SpotifyDataModel from "../../../../db/models/UserSpotifyData.model"
@@ -39,10 +39,6 @@ export function generateTrackItem(track: Record<string, any>, artists: Array<Art
 export function validateArtistsAndTracksResponse(response: AxiosResponse<any>): void {
   if (response.data === undefined || response.data.length <= 0 || response.data.items.length <= 0) {
     throw new Error("Response from Spotify API was empty.")
-  } else if (response.status >= 400 && response.status < 500) {
-    throw new Error("Our request to Spotify API was malformed.")
-  } else if (response.status >= 500) {
-    throw new Error("Spotify API returned 500, it may be down.")
   }
 }
 
@@ -64,6 +60,7 @@ export async function writeToDB(item: UserSpotifyDataDocument): Promise<UserSpot
 
   console.log("the query is here: ", query)
 
+  // eslint-disable-next-line no-useless-catch
   try {
     const existingSpotifyList = await SpotifyArtistsModel.findOne(query)
     if (existingSpotifyList) {
@@ -77,6 +74,6 @@ export async function writeToDB(item: UserSpotifyDataDocument): Promise<UserSpot
       return x
     }
   } catch(err) {
-    return Promise.reject(err)
+    throw err
   }
 }

@@ -55,8 +55,8 @@ export const SpotifyServiceDownError = new ErrorHandler(
   "Spotify API service may be down"
 )
 
-export const RequestToSpotifyError = new ErrorHandler(
-  "Our request to Spotify's API was malformed",
+export const SpotifyBearerTokenError = new ErrorHandler(
+  "Our request to Spotify's API had a bad bearer token",
   statusCodes.BAD_REQUEST,
-  "Check the request being made to Spotify API"
+  "Check the token in the request to Spotify's API"
 )
