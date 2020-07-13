@@ -2,13 +2,13 @@ import express from "express"
 import authorizeSpotifyHandler from "./handlers/authorizeSpotifyHandler"
 import deauthorizeSpotifyHandler from "./handlers/deauthorizeSpotifyHandler"
 import deleteSpotifyHandler from "./handlers/deleteSpotifyHandler"
+import getTokenSpotifyHandler from "./handlers/getTokenSpotifyHandler"
 import { 
   authorizeSpotifyRoute, 
   deauthorizeSpotifyRoute, 
   deleteSpotifyRoute, 
   getTokenSpotifyRoute
 } from "../../api/routes"
-import getTokenSpotifyHandler from "./handlers/getTokenSpotifyHandler"
 
 const spotifyRouter = express.Router()
 

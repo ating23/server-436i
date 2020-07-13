@@ -4,7 +4,9 @@ import authRouter from "../controllers/auth/authRouter"
 import sessionRouter from "../controllers/session/sessionRouter"
 import testRouter from "../controllers/test/testRouter"
 import courseRouter from "../controllers/courses/coursesRouter"
-
+// import spotifyRouter from "../controllers/spotify/spotifyRouter"
+import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
+// import tokenRouter from "../controllers/token/tokenRouter"
 import { 
   authRoutes, 
   accountRoutes, 
@@ -14,9 +16,6 @@ import {
   // spotifyRoutes,
   // tokenRoutes,
 } from "./routes"
-import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
-// import spotifyRouter from "../controllers/spotify/spotifyRouter"
-// import tokenRouter from "../controllers/token/tokenRouter"
 
 const api = express()
 
