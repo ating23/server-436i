@@ -42,3 +42,21 @@ export const CalendarUploadFileTypeError = new ErrorHandler(
   statusCodes.BAD_REQUEST,
   "The file uploaded was not of file type .ics"
 )
+
+export const SpotifyEmptyResultError = new ErrorHandler(
+  "Spotify API did not return any content",
+  statusCodes.BAD_REQUEST,
+  "There was no content in Spotify API response, user may not have any favourite tracks or artists"
+)
+
+export const SpotifyServiceDownError = new ErrorHandler(
+  "Spotify API returned 500",
+  statusCodes.BAD_REQUEST,
+  "Spotify API service may be down"
+)
+
+export const RequestToSpotifyError = new ErrorHandler(
+  "Our request to Spotify's API was malformed",
+  statusCodes.BAD_REQUEST,
+  "Check the request being made to Spotify API"
+)

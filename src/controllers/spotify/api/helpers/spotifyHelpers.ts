@@ -1,4 +1,9 @@
-import { ArtistInterface, SpotifyArtistInterface, TrackInterface } from "../types/spotifyTypes";
+import { ArtistInterface, SpotifyArtistInterface, TrackInterface, SpotifyUserInterface, SpotifyTracksInterface } from "../types/spotifyTypes";
+import { AxiosResponse } from "axios";
+import SpotifyArtistsModel, {UserSpotifyDataDocument} from "../../../../db/models/UserSpotifyData.model"
+import Logger from "../../../../errors/Logger";
+import SpotifyDataModel from "../../../../db/models/UserSpotifyData.model"
+
 
 export function generateArtistItem (artist: Record<string, any>): ArtistInterface {
   const artistItem: ArtistInterface = {
@@ -29,4 +34,49 @@ export function generateTrackItem(track: Record<string, any>, artists: Array<Art
     uri: track.uri
   }
   return ret;
+}
+
+export function validateArtistsAndTracksResponse(response: AxiosResponse<any>): void {
+  if (response.data === undefined || response.data.length <= 0 || response.data.items.length <= 0) {
+    throw new Error("Response from Spotify API was empty.")
+  } else if (response.status >= 400 && response.status < 500) {
+    throw new Error("Our request to Spotify API was malformed.")
+  } else if (response.status >= 500) {
+    throw new Error("Spotify API returned 500, it may be down.")
+  }
+}
+
+export function generateDbItem(accountId: string, spotifyUserData: SpotifyUserInterface, spotifyArtistData: SpotifyArtistInterface, spotifyTracksData: SpotifyTracksInterface): UserSpotifyDataDocument {
+  const ret: UserSpotifyDataDocument = new SpotifyDataModel({
+    accountId: accountId,
+    favouriteArtists: spotifyArtistData.artists,
+    genres: spotifyArtistData.genres,
+    favouriteTracks: spotifyTracksData.tracks,
+    user: spotifyUserData
+  })
+  return ret;
+}
+
+export async function writeToDB(item: UserSpotifyDataDocument): Promise<UserSpotifyDataDocument> {
+  const query = {
+    accountId: item.accountId
+  }
+
+  console.log("the query is here: ", query)
+
+  try {
+    const existingSpotifyList = await SpotifyArtistsModel.findOne(query)
+    if (existingSpotifyList) {
+      Logger.Log(`Spotify data for user ${item.accountId} already exists, their Spotify data was overwritten with ${item}`)
+      existingSpotifyList.overwrite(item)
+      const x = await existingSpotifyList.save();
+      return x
+    } else {
+      const x = await item.save()
+      Logger.Log(`Spotify data for user ${item.accountId} does not exist, created a new document and wrote ${item} to DB`)
+      return x
+    }
+  } catch(err) {
+    return Promise.reject(err)
+  }
 }
