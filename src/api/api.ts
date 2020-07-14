@@ -5,6 +5,7 @@ import sessionRouter from "../controllers/session/sessionRouter"
 import testRouter from "../controllers/test/testRouter"
 import courseRouter from "../controllers/courses/coursesRouter"
 import spotifyRouter from "../controllers/spotify/spotifyRouter"
+import facebookRouther from "../controllers/facebook/facebookRouter"
 import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
 import { 
   authRoutes, 
@@ -12,7 +13,8 @@ import {
   coursesRoutes,
   sessionRoutes,
   testRoutes,
-  spotifyRoutes
+  spotifyRoutes,
+  facebookRoutes
 } from "./routes"
 
 const api = express()
@@ -23,6 +25,7 @@ api.use(coursesRoutes, verifyAuthorizationToken, courseRouter)
 api.use(authRoutes, authRouter)
 api.use(sessionRoutes, sessionRouter)
 api.use(spotifyRoutes, spotifyRouter)
+api.use(facebookRoutes, facebookRouther)
 
 if (process.env.NODE_ENV === "development") {
   api.use(testRoutes, testRouter)
