@@ -51,6 +51,7 @@ export const facebookRoutes = "/facebook"
 export const authorizeFacebookRoute     = new Route (MethodTypes.GET, facebookRoutes, "/authorize")
 export const deauthorizeFacebookRoute   = new Route (MethodTypes.GET, facebookRoutes, "/deauthorize")
 export const deleteFacebookRoute        = new Route (MethodTypes.GET, facebookRoutes, "/delete")
+export const connectFacebookRoute        = new Route (MethodTypes.POST, facebookRoutes, "/connect")
 
 /**
  * @Spotify
