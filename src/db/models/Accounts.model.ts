@@ -9,6 +9,8 @@ interface AccountsDocument extends Document {
   email: string;
   password: string;
   facebook: typeof facebookAccountsSchema;
+  facebookVerified: boolean;
+  spotifyVerified: boolean;
   spotify: {
     // Authentication
     accessToken: string;

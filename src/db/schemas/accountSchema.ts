@@ -26,6 +26,18 @@ const accountsSchema: Schema = new Schema({
     type: Date,
     default: Date.now
   },
+  // Flags
+  facebookVerified: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
+  spotifyVerified: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
+  // End Flags
   facebook: facebookAccountsSchema,
   spotify: {
     // Authentication

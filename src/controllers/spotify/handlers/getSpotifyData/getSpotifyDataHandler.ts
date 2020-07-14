@@ -16,39 +16,26 @@ import {
   SpotifyEmptyResultError, 
   SpotifyServiceDownError 
 } from "../../../../errors/messages/ServicesErrorMessages"
+import statusCodes from "../../../../api/statusCodes"
 
 export default async function getSpotifyUserDataHandler(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id: accountId } = res.locals.token
-  console.log("\n\nIn getSpotifyUserDataHandler = ", res.locals)
-  const { accessToken, expiresIn, refreshToken } = req.body
-  Logger.Log(
-    "getSpotifyUserDataHandler: ", 
-    accessToken, 
-    expiresIn, refreshToken
-  )
+  const { accessToken, refreshToken } = req.body
+  const artistsIds: string[] = []
+  const tracksIds: string[] = []
   
   try {
-    const account = await AccountsModel.findById(accountId)
-    if (!account) {
-      throw new Error ("An account was not found.")
-    }
-    
-    const artistsIds: string[] = []
-    const tracksIds: string[] = []
-    
-    // account = await account.save()
-    Logger.Log("Saved account with Spotify initialization")
-
     const artistsData: SpotifyArtistsData[] = await getTopArtistsData(accessToken)
-    Logger.Log("artistsData: ", artistsData)
-    
     await Promise.all(artistsData.map(async function saveArtists(artist) {
+      const account = await AccountsModel.findById(accountId)
+      if (!account) {
+        throw new Error ("An account was not found.")
+      }
+      
       const dbArtist = await SpotifyArtistsModel.findOne({ 
         spotifyId: artist.spotifyId 
       })
-      Logger.Log("Existing dbArtist ? ", dbArtist)
       if (!dbArtist) {
-        Logger.Log("Creating new dbArtist...")
         const newArtist = new SpotifyArtistsModel({
           spotifyId: artist.spotifyId,
           accounts: [accountId],
@@ -60,26 +47,21 @@ export default async function getSpotifyUserDataHandler(req: Request, res: Respo
           url: artist.url,
         })
         const savedArtist = await newArtist.save()
-        Logger.Log("Saved new Artist: ", savedArtist)
         artistsIds.push(savedArtist._id)
       }
       // artists already exists : id
       else {
         dbArtist.accounts.push(accountId)
         await dbArtist.save()
-        Logger.Log("Saved existing Artist with new accountId")
-        artistsIds.push(dbArtist.spotifyId)
+        artistsIds.push(dbArtist._id)
       }
     }))
 
     const tracksData: SpotifyTracksData[] = await getTopTracksData(accessToken)
-    Logger.Log("tracksData: ", tracksData)
-
     await Promise.all(tracksData.map(async function saveTracks(track) {
       const dbTrack = await SpotifyTracksModel.findOne({ 
         spotifyId: track.spotifyId 
       })
-      Logger.Log("Existing dbTrack ? ", dbTrack)
       if (!dbTrack) {
         Logger.Log("Creating new dbTrack...")
         const newTrack = new SpotifyTracksModel({
@@ -93,27 +75,18 @@ export default async function getSpotifyUserDataHandler(req: Request, res: Respo
           artists: [] // TODO
         })
         const savedTrack = await newTrack.save()
-        Logger.Log("Saved new Track: ", savedTrack)
         tracksIds.push(savedTrack._id)
       }
       else {
         dbTrack.accounts.push(accountId)
         await dbTrack.save()
-        Logger.Log("Saved existing Track with new accountId")
-        tracksIds.push(dbTrack.spotifyId)
+        tracksIds.push(dbTrack._id)
       }
     }))
 
-    console.log("_____________________________________________")
-    console.log("After Promise.all from both : ", artistsIds)
-    console.log("After Promise.all from both : ", tracksIds)
-    console.log("_____________________________________________")
-
     const userData: SpotifyUserData = await getSpotifyUserData(accessToken)
-    // Logger.Log("userData: ", userData)
-    // const result = await account.save()
-    account.overwrite({
-      ...account,
+    await AccountsModel.findByIdAndUpdate(accountId, {
+      spotifyVerified: true,
       spotify: {
         accessToken: accessToken,
         refreshToken: refreshToken,
@@ -128,9 +101,8 @@ export default async function getSpotifyUserDataHandler(req: Request, res: Respo
         tracks: tracksIds
       }
     })
-    console.log("> Does this work?: ", account)
-    await account.save()
-    console.log("> Does this save?: ", account)
+    res.status(statusCodes.OK)
+    return
   } 
   catch (error) {
     if (error.message === "Response from Spotify API was empty.") {
