@@ -73,6 +73,13 @@ export const deauthorizeInstagramRoute   = new Route (MethodTypes.POST, instagra
 export const deleteInstagramRoute        = new Route (MethodTypes.POST, instagramRoutes, "/delete")
 
 /**
+ * @Matches
+ */
+export const matchesRoutes = "/matches"
+
+export const getMatchesRoutes           = new Route (MethodTypes.GET, matchesRoutes, "")
+
+/**
  * @TestRoutes
  */
 export const testRoutes = "/test"

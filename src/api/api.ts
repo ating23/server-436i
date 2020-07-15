@@ -6,19 +6,22 @@ import testRouter from "../controllers/test/testRouter"
 import courseRouter from "../controllers/courses/coursesRouter"
 import spotifyRouter from "../controllers/spotify/spotifyRouter"
 import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
+import matchesRouter from "../controllers/matches/matchesRouter"
 import { 
   authRoutes, 
   accountRoutes, 
   coursesRoutes,
   sessionRoutes,
   testRoutes,
-  spotifyRoutes
+  spotifyRoutes, 
+  matchesRoutes
 } from "./routes"
 
 const api = express()
 
 api.use(accountRoutes, verifyAuthorizationToken, accountRouter)
 api.use(coursesRoutes, verifyAuthorizationToken, courseRouter)
+api.use(matchesRoutes, verifyAuthorizationToken, matchesRouter)
 
 api.use(authRoutes, authRouter)
 api.use(sessionRoutes, sessionRouter)
