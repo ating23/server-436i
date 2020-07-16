@@ -22,7 +22,7 @@ async function generateAccountApiResponse(account: AccountsDocument): Promise<Ac
     name: account.name,
     email: account.email,
     spotifyVerified: account.spotifyVerified,
-    spotify: {artists, tracks},
+    spotify: {...account.spotify, artists, tracks},
     facebookVerified: account.facebookVerified,
     courses: account.courses
   }
