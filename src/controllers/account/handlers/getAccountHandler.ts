@@ -1,18 +1,28 @@
 import { Request, Response, NextFunction } from "express";
 import AccountModel, { AccountsDocument } from "../../../db/models/Accounts.model";
-import { NoAccountFoundError } from "../../../errors/messages/ServicesErrorMessages";
+import { NoAccountFoundError, SpotifyEmptyResultError } from "../../../errors/messages/ServicesErrorMessages";
 import statusCodes from "../../../api/statusCodes";
-import generateURI from "../../auth/helpers/generateURI";
 import Logger from "../../../errors/Logger";
 import { AccountApiReponse } from "./accountTypes";
+import SpotifyArtistsModel from "../../../db/models/SpotifyArtists.model";
+import SpotifyTracksModel from "../../../db/models/SpotifyTracks.model";
+import { Types } from "mongoose";
 
-function generateAccountApiResponse(account: AccountsDocument): AccountApiReponse {
+async function generateAccountApiResponse(account: AccountsDocument): Promise<AccountApiReponse> {
+  const artists = await SpotifyArtistsModel.find({
+    _id: { $in: account.spotify.artists.map(artist => Types.ObjectId(artist)) }
+  })
+
+  const tracks = await SpotifyTracksModel.find({
+    _id: { $in: account.spotify.tracks.map(track => Types.ObjectId(track)) }
+  })
+
   return {
-    uuid: account.id,
+    accountId: account.id,
     name: account.name,
     email: account.email,
     spotifyVerified: account.spotifyVerified,
-    spotify: account.spotify,
+    spotify: {artists, tracks},
     facebookVerified: account.facebookVerified,
     courses: account.courses
   }
@@ -29,7 +39,7 @@ export default async function getAccountHandler (req: Request, res: Response, ne
       return next (NoAccountFoundError)
     }
 
-    const ret = generateAccountApiResponse(account);
+    const ret = await generateAccountApiResponse(account);
     
     res.status(statusCodes.OK).json (ret)
     return

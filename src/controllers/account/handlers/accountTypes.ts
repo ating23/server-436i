@@ -1,7 +1,7 @@
 import { MongooseDocument } from "mongoose";
 
 export interface AccountApiReponse {
-  uuid: string;
+  accountId: string;
   name: string;
   email: string;
   spotifyVerified: boolean;
