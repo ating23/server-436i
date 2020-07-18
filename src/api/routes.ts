@@ -31,7 +31,7 @@ export const resetPasswordRoute             = new Route (MethodTypes.POST, authR
  */
 export const accountRoutes = "/account"
 
-export const getAccountRoute    = new Route (MethodTypes.GET, accountRoutes, "/:accountId")
+export const getAccountRoute    = new Route (MethodTypes.GET, accountRoutes, "")
 export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "/:accountId")
 export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, "/:accountId")
 
@@ -72,6 +72,13 @@ export const instagramRoutes = "/instagram"
 export const authorizeInstagramRoute     = new Route (MethodTypes.GET, instagramRoutes, "/authorize")
 export const deauthorizeInstagramRoute   = new Route (MethodTypes.POST, instagramRoutes, "/deauthorize")
 export const deleteInstagramRoute        = new Route (MethodTypes.POST, instagramRoutes, "/delete")
+
+/**
+ * @Matches
+ */
+export const matchesRoutes = "/matches"
+
+export const getMatchesRoutes           = new Route (MethodTypes.GET, matchesRoutes, "")
 
 /**
  * @TestRoutes

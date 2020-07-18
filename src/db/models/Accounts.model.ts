@@ -3,7 +3,7 @@ import { accountsDec } from "../modelDeclarations"
 import accountSchema from "../schemas/accountSchema"
 import { facebookAccountsSchema } from "../schemas/facebookSchemas"
 
-interface AccountsDocument extends Document {
+export interface AccountsDocument extends Document {
   id: string;
   name: string;
   email: string;
@@ -27,7 +27,7 @@ interface AccountsDocument extends Document {
       url: string;
     };
     country: string;
-    artists: string[]
+    artists: string[];
     tracks: string[];
   };
   courses: string[];

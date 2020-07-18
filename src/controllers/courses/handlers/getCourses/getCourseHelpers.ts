@@ -1,9 +1,10 @@
 import { CoursesDocument } from "../../../../db/models/Courses.model"
+import { Classmate } from "./getCoursesHandler"
 
 interface CourseApiResponse {
   // Auth
   courseId: string;
-  accounts: string[];
+  accounts: Classmate[];
   // Data
   courseDept: string;
   courseNumber: string;
@@ -12,10 +13,10 @@ interface CourseApiResponse {
   endDate: Date;
 }
 
-export function generateResponse(course: CoursesDocument): CourseApiResponse {
+export function generateResponse(course: CoursesDocument, classmates: Classmate[]): CourseApiResponse {
   return {
     courseId: course._id,
-    accounts: course.accounts,
+    accounts: classmates,
     courseDept: course.courseDept,
     courseNumber: course.courseNumber,
     courseSection: course.courseSection,

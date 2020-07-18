@@ -51,7 +51,9 @@ export default async function getSpotifyUserDataHandler(req: Request, res: Respo
       }
       // artists already exists : id
       else {
-        dbArtist.accounts.push(accountId)
+        if (!dbArtist.accounts.includes(accountId)) {
+          dbArtist.accounts.push(accountId)
+        }
         await dbArtist.save()
         artistsIds.push(dbArtist._id)
       }
@@ -78,7 +80,9 @@ export default async function getSpotifyUserDataHandler(req: Request, res: Respo
         tracksIds.push(savedTrack._id)
       }
       else {
-        dbTrack.accounts.push(accountId)
+        if (!dbTrack.accounts.includes(accountId)) {
+          dbTrack.accounts.push(accountId)
+        }
         await dbTrack.save()
         tracksIds.push(dbTrack._id)
       }
