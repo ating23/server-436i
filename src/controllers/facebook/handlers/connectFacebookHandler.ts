@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import Axios from "axios"
-import querystring from "querystring"
 
 export default async function connectFacebookHandler (req: Request, res: Response,): Promise<Response> {
   const body = req.body
