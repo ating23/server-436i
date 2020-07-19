@@ -1,6 +1,7 @@
 export const accountsDec = "accounts"
 export const coursesDec = "courses"
 export const facebookDec = "facebook_accounts"
+export const facebookLikesDec = "facebook_likes"
 export const resetCodesDec = "reset_codes"
 export const spotifyArtistsDec = "spotify_artists"
 export const spotifyTracksDec = "spotify_tracks"

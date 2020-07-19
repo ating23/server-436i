@@ -1,7 +1,18 @@
 import { Request, Response } from "express"
 import Axios from "axios"
+import FacebookLikesDocument from "../../../db/models/FacebookLikes.model"
+import AccountsModel from "../../../db/models/Accounts.model"
+import statusCodes from "../../../api/statusCodes"
 
 export default async function connectFacebookHandler (req: Request, res: Response,): Promise<Response> {
+  // TEST 
+  // const msg = req.body
+  // return res.status(200).json({
+  //   success: true,
+  //   message: "Successfully connected your account to Facebook!",
+  //   content: msg
+  // })
+
   const body = req.body
   if (!body) {
       return res.status(400).json({
@@ -12,15 +23,13 @@ export default async function connectFacebookHandler (req: Request, res: Respons
 
   const userID = body.id
   const accessToken = body.accessToken
-  const username = body.username
+  const accountId = res.locals.token.id //Ojbect Id (Primary key)
   const name = body.name
   const email = body.email
-  const fb_id = body.id
-  
-  console.log("Fetching Facebook likes")
-  console.log(accessToken)
+  // console.log(accountId)
   try {
-    const result = await Axios.get ("https://graph.facebook.com/v7.0/"+`${userID}` +"/likes", {
+    console.log("Fetching Facebook likes")
+    const result = await Axios.get("https://graph.facebook.com/v7.0/"+`${userID}` +"/likes", {
       headers: {
         'Authorization': `Bearer ${accessToken}` 
       }
@@ -31,20 +40,59 @@ export default async function connectFacebookHandler (req: Request, res: Respons
     for (let i = 0, len = likes.length; i < len; i++) {
       fbLikes.push(likes[i].name);
     }
+    // console.log(fbLikes) //List of likes
 
-    console.log(fbLikes) //List of likes
-
-    const hometownResult = await Axios.get ("https://graph.facebook.com/v7.0/"+`${userID}` +"?fields=hometown", {
+    console.log("Fetching hometown from Facebook")
+    const hometownResult = await Axios.get("https://graph.facebook.com/v7.0/"+`${userID}` +"?fields=hometown", {
       headers: {
         'Authorization': `Bearer ${accessToken}` 
       }
     });
-    
     const hometown = hometownResult.data.hometown.name; 
-    console.log(hometown)
+    // console.log(hometown)
 
-    //TODO: record username, name, email, fb_id, likes, and hometown to Database.
+    console.log("Recording Facebook data to MongoDB")
+    const likesIds: string[] = []
+    await Promise.all(fbLikes.map(async function saveArtists(fbLike) {
+      const account = await AccountsModel.findById(accountId)
+      if (!account) {
+        throw new Error ("An account was not found.")
+      }
+      
+      const likeItem = await FacebookLikesDocument.findOne({ 
+        userId: userID
+      })
+      if (!likeItem) {
+        const newLike = new FacebookLikesDocument({
+          userId: userID,
+          accounts: [accountId],
+          like: fbLike,
+        })
+        const savedLike = await newLike.save()
+        likesIds.push(savedLike._id)
+      }
+      // Likes already exists : id
+      else {
+        if (!likeItem.accounts.includes(accountId)) {
+          likeItem.accounts.push(accountId)
+        }
+        await likeItem.save()
+        likesIds.push(likeItem._id)
+      }
+    }))
 
+    await AccountsModel.findByIdAndUpdate(accountId, {
+      facebookVerified: true,
+      facebook: {
+        userId: userID,
+        name: name,
+        email: email,
+        hometown: hometown,
+        likes: likesIds
+      }
+    })
+
+    res.status(statusCodes.OK)
     return res.status(200).json({
       success: true,
       message: "Successfully connected your account to Facebook!",

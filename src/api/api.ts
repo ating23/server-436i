@@ -31,7 +31,7 @@ api.use(matchesRoutes, verifyAuthorizationToken, matchesRouter)
 
 api.use(authRoutes, authRouter)
 api.use(sessionRoutes, sessionRouter)
-api.use(facebookRoutes, facebookRouter)
+api.use(facebookRoutes, verifyAuthorizationToken, facebookRouter)
 api.use(spotifyRoutes, spotifyRouter)
 
 if (process.env.NODE_ENV === "development") {
