@@ -1,28 +1,28 @@
-interface FacebookAccountsSchema {
-  id: number;
-  firstName: string;
-  lastName: string;
-  profileImage: string;
-  birthday: Date;
-  hometown: string;
-  languages: string[];
-  refs: number;
-}
+// interface FacebookAccountsSchema {
+//   id: number;
+//   firstName: string;
+//   lastName: string;
+//   profileImage: string;
+//   birthday: Date;
+//   hometown: string;
+//   languages: string[];
+//   refs: number;
+// }
 
-interface FacebookGroupsSchema {
-  id: number;
-  refs: number;
-}
+// interface FacebookGroupsSchema {
+//   id: number;
+//   refs: number;
+// }
 
 interface FacebookLikesSchema {
   id: number;
   refs: number;
 }
 
-interface FacebookMusicSchema {
-  id: number;
-  refs: number;
-}
+// interface FacebookMusicSchema {
+//   id: number;
+//   refs: number;
+// }
 
 interface SpotifyArtistsSchema {
   id: number;
@@ -54,12 +54,11 @@ interface SpotifyTracksSchema {
 // ---
 
 interface FacebookAccountSchema {
-  accessToken: string;
-  refreshToken: string;
-  friends: string[];
-  groups: string[];
+  userId: string;
+  name: string;
+  email: string;
+  hometown: string;
   likes: string[];
-  music: string[];
 }
 
 interface InstagramAccountSchema {

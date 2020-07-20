@@ -8,7 +8,6 @@ export interface AccountsDocument extends Document {
   name: string;
   email: string;
   password: string;
-  facebook: typeof facebookAccountsSchema;
   facebookVerified: boolean;
   spotifyVerified: boolean;
   spotify: {
@@ -31,6 +30,14 @@ export interface AccountsDocument extends Document {
     tracks: string[];
   };
   courses: string[];
+  // facebook: typeof facebookAccountsSchema;
+  facebook: {
+    facebookId: string;
+    name: string;
+    email: string;
+    hometown: string;
+    likes: string[];
+  };
 }
 
 const AccountsModel = model<AccountsDocument>(accountsDec, accountSchema)
