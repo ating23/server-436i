@@ -2,10 +2,11 @@ import { Schema } from "mongoose"
 import { accountsDec, facebookLikesDec } from "../modelDeclarations"
 
 export const facebookAccountsSchema: Schema = new Schema({
-  userId: String,
+  facebookId: String,
   name: String,
   email: String,
   hometown: String,
+  profilePicURL: String,
   likes: [{
     type: Schema.Types.ObjectId,
     ref: facebookLikesDec
@@ -14,7 +15,7 @@ export const facebookAccountsSchema: Schema = new Schema({
 
 export const facebookLikesSchema: Schema = new Schema({
   // Authentication
-  userId: {
+  facebookId: {
     type: String,
     index: true,
     unique: true
