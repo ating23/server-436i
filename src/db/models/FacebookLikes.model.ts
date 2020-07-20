@@ -4,7 +4,7 @@ import { facebookLikesSchema } from "../schemas/facebookSchemas"
 
 interface FacebookLikesDocument extends Document {
   // Authentication
-  userId: string;
+  facebookId: string;
   accounts: string[];
   // Data
   like: string;

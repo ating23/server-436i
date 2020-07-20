@@ -20,8 +20,8 @@ export default async function connectFacebookHandler (req: Request, res: Respons
           error: 'You must provide a body',
       })
   }
-
-  const userID = body.id
+  console.log("body: ", body)
+  const facebookId = body.id
   const accessToken = body.accessToken
   const accountId = res.locals.token.id //Ojbect Id (Primary key)
   const name = body.name
@@ -29,7 +29,7 @@ export default async function connectFacebookHandler (req: Request, res: Respons
   // console.log(accountId)
   try {
     console.log("Fetching Facebook likes")
-    const result = await Axios.get("https://graph.facebook.com/v7.0/"+`${userID}` +"/likes", {
+    const result = await Axios.get("https://graph.facebook.com/v7.0/"+`${facebookId}` +"/likes", {
       headers: {
         'Authorization': `Bearer ${accessToken}` 
       }
@@ -43,28 +43,27 @@ export default async function connectFacebookHandler (req: Request, res: Respons
     // console.log(fbLikes) //List of likes
 
     console.log("Fetching hometown from Facebook")
-    const hometownResult = await Axios.get("https://graph.facebook.com/v7.0/"+`${userID}` +"?fields=hometown", {
+    const hometownResult = await Axios.get("https://graph.facebook.com/v7.0/"+`${facebookId}` +"?fields=hometown", {
       headers: {
         'Authorization': `Bearer ${accessToken}` 
       }
     });
-    const hometown = hometownResult.data.hometown.name; 
+    // const hometown = hometownResult.data.hometown.name; 
     // console.log(hometown)
 
     console.log("Recording Facebook data to MongoDB")
     const likesIds: string[] = []
-    await Promise.all(fbLikes.map(async function saveArtists(fbLike) {
+    await Promise.all(fbLikes.map(async function saveFbLike(fbLike) {
       const account = await AccountsModel.findById(accountId)
       if (!account) {
         throw new Error ("An account was not found.")
       }
       
       const likeItem = await FacebookLikesDocument.findOne({ 
-        userId: userID
+        like: fbLike
       })
       if (!likeItem) {
         const newLike = new FacebookLikesDocument({
-          userId: userID,
           accounts: [accountId],
           like: fbLike,
         })
@@ -84,10 +83,10 @@ export default async function connectFacebookHandler (req: Request, res: Respons
     await AccountsModel.findByIdAndUpdate(accountId, {
       facebookVerified: true,
       facebook: {
-        userId: userID,
+        "facebookId": facebookId,
         name: name,
         email: email,
-        hometown: hometown,
+        hometown: hometownResult.data.hometown? hometownResult.data.hometown.name : "",
         likes: likesIds
       }
     })
@@ -99,7 +98,7 @@ export default async function connectFacebookHandler (req: Request, res: Respons
     })
   }
   catch (error) {
-    console.log(error.message)
+    console.log("error in try-catch: ", error.message)
     return res.status(404).json({
       success: true,
       error: "Cannot retrieve information from Facebook...",

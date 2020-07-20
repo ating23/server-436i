@@ -1,12 +1,15 @@
 import { Schema } from "mongoose"
-import { accountsDec } from "../modelDeclarations"
+import { accountsDec, facebookLikesDec } from "../modelDeclarations"
 
 export const facebookAccountsSchema: Schema = new Schema({
   userId: String,
   name: String,
   email: String,
   hometown: String,
-  likes: [String]
+  likes: [{
+    type: Schema.Types.ObjectId,
+    ref: facebookLikesDec
+  }]
 })
 
 export const facebookLikesSchema: Schema = new Schema({
