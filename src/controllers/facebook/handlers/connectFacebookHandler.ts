@@ -91,7 +91,7 @@ export default async function connectFacebookHandler (req: Request, res: Respons
         likes: likesIds
       }
     })
-
+    console.log("Successfully recorded Facebook data to MongoDB")
     res.status(statusCodes.OK)
     return res.status(200).json({
       success: true,
