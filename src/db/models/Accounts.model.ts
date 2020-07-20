@@ -32,7 +32,7 @@ export interface AccountsDocument extends Document {
   courses: string[];
   // facebook: typeof facebookAccountsSchema;
   facebook: {
-    userId: string;
+    facebookId: string;
     name: string;
     email: string;
     hometown: string;
