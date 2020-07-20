@@ -1,35 +1,38 @@
 import express from "express"
-
-import accountRouter from "../controllers/account/accountRouter"
-import authRouter from "../controllers/auth/authRouter"
-import sessionRouter from "../controllers/session/sessionRouter"
-import testRouter from "../controllers/test/testRouter"
-import calendarRouter from "../controllers/calendar/calendarRouter"
-import courseRouter from "../controllers/courses/coursesRouter"
-
+import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
 import { 
   authRoutes, 
   accountRoutes, 
-  calendarRoutes,
   coursesRoutes,
   sessionRoutes,
   testRoutes,
-  spotifyRoutes,
-  tokenRoutes,
+  facebookRoutes,
+  spotifyRoutes, 
+  matchesRoutes
 } from "./routes"
-import { verifyAuthorizationToken } from "../controllers/auth/helpers/verifyAuthorizationToken"
+
+/**
+ * @Routers
+ */
+import authRouter from "../controllers/auth/authRouter"
+import courseRouter from "../controllers/courses/coursesRouter"
+import accountRouter from "../controllers/account/accountRouter"
+import facebookRouter from "../controllers/facebook/facebookRouter"
+import sessionRouter from "../controllers/session/sessionRouter"
 import spotifyRouter from "../controllers/spotify/spotifyRouter"
-import tokenRouter from "../controllers/token/tokenRouter"
+import matchesRouter from "../controllers/matches/matchesRouter"
+import testRouter from "../controllers/test/testRouter"
 
 const api = express()
 
 api.use(accountRoutes, verifyAuthorizationToken, accountRouter)
-api.use(authRoutes, authRouter)
-api.use(calendarRoutes, verifyAuthorizationToken, calendarRouter)
 api.use(coursesRoutes, verifyAuthorizationToken, courseRouter)
+api.use(matchesRoutes, verifyAuthorizationToken, matchesRouter)
+
+api.use(authRoutes, authRouter)
 api.use(sessionRoutes, sessionRouter)
+api.use(facebookRoutes, verifyAuthorizationToken, facebookRouter)
 api.use(spotifyRoutes, spotifyRouter)
-api.use(tokenRoutes, verifyAuthorizationToken, tokenRouter)
 
 if (process.env.NODE_ENV === "development") {
   api.use(testRoutes, testRouter)

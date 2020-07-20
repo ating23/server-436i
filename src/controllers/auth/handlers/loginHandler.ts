@@ -7,7 +7,7 @@ import { generateAuthorizationToken } from "../helpers/generateAuthorizationToke
 import { validateEmail, validatePassword } from "../../../helpers/requestValidators"
 import { LoginInterface } from "../interfaces/AuthRouteInterfaces"
 import Logger from "../../../errors/Logger"
-import Account from "../../../db/models/Account.model"
+import AccountsModel from "../../../db/models/Accounts.model"
 import generateURI from "../helpers/generateURI"
 
 /**
@@ -18,7 +18,7 @@ async function handleLogin (req: Request, res: Response, next: NextFunction): Pr
   Logger.Log (`Received login request for: ${clientEmail}`)
 
   try {
-    const account = await Account.findOne ({ email: clientEmail })
+    const account = await AccountsModel.findOne ({ email: clientEmail })
     Logger.Log ("Mongo query complete.")
     if (!account)  {
       Logger.Error ("Error in login. No account found.")

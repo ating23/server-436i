@@ -1,13 +1,21 @@
 import bcrypt from "bcryptjs"
 import { Request, Response, NextFunction } from "express"
 import { SignupInterface } from "../../interfaces/AuthRouteInterfaces"
-import Account from "../../../../db/models/Account.model"
-import { validateName, validateEmailAlreadyExists, handleErrors } from "./signupValidators"
-import { validateEmail, validatePassword, validatePasswordConfirm } from "../../../../helpers/requestValidators"
+import AccountsModel from "../../../../db/models/Accounts.model"
 import Logger from "../../../../errors/Logger"
 import { generateAuthorizationToken } from "../../helpers/generateAuthorizationToken"
 import statusCodes from "../../../../api/statusCodes"
 import generateURI from "../../helpers/generateURI"
+import { 
+  validateName, 
+  validateEmailAlreadyExists, 
+  handleErrors 
+} from "./signupValidators"
+import { 
+  validateEmail, 
+  validatePassword, 
+  validatePasswordConfirm 
+} from "../../../../helpers/requestValidators"
 
 function handleSignup (req: Request, res: Response, next: NextFunction): void {
   const { name, email, password }: SignupInterface = req.body
@@ -17,7 +25,7 @@ function handleSignup (req: Request, res: Response, next: NextFunction): void {
   const passwordHash = bcrypt.hashSync(password, salt)
   Logger.Log ("Generated password hash.")
 
-  const newAccount = new Account ({ name, email, password: passwordHash})
+  const newAccount = new AccountsModel ({ name, email, password: passwordHash})
   newAccount.save((err, account) => {
     if (err) {
       Logger.Error("Error in saving new account on mongodb.")

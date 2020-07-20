@@ -2,11 +2,11 @@ import { Request, Response, NextFunction } from "express"
 import StatusCodes from "../../../api/statusCodes"
 import { validateEmail } from "../../../helpers/requestValidators"
 import { ForgotPasswordInterface } from "../interfaces/AuthRouteInterfaces"
-import Account from "../../../db/models/Account.model"
+import Account from "../../../db/models/Accounts.model"
 import { MongoUnavaiableError, NoAccountFoundError } from "../../../errors/messages/ServicesErrorMessages"
 import Logger from "../../../errors/Logger"
 import Nodemailer from "../../../helpers/nodemailer/Nodemailer"
-import ResetCodeModel from "../../../db/models/ResetCode.model"
+import ResetCodeModel from "../../../db/models/ResetCodes.model"
 import generateVerifyCodeEmail from "../../../helpers/nodemailer/emails/generateVerifyCodeEmail"
 
 async function handleForgotPassword(req: Request, res: Response, next: NextFunction): Promise<void> {

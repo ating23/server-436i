@@ -9,7 +9,7 @@ export default function authorizeSpotifyHandler (_req: Request, res: Response): 
   const params = querystring.stringify ({
     client_id: process.env.SPOTIFY_CLIENT_ID,
     response_type: "code",
-    redirect_uri: getTokenSpotifyRoute.getFullRoute (),
+    redirect_uri: getTokenSpotifyRoute.getFullRoute(),
     scope: spotifyScope
   })
   res.redirect (`${spotifyAuthorizeRoute}?${params}`)

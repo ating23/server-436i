@@ -1,27 +1,52 @@
 import { Schema } from "mongoose"
-import { SpotifyArtistsModel, SpotifyTracksModel } from "../models"
+import { accountsDec } from "../modelDeclarations"
 
-const SpotifyImageSchema: Schema = new Schema ({
+export const SpotifyImageSchema: Schema = new Schema({
   height: Number,
   width: Number,
-  url: {
-    required: true,
-    type: String
-  }
+  url: String
 })
 
-export const SpotifyAccountSchema: Schema = new Schema ({
-  accessToken: String,
-  refreshToken: String,
-  displayName: String,
-  images: [SpotifyImageSchema],
-  country: String,
+export const spotifyArtistsSchema: Schema = new Schema({
+  // Authentication
+  spotifyId: {
+    type: String,
+    index: true,
+    unique: true
+  },
+  accounts: [{
+    type: Schema.Types.ObjectId,
+    ref: accountsDec
+  }],
+  // Data
+  name: String,
+  popularity: Number,
+  followers: Number,
+  genres: [String],
+  image: SpotifyImageSchema,
+  url: String
+})
+
+export const spotifyTracksSchema: Schema = new Schema({
+  // Authentication
+  spotifyId: {
+    type: String,
+    index: true,
+    unique: true
+  },
+  accounts: [{
+    type: Schema.Types.ObjectId,
+    ref: accountsDec
+  }],
+  // Data
+  name: String,
+  popularity: Number,
+  image: SpotifyImageSchema,
+  audioPreviewURL: String,
+  url: String,
   artists: [{
-    type: Schema.Types.ObjectId,
-    ref: SpotifyArtistsModel
-  }],
-  tracks: [{
-    type: Schema.Types.ObjectId,
-    ref: SpotifyTracksModel
-  }],
+    spotifyId: String,
+    name: String,
+    url: String,
+  }]
 })

@@ -3,7 +3,7 @@ import { body, check, validationResult } from "express-validator"
 import statusCodes from "../../../../api/statusCodes"
 import ErrorHandler from "../../../../errors/ErrorHandler"
 import Logger from "../../../../errors/Logger"
-import Account from "../../../../db/models/Account.model"
+import Account from "../../../../db/models/Accounts.model"
 
 export const validateName = 
   check("name")

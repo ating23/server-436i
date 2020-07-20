@@ -29,26 +29,19 @@ export const resetPasswordRoute             = new Route (MethodTypes.POST, authR
 /**
  * @AccountRoutes
  */
-export const accountRoutes = "/profile"
+export const accountRoutes = "/account"
 
-export const getAccountRoute    = new Route (MethodTypes.GET, accountRoutes, "/:accountId")
+export const getAccountRoute    = new Route (MethodTypes.GET, accountRoutes, "")
 export const updateAccountRoute = new Route (MethodTypes.PATCH, accountRoutes, "/:accountId")
 export const deleteAccountRoute = new Route (MethodTypes.DELETE, accountRoutes, "/:accountId")
 
 /**
- * @Calendar Routes
- */
-export const calendarRoutes = "/calendar"
-
-export const uploadCalendarRoute = new Route (MethodTypes.POST, calendarRoutes, "")
-
-/**
- * @Course Routes
+ * @Courses Routes
  */
 export const coursesRoutes = "/courses"
 
-export const getAllCoursesRoute = new Route (MethodTypes.GET, coursesRoutes, "")
-export const getCourseRoute = new Route (MethodTypes.GET, coursesRoutes, "/:courseId")
+export const getCoursesRoute = new Route (MethodTypes.GET, coursesRoutes, "")
+export const uploadCoursesRoute = new Route (MethodTypes.POST, coursesRoutes, "")
 
 /**
  * @Facebook
@@ -58,16 +51,18 @@ export const facebookRoutes = "/facebook"
 export const authorizeFacebookRoute     = new Route (MethodTypes.GET, facebookRoutes, "/authorize")
 export const deauthorizeFacebookRoute   = new Route (MethodTypes.GET, facebookRoutes, "/deauthorize")
 export const deleteFacebookRoute        = new Route (MethodTypes.GET, facebookRoutes, "/delete")
+export const connectFacebookRoute        = new Route (MethodTypes.POST, facebookRoutes, "/connect")
 
 /**
  * @Spotify
  */
 export const spotifyRoutes = "/spotify"
 
-export const authorizeSpotifyRoute = new Route (MethodTypes.GET, spotifyRoutes, "/authorize")
-export const getTokenSpotifyRoute = new Route (MethodTypes.GET, spotifyRoutes, "/callback")
-export const deauthorizeSpotifyRoute = new Route (MethodTypes.POST, spotifyRoutes, "/deauthorize")
-export const deleteSpotifyRoute = new Route (MethodTypes.POST, spotifyRoutes, "/delete")
+export const getSpotifyDataRoute        = new Route (MethodTypes.POST, spotifyRoutes, "")
+export const authorizeSpotifyRoute      = new Route (MethodTypes.GET, spotifyRoutes, "/authorize")
+export const getTokenSpotifyRoute       = new Route (MethodTypes.GET, spotifyRoutes, "/callback")
+export const deauthorizeSpotifyRoute    = new Route (MethodTypes.POST, spotifyRoutes, "/deauthorize")
+export const deleteSpotifyRoute         = new Route (MethodTypes.POST, spotifyRoutes, "/delete")
 
 /**
  * @Instagram
@@ -79,16 +74,16 @@ export const deauthorizeInstagramRoute   = new Route (MethodTypes.POST, instagra
 export const deleteInstagramRoute        = new Route (MethodTypes.POST, instagramRoutes, "/delete")
 
 /**
+ * @Matches
+ */
+export const matchesRoutes = "/matches"
+
+export const getMatchesRoutes           = new Route (MethodTypes.GET, matchesRoutes, "")
+
+/**
  * @TestRoutes
  */
 export const testRoutes = "/test"
-
-/**
- * @TokenRoutes
- */
-export const tokenRoutes = "/token"
-
-export const acceptTokenRoute = new Route (MethodTypes.POST, tokenRoutes, "")
 
 /**
  * @Client
