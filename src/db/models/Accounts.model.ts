@@ -36,6 +36,7 @@ export interface AccountsDocument extends Document {
     name: string;
     email: string;
     hometown: string;
+    profilePicURL: string;
     likes: string[];
   };
 }

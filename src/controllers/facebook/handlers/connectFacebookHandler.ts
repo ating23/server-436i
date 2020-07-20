@@ -23,9 +23,10 @@ export default async function connectFacebookHandler (req: Request, res: Respons
   console.log("body: ", body)
   const facebookId = body.id
   const accessToken = body.accessToken
-  const accountId = res.locals.token.id //Ojbect Id (Primary key)
+  const accountId = res.locals.token.id
   const name = body.name
   const email = body.email
+  const profilePic = body.profilePicURL
   // console.log(accountId)
   try {
     console.log("Fetching Facebook likes")
@@ -83,14 +84,15 @@ export default async function connectFacebookHandler (req: Request, res: Respons
     await AccountsModel.findByIdAndUpdate(accountId, {
       facebookVerified: true,
       facebook: {
-        "facebookId": facebookId,
+        facebookId: facebookId,
         name: name,
         email: email,
         hometown: hometownResult.data.hometown? hometownResult.data.hometown.name : "",
+        profilePicURL: profilePic,
         likes: likesIds
       }
     })
-
+    console.log("Successfully recorded Facebook data to MongoDB")
     res.status(statusCodes.OK)
     return res.status(200).json({
       success: true,
