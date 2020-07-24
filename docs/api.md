@@ -241,7 +241,45 @@
     "__v": 2
 }
 ```
+### Tracks Object  <a name="tracks"></a>
 
+##### Object Format
+
+| KEY | VALUE TYPE | VALUE DESCRIPTION |
+|-|-|-|
+| accounts | `String[]` | An array of Mongo ObjectIds, Contains all accounts in our mongoDB that also like this track |
+| _id | `string` | MongoDB Id for this track |
+| spotifyId | `string` | Artist's spotify UUID |
+| name | `string` | Track's name |
+| popularity | `number` | Number score of Track's popularity on Spotify |
+| image | `Object` | An object with fields: Height, Width, Url and _id (our mongodb ID) |
+| audioPreviewURL | `string` | URL to 30 second preview of the track on Spotify |
+| artists | `Object[] | An array of [Artists](#artists) related to the track |
+
+** Example Body**
+```js
+{
+  "accounts": [
+      "5f14ecfa182cd43318eda6ec",
+      "5f14ef55c52fd51d980dbea0",
+      "5f14f2f6f607f94720fd2365"
+  ],
+  "_id": "5f14ed8a182cd43318eda752",
+  "spotifyId": "6p8eEdiZLKJH8tcjGZuNTK",
+  "name": "Run",
+  "popularity": 76,
+  "url": "https://open.spotify.com/track/6p8eEdiZLKJH8tcjGZuNTK",
+  "image": {
+      "_id": "5f14ed8a182cd43318eda753",
+      "height": 640,
+      "url": "https://i.scdn.co/image/ab67616d0000b2734896429a87abfacd5d90587b",
+      "width": 640
+  },
+  "audioPreviewURL": "https://p.scdn.co/mp3-preview/8e62d2ceec0caec7865779e603158827cd1d9bb8?cid=3a22559fa1d84159977d6166a9b5eb75",
+  "artists": [],
+  "__v": 2
+}
+```
 
 ___
 
@@ -521,7 +559,7 @@ ___
 
 ##### <ins>Get Current User's Profile</ins>
 
-Get detailed profile information about the current user (including the current user’s username).
+Get detailed profile information about the current user.
 
 ##### Endpoint
 
@@ -542,6 +580,8 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 | email | `string` | User's email |
 | spotifyVerified | `boolean` | Indicates if this user has integrated their Spotify account |
 | spotify | `Object` | contains a [Spotify Object](#SpotifyObject) if user has integrated Spotify account |
+| facebookVerified | `boolean` | Indicates if this user has integrated their Facebook account |
+| facebook | `Object` | contains a [Facebook Object]() if user has integrated their facebook account |
 
 **Reponse Example:**
 
@@ -743,62 +783,62 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 
 ```js
 {
-    "courses": [
-        {
-            "courseId": "5f14f06584729f245062e29b",
-            "accounts": [
-                {
-                    "accountId": "5f14ecfa182cd43318eda6ec",
-                    "name": "at"
-                },
-                {
-                    "accountId": "5f14ef55c52fd51d980dbea0",
-                    "name": "demo"
-                }
-            ],
-            "courseDept": "CPSC",
-            "courseNumber": "436I",
-            "courseSection": "901",
-            "startDate": "2020-05-09T17:00:00.000Z",
-            "endDate": "2020-08-15T23:59:59.000Z"
-        },
-        {
-            "courseId": "5f14f06584729f245062e29c",
-            "accounts": [
-                {
-                    "accountId": "5f14ecfa182cd43318eda6ec",
-                    "name": "at"
-                },
-                {
-                    "accountId": "5f14ef55c52fd51d980dbea0",
-                    "name": "demo"
-                }
-            ],
-            "courseDept": "CPSC",
-            "courseNumber": "436I",
-            "courseSection": "L1A",
-            "startDate": "2020-05-13T00:00:00.000Z",
-            "endDate": "2020-08-04T23:59:59.000Z"
-        },
-        {
-            "courseId": "5f14f06584729f245062e29d",
-            "accounts": [
-                {
-                    "accountId": "5f14ecfa182cd43318eda6ec",
-                    "name": "at"
-                },
-                {
-                    "accountId": "5f14ef55c52fd51d980dbea0",
-                    "name": "demo"
-                }
-            ],
-            "courseDept": "COMM",
-            "courseNumber": "393",
-            "courseSection": "971",
-            "startDate": "2020-07-06T16:00:00.000Z",
-            "endDate": "2020-08-12T23:59:59.000Z"
-        }
-    ]
+  "courses": [
+      {
+          "courseId": "5f14f06584729f245062e29b",
+          "accounts": [
+              {
+                  "accountId": "5f14ecfa182cd43318eda6ec",
+                  "name": "at"
+              },
+              {
+                  "accountId": "5f14ef55c52fd51d980dbea0",
+                  "name": "demo"
+              }
+          ],
+          "courseDept": "CPSC",
+          "courseNumber": "436I",
+          "courseSection": "901",
+          "startDate": "2020-05-09T17:00:00.000Z",
+          "endDate": "2020-08-15T23:59:59.000Z"
+      },
+      {
+          "courseId": "5f14f06584729f245062e29c",
+          "accounts": [
+              {
+                  "accountId": "5f14ecfa182cd43318eda6ec",
+                  "name": "at"
+              },
+              {
+                  "accountId": "5f14ef55c52fd51d980dbea0",
+                  "name": "demo"
+              }
+          ],
+          "courseDept": "CPSC",
+          "courseNumber": "436I",
+          "courseSection": "L1A",
+          "startDate": "2020-05-13T00:00:00.000Z",
+          "endDate": "2020-08-04T23:59:59.000Z"
+      },
+      {
+          "courseId": "5f14f06584729f245062e29d",
+          "accounts": [
+              {
+                  "accountId": "5f14ecfa182cd43318eda6ec",
+                  "name": "at"
+              },
+              {
+                  "accountId": "5f14ef55c52fd51d980dbea0",
+                  "name": "demo"
+              }
+          ],
+          "courseDept": "COMM",
+          "courseNumber": "393",
+          "courseSection": "971",
+          "startDate": "2020-07-06T16:00:00.000Z",
+          "endDate": "2020-08-12T23:59:59.000Z"
+      }
+  ]
 }
 ```
 
