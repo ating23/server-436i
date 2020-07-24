@@ -32,7 +32,7 @@
 ## Spotify Objects
 
 
-### User Object
+### User Object <a name='SpotifyObject'> </a>
 
 ##### Object Format
 
@@ -197,7 +197,7 @@
 ```
 
 
-### Artist Object
+### Artist Object  <a name="artists"></a>
 
 ##### Object Format
 
