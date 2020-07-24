@@ -285,7 +285,7 @@ ___
 
 | METHOD | ENDPOINT | USAGE | RETURNS |
 |-|-|-|-|
-| `GET` | [/profile]() | Get Current User's Profile | User's [Profile]() object |
+| `GET` | [/account]() | Get Current User's Profile | User's [account]() object |
 
 #### Endpoints
 
@@ -311,7 +311,7 @@ Get detailed profile information about the current user (including the current u
 
 ##### Endpoint
 
-`GET https://api.educonnections.ca/profile`
+`GET https://api.educonnections.ca/account`
 
 ##### Request Parameters
 
@@ -331,31 +331,184 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 
 ```js
 {
-  name: "John Doe",
-  email: "john@gmail.com",
-  profile: "https://api.educonnections.ca/profile/913219"
+    "accountId": "5f14ecfa182cd43318eda6ec",
+    "name": "at",
+    "email": "allan@gmail.com",
+    "spotifyVerified": true,
+    "spotify": {
+        "$init": true,
+        "accessToken": "",
+        "refreshToken": "",
+        "spotifyId": "helloWorld",
+        "displayName": "helloWorld",
+        "email": "helloworld@gmail.com",
+        "url": "https://open.spotify.com/user/helloworld",
+        "followers": 18,
+        "image": {
+            "_id": "5f14ee02182cd43318eda7f6",
+            "height": null,
+            "url": "https://i.scdn.co/image/ab6775700000ee852870f7611c845b919f68dd18",
+            "width": null
+        },
+        "country": null,
+        "artists": [
+            {
+                "accounts": [
+                    "5f14ecfa182cd43318eda6ec",
+                    "5f14ef55c52fd51d980dbea0",
+                    "5f14f2f6f607f94720fd2365"
+                ],
+                "genres": [
+                    "edm",
+                    "pop",
+                    "tropical house"
+                ],
+                "_id": "5f14ed89182cd43318eda720",
+                "spotifyId": "23fqKkggKUBHNkbKtXEls4",
+                "name": "Kygo",
+                "popularity": 90,
+                "followers": 6519489,
+                "image": {
+                    "_id": "5f14ed89182cd43318eda721",
+                    "height": 640,
+                    "url": "https://i.scdn.co/image/eee84c026e93f6d970fdc82c5010c45219530577",
+                    "width": 640
+                },
+                "url": "https://open.spotify.com/artist/23fqKkggKUBHNkbKtXEls4",
+                "__v": 2
+            },
+            {
+                "accounts": [
+                    "5f14ecfa182cd43318eda6ec",
+                    "5f14ef55c52fd51d980dbea0",
+                    "5f14f2f6f607f94720fd2365"
+                ],
+                "genres": [
+                    "bmore",
+                    "edm",
+                    "moombahton",
+                    "ninja",
+                    "pop"
+                ],
+                "_id": "5f14ed89182cd43318eda722",
+                "spotifyId": "5fMUXHkw8R8eOP2RNVYEZX",
+                "name": "Diplo",
+                "popularity": 87,
+                "followers": 2270522,
+                "image": {
+                    "_id": "5f14ed89182cd43318eda723",
+                    "height": 640,
+                    "url": "https://i.scdn.co/image/72783f9135e197d828a8652bbf73eee3b408e380",
+                    "width": 640
+                },
+                "url": "https://open.spotify.com/artist/5fMUXHkw8R8eOP2RNVYEZX",
+                "__v": 2
+            },
+            {
+                "accounts": [
+                    "5f14ecfa182cd43318eda6ec",
+                    "5f14ef55c52fd51d980dbea0",
+                    "5f14f2f6f607f94720fd2365"
+                ],
+                "genres": [
+                    "edm",
+                    "electropop",
+                    "melodic dubstep",
+                    "pop",
+                    "tropical house"
+                ],
+                "_id": "5f14ed89182cd43318eda724",
+                "spotifyId": "45eNHdiiabvmbp4erw26rg",
+                "name": "ILLENIUM",
+                "popularity": 80,
+                "followers": 892195,
+                "image": {
+                    "_id": "5f14ed89182cd43318eda725",
+                    "height": 640,
+                    "url": "https://i.scdn.co/image/13f93bc1aa54c82eb6deed1637b5049150cc9379",
+                    "width": 640
+                },
+                "url": "https://open.spotify.com/artist/45eNHdiiabvmbp4erw26rg",
+                "__v": 2
+            }
+        ],
+        "tracks": [
+            {
+                "accounts": [
+                    "5f14ecfa182cd43318eda6ec",
+                    "5f14ef55c52fd51d980dbea0",
+                    "5f14f2f6f607f94720fd2365"
+                ],
+                "_id": "5f14ed8a182cd43318eda752",
+                "spotifyId": "6p8eEdiZLKJH8tcjGZuNTK",
+                "name": "Run",
+                "popularity": 76,
+                "url": "https://open.spotify.com/track/6p8eEdiZLKJH8tcjGZuNTK",
+                "image": {
+                    "_id": "5f14ed8a182cd43318eda753",
+                    "height": 640,
+                    "url": "https://i.scdn.co/image/ab67616d0000b2734896429a87abfacd5d90587b",
+                    "width": 640
+                },
+                "audioPreviewURL": "https://p.scdn.co/mp3-preview/8e62d2ceec0caec7865779e603158827cd1d9bb8?cid=3a22559fa1d84159977d6166a9b5eb75",
+                "artists": [],
+                "__v": 2
+            },
+            {
+                "accounts": [
+                    "5f14ecfa182cd43318eda6ec",
+                    "5f14ef55c52fd51d980dbea0",
+                    "5f14f2f6f607f94720fd2365"
+                ],
+                "_id": "5f14ed8a182cd43318eda754",
+                "spotifyId": "30EjmPhNzAdbx0cLAZnCa2",
+                "name": "So Long",
+                "popularity": 22,
+                "url": "https://open.spotify.com/track/30EjmPhNzAdbx0cLAZnCa2",
+                "image": {
+                    "_id": "5f14ed8a182cd43318eda755",
+                    "height": 640,
+                    "url": "https://i.scdn.co/image/ab67616d0000b2734c81385212bf1e78693bd18e",
+                    "width": 640
+                },
+                "audioPreviewURL": null,
+                "artists": [],
+                "__v": 2
+            }
+        ]
+    },
+    "facebookVerified": true,
+    "courses": [
+        "5f14f06584729f245062e29c",
+        "5f14f06584729f245062e29b",
+        "5f14f06584729f245062e29d"
+    ]
 }
 ```
 
 ___
 
 
-### Calendar
+### Courses
 
 | METHOD | ENDPOINT | USAGE | RETURNS |
 |-|-|-|-|
-| `POST` | /calendar | Allows a user to upload an ics file for their profile | returns an array of [CalendarApiResponse Object](#CalendarApiResponse) |
+| `GET` | /courses | Allows us to find all the courses a user is in | Returns an array of courses that the user is enrolled in |
+| `POST` | /courses | Allows a user to upload an ics file for their profile | returns an array of [CalendarApiResponse Object](#CalendarApiResponse) |
 
 #### Endpoints
 
 **Note:** All endpoints below require the `Authorization` header with the access token
+
+##### Endpoint
+
+`GET https://api.educonnections.ca/courses`
 
 **Header Fields**
 
 | HEADER FIELD | VALUE | 
 |-|-|
 | Authorization | *Required*. A valid access token, issued on login or password reset |
-| Content-Type | *Required*. multipart/form-data |
 
 **Example Header**
 
@@ -364,14 +517,87 @@ ___
   "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 }
 ```
+##### Response Format
 
-##### <ins>Post Current User's Calendar</ins>
+On success, the HTTP status code in the response header is `200` OK and the response body contains an array of [CalendarApiResponse](#CourseGetResponse) object in JSON format, with an additional field called "accounts" which has the ObjectId and Name of all students enrolled in the course.
+
+**Note that each JSON object in the array represents a Course/Class in the uploaded Calendar, if a Calendar has 4 classes, the array will return 4 CalendarApiResponse objects.**
+
+**Response Example:** <a name="CourseGetResponse"></a>
+
+```js
+{
+    "courses": [
+        {
+            "courseId": "5f14f06584729f245062e29b",
+            "accounts": [
+                {
+                    "accountId": "5f14ecfa182cd43318eda6ec",
+                    "name": "at"
+                },
+                {
+                    "accountId": "5f14ef55c52fd51d980dbea0",
+                    "name": "demo"
+                }
+            ],
+            "courseDept": "CPSC",
+            "courseNumber": "436I",
+            "courseSection": "901",
+            "startDate": "2020-05-09T17:00:00.000Z",
+            "endDate": "2020-08-15T23:59:59.000Z"
+        },
+        {
+            "courseId": "5f14f06584729f245062e29c",
+            "accounts": [
+                {
+                    "accountId": "5f14ecfa182cd43318eda6ec",
+                    "name": "at"
+                },
+                {
+                    "accountId": "5f14ef55c52fd51d980dbea0",
+                    "name": "demo"
+                }
+            ],
+            "courseDept": "CPSC",
+            "courseNumber": "436I",
+            "courseSection": "L1A",
+            "startDate": "2020-05-13T00:00:00.000Z",
+            "endDate": "2020-08-04T23:59:59.000Z"
+        },
+        {
+            "courseId": "5f14f06584729f245062e29d",
+            "accounts": [
+                {
+                    "accountId": "5f14ecfa182cd43318eda6ec",
+                    "name": "at"
+                },
+                {
+                    "accountId": "5f14ef55c52fd51d980dbea0",
+                    "name": "demo"
+                }
+            ],
+            "courseDept": "COMM",
+            "courseNumber": "393",
+            "courseSection": "971",
+            "startDate": "2020-07-06T16:00:00.000Z",
+            "endDate": "2020-08-12T23:59:59.000Z"
+        }
+    ]
+}
+```
+
 
 ##### Endpoint
 
-`POST https://api.educonnections.ca/calendar`
+`POST https://api.educonnections.ca/courses`
 
-##### Request Parameters/Body
+##### Request Parameters/Body/Headers
+
+| HEADER FIELD | VALUE | 
+|-|-|
+| Authorization | *Required*. A valid access token, issued on login or password reset |
+| Content-Type | *Required*. multipart/form-data |
+
 
 *Request Body must contain a file of type .ics*
 
@@ -395,14 +621,12 @@ On success, the HTTP status code in the response header is `200` OK and the resp
   {
     "courseDept": "CPSC",
     "courseNum": "436I",
-    "courseSection": "901",
-    "uri": "https://api.educonnections.ca/courses/5ef6708bec0f5020c4816d74"
+    "courseSection": "901"
   },
   {
     "courseDept": "CPSC",
     "courseNum": "436I",
-    "courseSection": "L1A",
-    "uri": "https://api.educonnections.ca/courses/5ef6708bec0f5020c4816d75"
+    "courseSection": "L1A"
   }
 ]
 ```
