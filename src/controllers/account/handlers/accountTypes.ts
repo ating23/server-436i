@@ -7,5 +7,6 @@ export interface AccountApiReponse {
   spotifyVerified: boolean;
   spotify: Record<string, any>; // need to make a spotify type here? object has two keys (artists, tracks)
   facebookVerified: boolean;
+  facebook: Record<string, any>;
   courses: string[];
 }
