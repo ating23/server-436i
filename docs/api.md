@@ -29,6 +29,220 @@
 }
 ```
 
+## Spotify Objects
+
+
+### User Object
+
+##### Object Format
+
+| KEY | VALUE TYPE | VALUE DESCRIPTION |
+|-|-|-|
+| accessToken | `string` | The User's JWT token so that we can access their Spotify Info |
+| refreshToken | `string` | Refresh token for the above Spotify JWT token |
+| spotifyId | `string` | User's spotify username |
+| displayName | `string` | User's spotify username |
+| email | `string` | User's spotify email |
+| url | `string` | URL to the Spotify profile |
+| followers | `number` | Number of followers on user's Spotify profile |
+| image | `Object` | An object with fields: Height, Width, Url and _id (our mongodb ID) |
+| country | `string` | If exists, User's country on Spotify |
+| [artists](#artists) | `Object[]` | User's top 10 artists |
+| [tracks](#tracks) | `Object[]` | User's top 25 tracks. |
+
+** Example Body**
+```js
+{
+  "$init": true,
+  "accessToken": "",
+  "refreshToken": "",
+  "spotifyId": "helloWorld",
+  "displayName": "helloWorld",
+  "email": "helloworld@gmail.com",
+  "url": "https://open.spotify.com/user/helloworld",
+  "followers": 18,
+  "image": {
+      "_id": "5f14ee02182cd43318eda7f6",
+      "height": null,
+      "url": "https://i.scdn.co/image/ab6775700000ee852870f7611c845b919f68dd18",
+      "width": null
+  },
+  "country": null,
+  "artists": [
+      {
+          "accounts": [
+              "5f14ecfa182cd43318eda6ec",
+              "5f14ef55c52fd51d980dbea0",
+              "5f14f2f6f607f94720fd2365"
+          ],
+          "genres": [
+              "edm",
+              "pop",
+              "tropical house"
+          ],
+          "_id": "5f14ed89182cd43318eda720",
+          "spotifyId": "23fqKkggKUBHNkbKtXEls4",
+          "name": "Kygo",
+          "popularity": 90,
+          "followers": 6519489,
+          "image": {
+              "_id": "5f14ed89182cd43318eda721",
+              "height": 640,
+              "url": "https://i.scdn.co/image/eee84c026e93f6d970fdc82c5010c45219530577",
+              "width": 640
+          },
+          "url": "https://open.spotify.com/artist/23fqKkggKUBHNkbKtXEls4",
+          "__v": 2
+      },
+      {
+          "accounts": [
+              "5f14ecfa182cd43318eda6ec",
+              "5f14ef55c52fd51d980dbea0",
+              "5f14f2f6f607f94720fd2365"
+          ],
+          "genres": [
+              "bmore",
+              "edm",
+              "moombahton",
+              "ninja",
+              "pop"
+          ],
+          "_id": "5f14ed89182cd43318eda722",
+          "spotifyId": "5fMUXHkw8R8eOP2RNVYEZX",
+          "name": "Diplo",
+          "popularity": 87,
+          "followers": 2270522,
+          "image": {
+              "_id": "5f14ed89182cd43318eda723",
+              "height": 640,
+              "url": "https://i.scdn.co/image/72783f9135e197d828a8652bbf73eee3b408e380",
+              "width": 640
+          },
+          "url": "https://open.spotify.com/artist/5fMUXHkw8R8eOP2RNVYEZX",
+          "__v": 2
+      },
+      {
+          "accounts": [
+              "5f14ecfa182cd43318eda6ec",
+              "5f14ef55c52fd51d980dbea0",
+              "5f14f2f6f607f94720fd2365"
+          ],
+          "genres": [
+              "edm",
+              "electropop",
+              "melodic dubstep",
+              "pop",
+              "tropical house"
+          ],
+          "_id": "5f14ed89182cd43318eda724",
+          "spotifyId": "45eNHdiiabvmbp4erw26rg",
+          "name": "ILLENIUM",
+          "popularity": 80,
+          "followers": 892195,
+          "image": {
+              "_id": "5f14ed89182cd43318eda725",
+              "height": 640,
+              "url": "https://i.scdn.co/image/13f93bc1aa54c82eb6deed1637b5049150cc9379",
+              "width": 640
+          },
+          "url": "https://open.spotify.com/artist/45eNHdiiabvmbp4erw26rg",
+          "__v": 2
+      }
+  ],
+  "tracks": [
+      {
+          "accounts": [
+              "5f14ecfa182cd43318eda6ec",
+              "5f14ef55c52fd51d980dbea0",
+              "5f14f2f6f607f94720fd2365"
+          ],
+          "_id": "5f14ed8a182cd43318eda752",
+          "spotifyId": "6p8eEdiZLKJH8tcjGZuNTK",
+          "name": "Run",
+          "popularity": 76,
+          "url": "https://open.spotify.com/track/6p8eEdiZLKJH8tcjGZuNTK",
+          "image": {
+              "_id": "5f14ed8a182cd43318eda753",
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2734896429a87abfacd5d90587b",
+              "width": 640
+          },
+          "audioPreviewURL": "https://p.scdn.co/mp3-preview/8e62d2ceec0caec7865779e603158827cd1d9bb8?cid=3a22559fa1d84159977d6166a9b5eb75",
+          "artists": [],
+          "__v": 2
+      },
+      {
+          "accounts": [
+              "5f14ecfa182cd43318eda6ec",
+              "5f14ef55c52fd51d980dbea0",
+              "5f14f2f6f607f94720fd2365"
+          ],
+          "_id": "5f14ed8a182cd43318eda754",
+          "spotifyId": "30EjmPhNzAdbx0cLAZnCa2",
+          "name": "So Long",
+          "popularity": 22,
+          "url": "https://open.spotify.com/track/30EjmPhNzAdbx0cLAZnCa2",
+          "image": {
+              "_id": "5f14ed8a182cd43318eda755",
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2734c81385212bf1e78693bd18e",
+              "width": 640
+          },
+          "audioPreviewURL": null,
+          "artists": [],
+          "__v": 2
+      }
+  ]
+}
+```
+
+
+### Artist Object
+
+##### Object Format
+
+| KEY | VALUE TYPE | VALUE DESCRIPTION |
+|-|-|-|
+| accounts | `String[]` | An array of Mongo ObjectIds, Contains all accounts in our mongoDB that also like this artist |
+| genres | `string[]` | Genres this artist is associated with |
+| _id | `string` | MongoDB Id for this artist |
+| spotifyId | `string` | Artist's spotify UUID |
+| name | `string` | Artist's name |
+| popularity | `number` | Number score of Artist's popularity on Spotify |
+| followers | `number` | Number of followers on Artist's Spotify profile |
+| image | `Object` | An object with fields: Height, Width, Url and _id (our mongodb ID) |
+| url | `string` | Artist's URL on Spotify |
+
+** Example Body**
+```js
+{
+    "accounts": [
+        "5f14ecfa182cd43318eda6ec",
+        "5f14ef55c52fd51d980dbea0",
+        "5f14f2f6f607f94720fd2365"
+    ],
+    "genres": [
+        "edm",
+        "pop",
+        "tropical house"
+    ],
+    "_id": "5f14ed89182cd43318eda720",
+    "spotifyId": "23fqKkggKUBHNkbKtXEls4",
+    "name": "Kygo",
+    "popularity": 90,
+    "followers": 6519489,
+    "image": {
+        "_id": "5f14ed89182cd43318eda721",
+        "height": 640,
+        "url": "https://i.scdn.co/image/eee84c026e93f6d970fdc82c5010c45219530577",
+        "width": 640
+    },
+    "url": "https://open.spotify.com/artist/23fqKkggKUBHNkbKtXEls4",
+    "__v": 2
+}
+```
+
+
 ___
 
 ## Endpoints
@@ -323,9 +537,11 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 
 | KEY | VALUE TYPE | VALUE DESCRIPTION |
 |-|-|-|
-| [profile]() | `string` | URI for User's profile route |
+| accountId | `string` | URI for User's profile route |
 | name | `string` | User's name |
-| email | `string` | User's name |
+| email | `string` | User's email |
+| spotifyVerified | `boolean` | Indicates if this user has integrated their Spotify account |
+| spotify | `Object` | contains a [Spotify Object](#SpotifyObject) if user has integrated Spotify account |
 
 **Reponse Example:**
 
