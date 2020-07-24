@@ -281,6 +281,43 @@
 }
 ```
 
+## Facebook Objects 
+
+### User Object <a name='facebookuser'></a>
+
+##### Object Format
+
+| KEY | VALUE TYPE | VALUE DESCRIPTION |
+|-|-|-|
+| likes | `string[]` | Array of mongoDB IDs. These refer to the user's likes |
+| _id | `string` | MongoDB Id for the facebook user object |
+| facebookId | `string` | User's facebook UUID |
+| name | `string` | User's facebook name |
+| hometown | `string` | if exists, User's facebook hometown |
+| profilePicURL | `string` | URL to the User's facebook profile pic |
+
+** Example Body**
+```js
+"facebook": {
+    "likes": [
+        "5f14ed5f182cd43318eda6ed",
+        "5f14ed5f182cd43318eda6ee",
+        "5f14ed5f182cd43318eda6ef",
+        "5f14ed5f182cd43318eda6f1",
+        "5f14ed5f182cd43318eda6f0",
+        "5f14ed5f182cd43318eda6f2",
+        "5f14ed5f182cd43318eda6f3",
+        "5f14ed5f182cd43318eda6f4"
+    ],
+    "_id": "5f1a917b7ebe503004142f62",
+    "facebookId": "10214465770756780",
+    "name": "Hello World",
+    "hometown": "",
+    "profilePicURL": "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10214465770756780&height=50&width=50&ext=1598168698&hash=AeSNfPi-e2"
+}
+```
+
+
 ___
 
 ## Endpoints
@@ -581,7 +618,7 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 | spotifyVerified | `boolean` | Indicates if this user has integrated their Spotify account |
 | spotify | `Object` | contains a [Spotify Object](#SpotifyObject) if user has integrated Spotify account |
 | facebookVerified | `boolean` | Indicates if this user has integrated their Facebook account |
-| facebook | `Object` | contains a [Facebook Object]() if user has integrated their facebook account |
+| facebook | `Object` | contains a [Facebook Object](#facebookuser) if user has integrated their facebook account |
 
 **Reponse Example:**
 
@@ -734,6 +771,23 @@ On success, the HTTP status code in the response header is `200` OK and the resp
         ]
     },
     "facebookVerified": true,
+    "facebook": {
+        "likes": [
+            "5f14ed5f182cd43318eda6ed",
+            "5f14ed5f182cd43318eda6ee",
+            "5f14ed5f182cd43318eda6ef",
+            "5f14ed5f182cd43318eda6f1",
+            "5f14ed5f182cd43318eda6f0",
+            "5f14ed5f182cd43318eda6f2",
+            "5f14ed5f182cd43318eda6f3",
+            "5f14ed5f182cd43318eda6f4"
+        ],
+        "_id": "5f1a917b7ebe503004142f62",
+        "facebookId": "10214465770756780",
+        "name": "Hello World",
+        "hometown": "",
+        "profilePicURL": "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10214465770756780&height=50&width=50&ext=1598168698&hash=AeSNfPi-e2"
+    },
     "courses": [
         "5f14f06584729f245062e29c",
         "5f14f06584729f245062e29b",
