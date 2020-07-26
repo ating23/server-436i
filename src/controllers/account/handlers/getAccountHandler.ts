@@ -7,6 +7,27 @@ import { AccountApiReponse } from "./accountTypes";
 import SpotifyArtistsModel from "../../../db/models/SpotifyArtists.model";
 import SpotifyTracksModel from "../../../db/models/SpotifyTracks.model";
 import { Types } from "mongoose";
+import FacebookLikesDocument from "../../../db/models/FacebookLikes.model";
+
+export interface FacebookLike {
+  likeId: string;
+  description: string;
+  accounts: string[];
+}
+
+function transformLikes(likes: FacebookLikesDocument[]): FacebookLike[] {
+  const ret: FacebookLike[] = []
+
+  likes.forEach((like: FacebookLikesDocument) => {
+    ret.push({
+      likeId: like._id,
+      description: like.like,
+      accounts: like.accounts
+    })
+  })
+
+  return ret;
+}
 
 async function generateAccountApiResponse(account: AccountsDocument): Promise<AccountApiReponse> {
   const artists = await SpotifyArtistsModel.find({
@@ -17,16 +38,29 @@ async function generateAccountApiResponse(account: AccountsDocument): Promise<Ac
     _id: { $in: account.spotify.tracks.map(track => Types.ObjectId(track)) }
   })
 
-  return {
+  const allLikes =  await FacebookLikesDocument.find({
+    _id: { $in: account.facebook.likes.map(like=> Types.ObjectId(like)) }
+  })
+  const likes = transformLikes(allLikes)
+
+  const x = {
     accountId: account.id,
     name: account.name,
     email: account.email,
     spotifyVerified: account.spotifyVerified,
     spotify: {...account.spotify, artists, tracks},
     facebookVerified: account.facebookVerified,
-    facebook: account.facebook,
+    facebook: {
+      facebookId: account.facebook.facebookId,
+      name: account.facebook.name,
+      profilePicURL: account.facebook.profilePicURL,
+      email: account.facebook.email,
+      hometown: account.facebook.hometown,
+      likes
+    },
     courses: account.courses
   }
+   return x;
 }
 
 export default async function getAccountHandler (req: Request, res: Response, next: NextFunction): Promise<void> {
