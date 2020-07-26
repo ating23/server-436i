@@ -15,13 +15,13 @@ interface SpotifyTracksDocument extends Document {
   // Data
   name: string;
   popularity: number;
-  url: string;
   image: {
     height: number;
     width: number;
     url: string;
   };
   audioPreviewURL: string;
+  url: string;
   artists: SpotifyArtist[];
 }
 

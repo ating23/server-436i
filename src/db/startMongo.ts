@@ -10,6 +10,8 @@ export default function startMongo(): void {
     useUnifiedTopology: true,
     useCreateIndex: true,
     autoIndex: false,
+  }, (error) => {
+    console.log("Mongo Error: ", error)
   })
   
   connection.on("error", console.error.bind(console, "connection error:"))

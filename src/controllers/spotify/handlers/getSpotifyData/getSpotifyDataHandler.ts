@@ -6,6 +6,7 @@ import getTopTracksData from "./helpers/getSpotifyTopTracksData"
 import SpotifyArtistsModel from "../../../../db/models/SpotifyArtists.model"
 import AccountsModel from "../../../../db/models/Accounts.model"
 import SpotifyTracksModel from "../../../../db/models/SpotifyTracks.model"
+import statusCodes from "../../../../api/statusCodes"
 import { 
   SpotifyArtistsData, 
   SpotifyTracksData, 
@@ -16,7 +17,6 @@ import {
   SpotifyEmptyResultError, 
   SpotifyServiceDownError 
 } from "../../../../errors/messages/ServicesErrorMessages"
-import statusCodes from "../../../../api/statusCodes"
 
 export default async function getSpotifyUserDataHandler(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id: accountId } = res.locals.token

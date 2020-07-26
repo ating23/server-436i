@@ -2,7 +2,6 @@ import { Schema } from "mongoose"
 import { accountsDec } from "../modelDeclarations"
 
 const coursesSchema: Schema = new Schema({
-  // _id: ObjectId // automatically created by Mongoose
   courseId: {
     required: true,
     type: String

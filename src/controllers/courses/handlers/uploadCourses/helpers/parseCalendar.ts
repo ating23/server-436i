@@ -27,7 +27,7 @@ function getLatestEndDate (array: CalendarItem[]): Date {
   return latestDate
 }
 
-function generateHash (
+export function generateHash (
   courseDept: string, 
   courseNumber: string, 
   courseSection: string, 
