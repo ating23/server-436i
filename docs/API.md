@@ -1,6 +1,5 @@
 # API Reference
 
-
 ## Objects
 
 ## Access Token Objects
@@ -940,10 +939,4 @@ On success, the HTTP status code in the response header is `200` OK and the resp
   }
 ]
 ```
-___
-
-
-
-
-
 ___

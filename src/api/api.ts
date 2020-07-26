@@ -21,7 +21,7 @@ import facebookRouter from "../controllers/facebook/facebookRouter"
 import sessionRouter from "../controllers/session/sessionRouter"
 import spotifyRouter from "../controllers/spotify/spotifyRouter"
 import matchesRouter from "../controllers/matches/matchesRouter"
-import testRouter from "../controllers/test/testRouter"
+// import testRouter from "../controllers/test/testRouter"
 
 const api = express()
 
@@ -34,8 +34,8 @@ api.use(sessionRoutes, sessionRouter)
 api.use(facebookRoutes, verifyAuthorizationToken, facebookRouter)
 api.use(spotifyRoutes, spotifyRouter)
 
-if (process.env.NODE_ENV === "development") {
-  api.use(testRoutes, testRouter)
-}
+// if (process.env.NODE_ENV === "development") {
+//   api.use(testRoutes, testRouter)
+// }
 
 export default api
