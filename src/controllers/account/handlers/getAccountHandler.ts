@@ -11,7 +11,7 @@ import FacebookLikesDocument from "../../../db/models/FacebookLikes.model";
 
 export interface FacebookLike {
   likeId: string;
-  description: string;
+  name: string;
   accounts: string[];
 }
 
@@ -21,7 +21,7 @@ function transformLikes(likes: FacebookLikesDocument[]): FacebookLike[] {
   likes.forEach((like: FacebookLikesDocument) => {
     ret.push({
       likeId: like._id,
-      description: like.name,
+      name: like.name,
       accounts: like.accounts
     })
   })
