@@ -7,7 +7,7 @@ interface FacebookLikesDocument extends Document {
   facebookId: string;
   accounts: string[];
   // Data
-  like: string;
+  name: string;
 }
 
 const FacebookLikesDocument = model<FacebookLikesDocument>(facebookLikesDec, facebookLikesSchema)

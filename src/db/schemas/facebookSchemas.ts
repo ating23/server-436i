@@ -25,5 +25,5 @@ export const facebookLikesSchema: Schema = new Schema({
     ref: accountsDec
   }],
   // Data
-  like: String
+  name: String
 })

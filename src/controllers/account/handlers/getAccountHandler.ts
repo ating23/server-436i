@@ -21,7 +21,7 @@ function transformLikes(likes: FacebookLikesDocument[]): FacebookLike[] {
   likes.forEach((like: FacebookLikesDocument) => {
     ret.push({
       likeId: like._id,
-      description: like.like,
+      description: like.name,
       accounts: like.accounts
     })
   })
@@ -39,7 +39,7 @@ async function generateAccountApiResponse(account: AccountsDocument): Promise<Ac
   })
 
   const allLikes =  await FacebookLikesDocument.find({
-    _id: { $in: account.facebook.likes.map(like=> Types.ObjectId(like)) }
+    _id: { $in: account.facebook.likes.map(like => Types.ObjectId(like)) }
   })
   const likes = transformLikes(allLikes)
 
