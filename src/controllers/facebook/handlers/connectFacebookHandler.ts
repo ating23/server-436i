@@ -61,12 +61,12 @@ export default async function connectFacebookHandler (req: Request, res: Respons
       }
       
       const likeItem = await FacebookLikesDocument.findOne({ 
-        like: fbLike
+        name: fbLike
       })
       if (!likeItem) {
         const newLike = new FacebookLikesDocument({
           accounts: [accountId],
-          like: fbLike,
+          name: fbLike,
         })
         const savedLike = await newLike.save()
         likesIds.push(savedLike._id)
