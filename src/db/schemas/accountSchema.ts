@@ -3,7 +3,8 @@ import { facebookAccountsSchema } from "./facebookSchemas"
 import { 
   coursesDec, 
   spotifyArtistsDec, 
-  spotifyTracksDec 
+  spotifyTracksDec, 
+  facebookLikesDec
 } from "../modelDeclarations"
 import { SpotifyImageSchema } from "./spotifySchemas"
 
@@ -38,7 +39,18 @@ const accountsSchema: Schema = new Schema({
     required: true
   },
   // End Flags
-  facebook: facebookAccountsSchema,
+  // facebook: facebookAccountsSchema,
+  facebook: {
+    facebookId: String,
+    name: String,
+    email: String,
+    hometown: String,
+    profilePicURL: String,
+    likes: [{
+      type: Schema.Types.ObjectId,
+      ref: facebookLikesDec
+    }]
+  },
   spotify: {
     // Authentication
     accessToken: String,
