@@ -41,7 +41,7 @@ async function generateAccountApiResponse(account: AccountsDocument): Promise<Ac
   })
   const likes = transformLikes(allLikes)
 
-  const x = {
+  return {
     accountId: account.id,
     name: account.name,
     email: account.email,
@@ -58,7 +58,6 @@ async function generateAccountApiResponse(account: AccountsDocument): Promise<Ac
     },
     courses: account.courses
   }
-   return x;
 }
 
 export default async function getAccountHandler (req: Request, res: Response, next: NextFunction): Promise<void> {
