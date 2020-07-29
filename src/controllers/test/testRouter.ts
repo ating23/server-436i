@@ -61,6 +61,7 @@ testRouter.get("/reset", async (_req: Request, res: Response) => {
     console.log("educonnections database dropped")
     await generateDB()
     console.log("educonections test database generated")
+    res.status(statusCodes.CREATED).json({ message: "educonnections test database generated. "})
   }
   catch (error) {
     res.status(statusCodes.INTERNAL_SERVER_ERROR).json({ message: "Could not complete the request "})
