@@ -6,14 +6,14 @@ import SpotifyArtistsModel from "../../../db/models/SpotifyArtists.model"
 import SpotifyTracksModel from "../../../db/models/SpotifyTracks.model"
 
 interface MatchObject {
-  matches: number
-  courses: string[]
-  artists: string[]
-  tracks: string[]
+  matches: number;
+  courses: string[];
+  artists: string[];
+  tracks: string[];
 }
 
-interface IStudentHashMap {
-  [studentId: string]: MatchObject
+interface StudentHashMap {
+  [studentId: string]: MatchObject;
 }
 
 async function getMatchesHandler (req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -25,7 +25,7 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
       return next (new Error("Account was not found"))
     }
 
-    const StudentHashMap: IStudentHashMap = {}
+    const StudentHashMap: StudentHashMap = {}
     const { courses, spotify } = account
     const { artists, tracks } = spotify
 
