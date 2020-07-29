@@ -1,11 +1,11 @@
 import { Schema } from "mongoose"
+import { SpotifyImageSchema } from "./spotifySchemas"
 import { 
   coursesDec, 
-  facebookLikesDec, 
   spotifyArtistsDec, 
-  spotifyTracksDec 
+  spotifyTracksDec, 
+  facebookLikesDec
 } from "../modelDeclarations"
-import { SpotifyImageSchema } from "./spotifySchemas"
 
 const accountsSchema: Schema = new Schema({
   name: {

@@ -38,34 +38,31 @@ export default async function connectFacebookHandler(req: Request, res: Response
     console.log("Recording Facebook data to MongoDB")
 
     const likesIds: string[] = []
-    await Promise.all(
-      fbLikes.map(async function saveFbLike(fbLike) {
-        const account = await AccountsModel.findById(accountId)
-        if (!account) {
-          throw new Error("An account was not found.")
-        }
-
-        const likeItem = await FacebookLikesModel.findOne({
-          like: fbLike,
-        })
-        if (!likeItem) {
-          const newLike = new FacebookLikesModel({
-            accounts: [accountId],
-            like: fbLike,
-          })
-          const savedLike = await newLike.save()
-          likesIds.push(savedLike._id)
-        }
-        // Likes already exists : id
-        else {
-          if (!likeItem.accounts.includes(accountId)) {
-            likeItem.accounts.push(accountId)
-          }
-          await likeItem.save()
-          likesIds.push(likeItem._id)
-        }
+    await Promise.all(fbLikes.map(async function saveFbLike(fbLike) {
+      const account = await AccountsModel.findById(accountId)
+      if (!account) {
+        throw new Error ("An account was not found.")
+      }
+      
+      const likeItem = await FacebookLikesModel.findOne({ 
+        name: fbLike
       })
-    )
+      if (!likeItem) {
+        const newLike = new FacebookLikesModel({
+          accounts: [accountId],
+          name: fbLike,
+        })
+        const savedLike = await newLike.save()
+        likesIds.push(savedLike._id)
+      }
+      else {
+        if (!likeItem.accounts.includes(accountId)) {
+          likeItem.accounts.push(accountId)
+        }
+        await likeItem.save()
+        likesIds.push(likeItem._id)
+      }
+    }))
 
     await AccountsModel.findByIdAndUpdate(accountId, {
       facebookVerified: true,
