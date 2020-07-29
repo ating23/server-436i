@@ -2,7 +2,7 @@ import { Document, model } from "mongoose"
 import { facebookLikesDec } from "../modelDeclarations"
 import { facebookLikesSchema } from "../schemas/facebookSchemas"
 
-interface FacebookLikesDocument extends Document {
+export interface FacebookLikesDocument extends Document {
   facebookId: string;
   accounts: string[];
   name: string;

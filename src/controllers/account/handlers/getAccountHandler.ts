@@ -7,7 +7,7 @@ import { AccountApiReponse } from "./accountTypes";
 import SpotifyArtistsModel from "../../../db/models/SpotifyArtists.model";
 import SpotifyTracksModel from "../../../db/models/SpotifyTracks.model";
 import { Types } from "mongoose";
-import FacebookLikesDocument from "../../../db/models/FacebookLikes.model";
+import FacebookLikesModel, { FacebookLikesDocument } from "../../../db/models/FacebookLikes.model";
 
 export interface FacebookLike {
   likeId: string;
@@ -36,7 +36,7 @@ async function generateAccountApiResponse(account: AccountsDocument): Promise<Ac
     _id: { $in: account.spotify.tracks.map(track => Types.ObjectId(track)) }
   })
 
-  const allLikes =  await FacebookLikesDocument.find({
+  const allLikes =  await FacebookLikesModel.find({
     _id: { $in: account.facebook.likes.map(like => Types.ObjectId(like)) }
   })
   const likes = transformLikes(allLikes)
