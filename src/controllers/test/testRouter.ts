@@ -1,18 +1,12 @@
-import express, { Request, Response } from "express";
-import Logger from "../../errors/Logger";
-import Nodemailer from "../../helpers/nodemailer/Nodemailer";
-import AccountModel from "../../db/models/Accounts.model";
-import generateVerifyCodeEmail from "../../helpers/nodemailer/emails/generateVerifyCodeEmail";
-const localDB = require("../../db/startMongo");
-import bcrypt from "bcryptjs";
-const assert = require("assert");
-const MongoClient = require("mongodb").MongoClient;
-var ObjectID = require("mongodb").ObjectID;
-import { async } from "node-ical";
-import { Collection } from "mongoose";
-import { MongoObjectIdCastError } from "../../errors/messages/ServicesErrorMessages";
-import AccountsModel from "../../db/models/Accounts.model";
-const testRouter = express.Router();
+import express, { Request, Response } from "express"
+import mongoose from "mongoose"
+import Logger from "../../errors/Logger"
+import Nodemailer from "../../helpers/nodemailer/Nodemailer"
+import AccountModel from "../../db/models/Accounts.model"
+import generateVerifyCodeEmail from "../../helpers/nodemailer/emails/generateVerifyCodeEmail"
+import generateDB from "../../db/data/generateDB"
+import statusCodes from "../../api/statusCodes"
+const testRouter = express.Router()
 
 /**
  * @Test api
@@ -55,68 +49,24 @@ testRouter.get("/mail", async (req: Request, res: Response) => {
   newMail.sendMail();
 
   return res.json({ received: true });
-});
-testRouter.get("/resetDB", async (req: Request, res: Response) => {
-  // Connection URL
-  const uri =
-    "mongodb+srv://ismail:8rgtjgcw0oo@sandbox-u2eog.mongodb.net/<dbname>?retryWrites=true&w=majority";
-  const client = new MongoClient(uri, { useNewUrlParser: true });
-  try {
-    client.connect(async () => {
-      // Connection URL
-      const url = "mongodb://localhost:27017";
+})
 
-      // Database Name
-      const dbName = "educonnections";
-      //clearing the collection before re-writing
-      MongoClient.connect(url, function (
-        err: any,
-        localClient: { db: (arg0: string) => any }
-      ) {
-        assert.equal(null, err);
-        console.log("Connected successfully to server");
-
-        const db = localClient.db(dbName);
-        db.collection("accounts").remove();
-      });
-
-      var accounts = client.db("dummyData").collection("accounts").find();
-      accounts.forEach(
-        (account: { password: string; name: any; email: any }) => {
-          const salt = bcrypt.genSaltSync(10);
-          const passwordHash = bcrypt.hashSync(account.password);
-          const newAccount = new AccountsModel({
-            name: account.name,
-            email: account.email,
-            password: passwordHash,
-          });
-          newAccount.save();
-        }
-      );
-      /**const collection = client.db("dummyData").collection("accounts");
-
-      collection.inse rtOne;
-      var i;
-      for (i = 0; i < 10; i++) {
-        var object = {
-          _id: new ObjectID(),
-          name: randomEl(adjectives) + randomEl(nouns),
-          email: makeEmail(),
-          password: generatePassword(),
-          spotifyVerified: false,
-          facebookVerified: false,
-        };
-        collection.insertOne(object);
-      }
-      // perform actions on the collection object
-      client.close();**/
-    });
-    Logger.Log("resetting DB");
-
-    return res.json({ received: true });
-  } catch (e) {
-    Logger.Log("error occured in connected dummy data DB");
+testRouter.get("/reset", async (_req: Request, res: Response) => {
+  if (process.env.NODE_ENV !== "development") {
+    res.status(statusCodes.BAD_REQUEST)
+    return 
   }
-});
+  try {
+    await mongoose.connection.db.dropDatabase()
+    console.log("educonnections database dropped")
+    await generateDB()
+    console.log("educonections test database generated")
+    res.status(statusCodes.CREATED).json({ message: "educonnections test database generated. "})
+  }
+  catch (error) {
+    res.status(statusCodes.INTERNAL_SERVER_ERROR).json({ message: "Could not complete the request "})
+    return
+  }
+})
 
-export default testRouter;
+export default testRouter

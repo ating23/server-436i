@@ -21,7 +21,7 @@ async function handleLogin (req: Request, res: Response, next: NextFunction): Pr
     const account = await AccountsModel.findOne ({ email: clientEmail })
     Logger.Log ("Mongo query complete.")
     if (!account)  {
-      Logger.Error ("Error in login. No account found.")
+      Logger.Error ("Error in login. No account found: ", account)
       return next (InvalidLoginError)
     }
     

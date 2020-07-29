@@ -37,5 +37,5 @@ export function handleErrors (req: Request, _res: Response, next: NextFunction):
     Logger.Log ("No errors found in request.")
     return next()
   }
-  return next(new ErrorHandler ("Validation Error", statusCodes.BAD_REQUEST, "Validation errors in Signup"))
+  return next(new ErrorHandler ("Validation Error", statusCodes.BAD_REQUEST, errors.array()[0].msg))
 }
