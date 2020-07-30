@@ -70,15 +70,14 @@ async function generateAccountApiResponse(
     courses: account.courses,
   };
 }
-
-export default async function getAccountHandler(
+export default async function getProfileHandler(
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  const { id } = res.locals.token;
+  const { id } = res.locals.id;
   Logger.Log("Id: ", id);
-
+  Logger.Log("YEET");
   try {
     const account = await AccountModel.findById(id);
     Logger.Log("Account: ", account);
