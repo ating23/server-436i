@@ -60,3 +60,9 @@ export const SpotifyBearerTokenError = new ErrorHandler(
   statusCodes.BAD_REQUEST,
   "Check the token in the request to Spotify's API"
 )
+
+export const FacebookDataRetrievalError = new ErrorHandler(
+  "Cannot retrive user's information from Facebook API",
+  statusCodes.BAD_REQUEST,
+  "Check the Facebook API response"
+)

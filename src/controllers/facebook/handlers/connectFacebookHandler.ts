@@ -1,15 +1,16 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 import Axios from "axios"
 import AccountsModel from "../../../db/models/Accounts.model"
 import FacebookLikesModel from "../../../db/models/FacebookLikes.model"
 import statusCodes from "../../../api/statusCodes"
+import { FacebookDataRetrievalError } from "../../../errors/messages/ServicesErrorMessages"
 
 const FACEBOOK_VERSION = "v7.0"
 
-export default async function connectFacebookHandler(req: Request, res: Response): Promise<Response> {
+export default async function connectFacebookHandler(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { body } = req
   if (!body) {
-    return res.status(400).json({ success: false, error: "You must provide a body" })
+    res.status(400).send("You must provide a body")
   }
 
   const accountId = res.locals.token.id
@@ -79,16 +80,9 @@ export default async function connectFacebookHandler(req: Request, res: Response
     })
     console.log("Successfully recorded Facebook data to MongoDB")
     res.status(statusCodes.OK)
-    return res.status(200).json({
-      success: true,
-      message: "Successfully connected your account to Facebook!",
-    })
+    return
   } 
   catch (error) {
-    console.log("error in try-catch: ", error.message)
-    return res.status(404).json({
-      success: true,
-      error: "Cannot retrieve information from Facebook...",
-    })
+    return next(FacebookDataRetrievalError)
   }
 }
