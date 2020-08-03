@@ -7,9 +7,11 @@ import SpotifyTracksModel from "../../../db/models/SpotifyTracks.model"
 
 interface MatchObject {
   matches: number;
-  courses: string[];
-  artists: string[];
-  tracks: string[];
+  profileURL: string;
+  commonCourses: string[];
+  commonArtists: string[];
+  commonTracks: string[];
+  // commonLikes: string[];
 }
 
 interface StudentHashMap {
@@ -26,7 +28,7 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
     }
 
     const StudentHashMap: StudentHashMap = {}
-    const { courses, spotify } = account
+    const { courses, spotify, facebook } = account
     const { artists, tracks } = spotify
 
     /**
@@ -61,15 +63,16 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
         for (const account of accounts) {
           if (account == accountId) continue
           if(StudentHashMap[account]) {
-            StudentHashMap[account].courses.push(courseId)
+            StudentHashMap[account].commonCourses.push(courseId)
             StudentHashMap[account].matches++
           } 
           else {
             StudentHashMap[account] = {
               matches: 1,
-              artists: [],
-              courses: [courseId],
-              tracks: []
+              commonArtists: [],
+              commonCourses: [courseId],
+              commonTracks: [],
+              profileURL: ""
             }
           }
         }
@@ -86,15 +89,16 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
         for (const account of accounts) {
           if (account == accountId) continue
           if(StudentHashMap[account]) {
-            StudentHashMap[account].artists.push(artistId)
+            StudentHashMap[account].commonArtists.push(artistId)
             StudentHashMap[account].matches++
           } 
           else {
             StudentHashMap[account] = {
               matches: 1,
-              artists: [artistId],
-              courses: [],
-              tracks: []
+              commonArtists: [artistId],
+              commonCourses: [],
+              commonTracks: [],
+              profileURL: ""
             }
           }
         }
@@ -111,15 +115,16 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
         for (const account of accounts) {
           if (account == accountId) continue
           if(StudentHashMap[account]) {
-            StudentHashMap[account].tracks.push(trackId)
+            StudentHashMap[account].commonTracks.push(trackId)
             StudentHashMap[account].matches++
           } 
           else {
             StudentHashMap[account] = {
               matches: 1,
-              artists: [],
-              courses: [],
-              tracks: [trackId]
+              commonArtists: [],
+              commonCourses: [],
+              commonTracks: [trackId],
+              profileURL: ""
             }
           }
         }
@@ -127,8 +132,35 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
     }
 
     /**
+     * @FacebookLikes Matching
+     */
+
+    /**
+     * Generate @ProfilePic
+     */
+    for (const studentId in StudentHashMap) {
+      const account = await AccountsModel.findById(studentId)
+      if (!account) {
+        return next (new Error("Account was not found"))
+      }
+      const spotifyImgURL = account.spotifyVerified? account.spotify.image? account.spotify.image.url : null : null
+      const facebookImgURL = account.facebookVerified? account.facebook.profilePicURL? account.facebook.profilePicURL : null : null
+      let imageURL = ""
+      if (spotifyImgURL) {
+        imageURL = spotifyImgURL
+      }
+      if (!imageURL && facebookImgURL){
+        imageURL = facebookImgURL
+      }
+      StudentHashMap[studentId].profileURL = imageURL
+    }
+
+    /**
      * Generate @Response (JSON)
      */
+    console.log("======DONE MATCHING=======")
+    console.log(StudentHashMap)
+    console.log("==========================")
     const matchesIds = Object.keys(StudentHashMap)
     const mongoAccountMatches = await AccountsModel.find({
       _id: { $in: matchesIds.map(matchId => Types.ObjectId(matchId)) }
@@ -137,7 +169,12 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
     const matches = mongoAccountMatches.map(accountMatch => ({
       accountId: accountMatch._id,
       name: accountMatch.name,
-      matchData: StudentHashMap[accountMatch._id]
+      profileURL: StudentHashMap[accountMatch._id].profileURL,
+      matches: StudentHashMap[accountMatch._id].matches,
+      commonCourses: StudentHashMap[accountMatch._id].commonCourses,
+      commonArtists: StudentHashMap[accountMatch._id].commonArtists,
+      commonTracks: StudentHashMap[accountMatch._id].commonTracks,
+      // commonLikes: StudentHashMap[accountMatch._id].commonLikes
     }))
 
     res.json({ matches })
