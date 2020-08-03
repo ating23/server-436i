@@ -4,6 +4,7 @@ import AccountsModel from "../../../db/models/Accounts.model"
 import CoursesModel from "../../../db/models/Courses.model"
 import SpotifyArtistsModel from "../../../db/models/SpotifyArtists.model"
 import SpotifyTracksModel from "../../../db/models/SpotifyTracks.model"
+import FacebookLikesModel from "../../../db/models/FacebookLikes.model"
 
 interface MatchObject {
   matches: number;
@@ -11,7 +12,7 @@ interface MatchObject {
   commonCourses: CourseMatchObject[];
   commonArtists: ArtistMatchObject[];
   commonTracks: TrackMatchObject[];
-  // commonLikes: string[];
+  commonLikes: FacebookLikeObject[];
 }
 
 interface ArtistMatchObject {
@@ -33,6 +34,11 @@ interface CourseMatchObject {
   courseId: string;
   courseNumber: string;
   courseSection: string;
+}
+
+interface FacebookLikeObject {
+  likeId: string;
+  name: string;
 }
 
 interface StudentHashMap {
@@ -64,6 +70,9 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
     const mongoTracks = await SpotifyTracksModel.find({
       _id: { $in: tracks.map(track => Types.ObjectId(track)) }
     })
+    const facebookLikes = await FacebookLikesModel.find({
+      _id: { $in: facebook.likes.map(like => Types.ObjectId(like)) }
+    })
     
     /**
      * @Courses Matching
@@ -89,6 +98,7 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
               commonArtists: [],
               commonCourses: [course],
               commonTracks: [],
+              commonLikes: [],
               profileURL: ""
             }
           }
@@ -120,6 +130,7 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
               commonArtists: [artist],
               commonCourses: [],
               commonTracks: [],
+              commonLikes: [],
               profileURL: ""
             }
           }
@@ -151,6 +162,7 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
               commonArtists: [],
               commonCourses: [],
               commonTracks: [track],
+              commonLikes: [],
               profileURL: ""
             }
           }
@@ -161,6 +173,32 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
     /**
      * @FacebookLikes Matching
      */
+    if (facebookLikes && facebookLikes.length > 0) {
+      for (const facebookLike of facebookLikes) {
+        const { accounts, _id, name } = facebookLike
+        const like: FacebookLikeObject = {
+          likeId: _id,
+          name
+        }
+        for (const account of accounts) {
+          if (account == accountId) continue
+          if(StudentHashMap[account]) {
+            StudentHashMap[account].commonLikes.push(like)
+            StudentHashMap[account].matches++
+          } 
+          else {
+            StudentHashMap[account] = {
+              matches: 1,
+              commonArtists: [],
+              commonCourses: [],
+              commonTracks: [],
+              commonLikes: [like],
+              profileURL: ""
+            }
+          }
+        }
+      }
+    }
 
     /**
      * Generate @ProfilePic
@@ -201,7 +239,7 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
       commonCourses: StudentHashMap[accountMatch._id].commonCourses,
       commonArtists: StudentHashMap[accountMatch._id].commonArtists,
       commonTracks: StudentHashMap[accountMatch._id].commonTracks,
-      // commonLikes: StudentHashMap[accountMatch._id].commonLikes
+      commonLikes: StudentHashMap[accountMatch._id].commonLikes
     }))
 
     res.json({ matches })
