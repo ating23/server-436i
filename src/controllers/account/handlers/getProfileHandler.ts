@@ -70,17 +70,17 @@ async function generateAccountApiResponse(
     courses: account.courses,
   };
 }
-
-export default async function getAccountHandler(
+export default async function getProfileHandler(
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  const { id } = res.locals.token;
-  Logger.Log("Id: ", id);
+  console.log(req.params);
+  const { accountId } = req.params;
+  Logger.Log("accountId: ", accountId);
 
   try {
-    const account = await AccountModel.findById(id);
+    const account = await AccountModel.findById(accountId);
     Logger.Log("Account: ", account);
     if (!account) {
       return next(NoAccountFoundError);
