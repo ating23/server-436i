@@ -59,8 +59,8 @@ export default async function getCoursesHandler(_req: Request, res: Response, ne
       const accounts = await Promise.all(course.accounts.map(async accountId => {
         if (accountId === id) return null
         const accountData = uniqueStudents[accountId]
-        const spotifyImgURL = accountData.spotify.image.url
-        const facebookImgURL = accountData.facebook.profilePicURL
+        const spotifyImgURL = accountData.spotifyVerified? accountData.spotify.image? accountData.spotify.image.url : null : null
+        const facebookImgURL = accountData.facebookVerified? accountData.facebook.profilePicURL? accountData.facebook.profilePicURL : null : null
         let imageURL = ""
         if (spotifyImgURL) {
           imageURL = spotifyImgURL
