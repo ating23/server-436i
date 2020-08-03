@@ -8,10 +8,31 @@ import SpotifyTracksModel from "../../../db/models/SpotifyTracks.model"
 interface MatchObject {
   matches: number;
   profileURL: string;
-  commonCourses: string[];
-  commonArtists: string[];
-  commonTracks: string[];
+  commonCourses: CourseMatchObject[];
+  commonArtists: ArtistMatchObject[];
+  commonTracks: TrackMatchObject[];
   // commonLikes: string[];
+}
+
+interface ArtistMatchObject {
+  artistId: string;
+  name: string;
+  profileURL: string | null;
+  url: string;
+}
+
+interface TrackMatchObject {
+  trackId: string;
+  name: string;
+  profileURL: string | null;
+  url: string;
+}
+
+interface CourseMatchObject {
+  courseDept: string;
+  courseId: string;
+  courseNumber: string;
+  courseSection: string;
 }
 
 interface StudentHashMap {
@@ -37,40 +58,36 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
     const mongoCourses = await CoursesModel.find({
       _id: { $in: courses.map(course => Types.ObjectId(course)) }
     })
-    const CoursesHashMap = mongoCourses.map(mongoCourse => ({
-      [mongoCourse._id]: mongoCourse
-    }))
     const mongoArtists = await SpotifyArtistsModel.find({
       _id: { $in: artists.map(artist => Types.ObjectId(artist)) }
     })
-    const ArtistsHashMap = mongoArtists.map(mongoArtist => ({
-      [mongoArtist._id]: mongoArtist
-    }))
     const mongoTracks = await SpotifyTracksModel.find({
       _id: { $in: tracks.map(track => Types.ObjectId(track)) }
     })
-    const TracksHashMap = mongoTracks.map(mongoTrack => ({
-      [mongoTrack._id]: mongoTrack
-    }))
     
     /**
      * @Courses Matching
      */
     if (mongoCourses && mongoCourses.length > 0) {
       for (const mongoCourse of mongoCourses) {
-        const { accounts } = mongoCourse
-        const courseId = mongoCourse._id
+        const { accounts, _id, courseDept, courseSection, courseNumber } = mongoCourse
+        const course: CourseMatchObject = {
+          courseId: _id,
+          courseDept,
+          courseSection,
+          courseNumber
+        }
         for (const account of accounts) {
           if (account == accountId) continue
           if(StudentHashMap[account]) {
-            StudentHashMap[account].commonCourses.push(courseId)
+            StudentHashMap[account].commonCourses.push(course)
             StudentHashMap[account].matches++
           } 
           else {
             StudentHashMap[account] = {
               matches: 1,
               commonArtists: [],
-              commonCourses: [courseId],
+              commonCourses: [course],
               commonTracks: [],
               profileURL: ""
             }
@@ -84,18 +101,23 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
      */
     if (mongoArtists && mongoArtists.length > 0) {
       for (const mongoArtist of mongoArtists) {
-        const { accounts } = mongoArtist
-        const artistId = mongoArtist._id
+        const { accounts, _id, name, image, url} = mongoArtist
+        const artist: ArtistMatchObject = {
+          artistId: _id,
+          name,
+          profileURL: image.url ? image.url : null,
+          url
+        }
         for (const account of accounts) {
           if (account == accountId) continue
           if(StudentHashMap[account]) {
-            StudentHashMap[account].commonArtists.push(artistId)
+            StudentHashMap[account].commonArtists.push(artist)
             StudentHashMap[account].matches++
           } 
           else {
             StudentHashMap[account] = {
               matches: 1,
-              commonArtists: [artistId],
+              commonArtists: [artist],
               commonCourses: [],
               commonTracks: [],
               profileURL: ""
@@ -110,12 +132,17 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
      */
     if (mongoTracks && mongoTracks.length > 0) {
       for (const mongoTrack of mongoTracks) {
-        const { accounts } = mongoTrack
-        const trackId = mongoTrack._id
+        const { accounts, _id, name, image, url } = mongoTrack
+        const track: TrackMatchObject = {
+          trackId: _id,
+          name,
+          profileURL: image.url ? image.url : null,
+          url
+        }
         for (const account of accounts) {
           if (account == accountId) continue
           if(StudentHashMap[account]) {
-            StudentHashMap[account].commonTracks.push(trackId)
+            StudentHashMap[account].commonTracks.push(track)
             StudentHashMap[account].matches++
           } 
           else {
@@ -123,7 +150,7 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
               matches: 1,
               commonArtists: [],
               commonCourses: [],
-              commonTracks: [trackId],
+              commonTracks: [track],
               profileURL: ""
             }
           }
