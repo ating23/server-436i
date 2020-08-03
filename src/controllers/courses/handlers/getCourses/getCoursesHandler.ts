@@ -59,8 +59,8 @@ export default async function getCoursesHandler(_req: Request, res: Response, ne
       const accounts = await Promise.all(course.accounts.map(async accountId => {
         if (accountId === id) return null
         const accountData = uniqueStudents[accountId]
-        const spotifyImgURL = accountData.spotifyVerified? accountData.spotify.image? accountData.spotify.image.url : null : null
-        const facebookImgURL = accountData.facebookVerified? accountData.facebook.profilePicURL? accountData.facebook.profilePicURL : null : null
+        const spotifyImgURL = accountData.spotifyVerified ? accountData.spotify.image ? accountData.spotify.image.url : null : null
+        const facebookImgURL = accountData.facebookVerified ? accountData.facebook.profilePicURL ? accountData.facebook.profilePicURL : null : null
         let imageURL = ""
         if (spotifyImgURL) {
           imageURL = spotifyImgURL
@@ -79,7 +79,7 @@ export default async function getCoursesHandler(_req: Request, res: Response, ne
           artistId: artist._id,
           name: artist.name,
           url: artist.url,
-          profileURL: artist.image.url
+          profileURL: artist.image? artist.image.url : null
         }))
         const commonCourseIds = findIdsInCommon(
           myAccount.courses,
@@ -116,7 +116,7 @@ export default async function getCoursesHandler(_req: Request, res: Response, ne
           trackId: track._id,
           name: track.name,
           url: track.url,
-          profileURL: track.image.url
+          profileURL: track.image? track.image.url : null
         }))
         return {
           accountId: accountData._id,

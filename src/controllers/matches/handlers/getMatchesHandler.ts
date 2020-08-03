@@ -115,7 +115,7 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
         const artist: ArtistMatchObject = {
           artistId: _id,
           name,
-          profileURL: image.url ? image.url : null,
+          profileURL: image ? image.url : null,
           url
         }
         for (const account of accounts) {
@@ -147,7 +147,7 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
         const track: TrackMatchObject = {
           trackId: _id,
           name,
-          profileURL: image.url ? image.url : null,
+          profileURL: image ? image.url : null,
           url
         }
         for (const account of accounts) {
