@@ -223,9 +223,6 @@ async function getMatchesHandler (req: Request, res: Response, next: NextFunctio
     /**
      * Generate @Response (JSON)
      */
-    console.log("======DONE MATCHING=======")
-    console.log(StudentHashMap)
-    console.log("==========================")
     const matchesIds = Object.keys(StudentHashMap)
     const mongoAccountMatches = await AccountsModel.find({
       _id: { $in: matchesIds.map(matchId => Types.ObjectId(matchId)) }
