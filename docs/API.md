@@ -317,6 +317,7 @@
 ```
 
 
+
 ___
 
 ## Endpoints
@@ -619,7 +620,7 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 | facebookVerified | `boolean` | Indicates if this user has integrated their Facebook account |
 | facebook | `Object` | contains a [Facebook Object](#facebookuser) if user has integrated their facebook account |
 
-**Reponse Example:**
+**Reponse Example: <a name="AccountAPIResponse"/>**
 
 ```js
 {
@@ -832,6 +833,16 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 
 **Note that each JSON object in the array represents a Course/Class in the uploaded Calendar, if a Calendar has 4 classes, the array will return 4 CalendarApiResponse objects.**
 
+| KEY | VALUE TYPE | VALUE DESCRIPTION |
+|-|-|-|
+| courseId | `string` | The course's Mongo ObjectId |
+| accounts | `Object[]` | An truncated version of [Account](#AccountAPIResponse) objects with only accountId and name fields |
+| courseDept | `string` | A course's department |
+| courseNumber | `string` | A course's number |
+| courseSection | `string` | A course's section number |
+| startDate | `Date` | A course's start date (time is set to midnight) |
+| endDate | `Date` | A course's end date (time is set to 11:59pm) |
+
 **Response Example:** <a name="CourseGetResponse"></a>
 
 ```js
@@ -921,8 +932,6 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 | courseDept | `string` | A course's faculty/department |
 | courseNum | `string` | A course's code |
 | courseSection | `string` | A course's section |
-| uri | `string` | the URI for a created Course |
-
 **Response Example:** <a name="CalendarApiResponse"></a>
 
 ```js
@@ -938,5 +947,152 @@ On success, the HTTP status code in the response header is `200` OK and the resp
     "courseSection": "L1A"
   }
 ]
+```
+___
+
+### Matches
+
+| METHOD | ENDPOINT | USAGE | RETURNS |
+|-|-|-|-|
+| `GET` | /matches | Given a user, we can find all their matches based on Spotify Artists, Spotify Tracks, Facebook likes, and enrolled courses | Returns an array of [MatchAPIResponse](#MatchAPIResponse) |
+
+#### Endpoints
+
+**Note:** All endpoints below require the `Authorization` header with the access token
+
+##### Endpoint
+
+`GET https://api.educonnections.ca/matches`
+
+**Header Fields**
+
+| HEADER FIELD | VALUE | 
+|-|-|
+| Authorization | *Required*. A valid access token, issued on login or password reset |
+
+**Example Header**
+
+```js
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+}
+```
+##### Response Format
+
+On success, the HTTP status code in the response header is `200` OK and the response body contains an array of [MatchAPIResponse](#MatchAPIResponse) object in JSON format
+
+| KEY | VALUE TYPE | VALUE DESCRIPTION |
+|-|-|-|
+| accountId | `string` | The matched user's Mongo ObjectId |
+| name | `string` | The matched user's name |
+| profileURL | `string` | The matched user's profile picture |
+| matches | `number` | The number of matches the matched user and the requesting user has in common (this is a sum of the count of common courses, tracks, artists, likes) |
+| commonCourses | [CourseGetResponse[]](#CourseGetResponse) | An array of common courses |
+| commonArtists | [Artist[]](#artists) | An array of common artists |
+| commonTracks | [Track[]](#tracks) | An array of common tracks |
+| commonLikes | `Object` | An array of common likes |
+
+**Response Example:** <a name="MatchAPIResponse"></a>
+
+```js
+{
+    "matches": [
+        {
+            "accountId": "5f2b352c9415483604dd3a50",
+            "name": "Lucile Dufour",
+            "profileURL": "https://randomuser.me/api/portraits/women/40.jpg",
+            "matches": 15,
+            "commonCourses": [
+                {
+                    "courseId": "5f2b352d9415483604dd3ba9",
+                    "courseDept": "CPSC",
+                    "courseSection": "104",
+                    "courseNumber": "415"
+                },
+                {
+                    "courseId": "5f2b352d9415483604dd3baa",
+                    "courseDept": "CPSC",
+                    "courseSection": "101",
+                    "courseNumber": "416"
+                }
+            ],
+            "commonArtists": [
+                {
+                    "artistId": "5f2b352c9415483604dd3b0b",
+                    "name": "Enya",
+                    "profileURL": "https://i.scdn.co/image/0f6e6c9ab85e148d02a095c870a94f5aa8318148",
+                    "url": "https://open.spotify.com/artist/6uothxMWeLWIhsGeF7cyo4"
+                },
+                {
+                    "artistId": "5f2b352c9415483604dd3b4f",
+                    "name": "Ekali",
+                    "profileURL": "https://i.scdn.co/image/581f16487ebf95f4ccf5c1d898563d5f8a9c6adf",
+                    "url": "https://open.spotify.com/artist/0Y0QSi6lz1bPik5Ffjr8sd"
+                }
+            ],
+            "commonTracks": [
+                {
+                    "trackId": "5f2b352d9415483604dd3bec",
+                    "name": "Space Expedition",
+                    "profileURL": "https://i.scdn.co/image/ab67616d0000b273f6edef580319082952612540",
+                    "url": "https://open.spotify.com/track/6Di10XT13q7selC3FipGJd"
+                },
+                {
+                    "trackId": "5f2b352e9415483604dd3c22",
+                    "name": "Almost Home",
+                    "profileURL": "https://i.scdn.co/image/ab67616d0000b273fe20c03b575cbb3562351389",
+                    "url": "https://open.spotify.com/track/7b32aLn3gja5SECcWjD7Yz"
+                },
+                {
+                    "trackId": "5f2b352e9415483604dd3c34",
+                    "name": "Message from Home",
+                    "profileURL": "https://i.scdn.co/image/ab67616d0000b27306693d13f414373376b88495",
+                    "url": "https://open.spotify.com/track/3EvBcxlQXpyvxpQib3VwgB"
+                },
+                {
+                    "trackId": "5f2b352e9415483604dd3c40",
+                    "name": "I Will Follow You",
+                    "profileURL": "https://i.scdn.co/image/ab67616d0000b2731340c9bcb8495adf404fabc5",
+                    "url": "https://open.spotify.com/track/5YIEsBBvaFfyHAppVoaEcm"
+                },
+                {
+                    "trackId": "5f2b352e9415483604dd3caa",
+                    "name": "Broken Glass",
+                    "profileURL": "https://i.scdn.co/image/ab67616d0000b27380368f0aa8f90c51674f9dd2",
+                    "url": "https://open.spotify.com/track/78ldtCaBRJVp2i91B715L0"
+                }
+            ],
+            "commonLikes": [
+                {
+                    "likeId": "5f2b352d9415483604dd3bb6",
+                    "name": "Gary Vaynerchuk"
+                },
+                {
+                    "likeId": "5f2b352d9415483604dd3bbd",
+                    "name": "Student Problems"
+                },
+                {
+                    "likeId": "5f2b352d9415483604dd3bc0",
+                    "name": "Mabel's Labels"
+                },
+                {
+                    "likeId": "5f2b352d9415483604dd3bcd",
+                    "name": "Nutella"
+                },
+                {
+                    "likeId": "5f2b352d9415483604dd3be0",
+                    "name": "Phil Wizard"
+                },
+                {
+                    "likeId": "5f2b352d9415483604dd3be3",
+                    "name": "NBA Memes"
+                }
+            ]
+        }
+    ]
+}
+
+
+
 ```
 ___
