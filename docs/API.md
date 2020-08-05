@@ -253,7 +253,7 @@
 | popularity | `number` | Number score of Track's popularity on Spotify |
 | image | `Object` | An object with fields: Height, Width, Url and _id (our mongodb ID) |
 | audioPreviewURL | `string` | URL to 30 second preview of the track on Spotify |
-| artists | `Object[] | An array of [Artists](#artists) related to the track |
+| artists | [Artist[]](#artists) | An array of [Artists](#artists) related to the track |
 
 ** Example Body**
 ```js
@@ -860,7 +860,7 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 | KEY | VALUE TYPE | VALUE DESCRIPTION |
 |-|-|-|
 | courseId | `string` | The course's Mongo ObjectId |
-| accounts | `Object[]` | An truncated version of [Account](#AccountAPIResponse) objects with only accountId and name fields |
+| accounts | [Account[]](#AccountAPIResponse) | List of users also in this specific course. These are truncated versions of [Account](#AccountAPIResponse) objects with only accountId and name fields |
 | courseDept | `string` | A course's department |
 | courseNumber | `string` | A course's number |
 | courseSection | `string` | A course's section number |
