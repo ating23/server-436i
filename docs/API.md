@@ -316,6 +316,30 @@
 }
 ```
 
+### Like Object <a name='facebooklike'></a>
+
+##### Object Format
+
+| KEY | VALUE TYPE | VALUE DESCRIPTION |
+|-|-|-|
+| _id | `string` | MongoDB Id for the facebook Like object |
+| accounts | `string[]` | Array of Mongo ObjectId. These refer to users who like this topic |
+| facebookId | `string` | Like's facebook UUID |
+| name | `string` | Like description |
+
+** Example Body**
+```js
+{
+  "_id": "5f2b352d9415483604dd3bb3",
+  "accounts": [
+      "5f2b352c9415483604dd3a4a"
+      "5f2b352c9415483604dd3a4c"
+  ],
+  "facebookId": "263095060814858",
+  "name": "NBA memes",
+}
+```
+
 
 
 ___
@@ -987,10 +1011,10 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 | name | `string` | The matched user's name |
 | profileURL | `string` | The matched user's profile picture |
 | matches | `number` | The number of matches the matched user and the requesting user has in common (this is a sum of the count of common courses, tracks, artists, likes) |
-| commonCourses | [CourseGetResponse[]](#CourseGetResponse) | An array of common courses |
-| commonArtists | [Artist[]](#artists) | An array of common artists |
-| commonTracks | [Track[]](#tracks) | An array of common tracks |
-| commonLikes | `Object` | An array of common likes |
+| commonCourses | [CourseGetResponse[]](#CourseGetResponse) | An array of common courses (unnecessary fields omitted) |
+| commonArtists | [Artist[]](#artists) | An array of common artists (unnecessary fields omitted) |
+| commonTracks | [Track[]](#tracks) | An array of common tracks (unnecessary fields omitted) |
+| commonLikes | FacebookLike[](#facebooklike) | An array of common likes (unncessary fields omitted) |
 
 **Response Example:** <a name="MatchAPIResponse"></a>
 
