@@ -85,8 +85,39 @@ Our team managed the server-related tasks through Github. Click [here](https://g
 
 ### View Project Requirements
 
-Please click [here](https://github.com/eduardocgarza/server-436i/blob/master/docs/PROJECT_REQUIREMENTS.md) to see a full list of our project requirements.
+Please click [here](https://github.com/eduardocgarza/server-436i/blob/master/docs/PROJECT_REQUIREMENTS.md) to see a full list of our project requirements (minimal, standard, stretch).
 
+___
+
+## Tech Used 
+
+Javascript / Typescript
+
+React / React-hooks
+
+MongoDB
+
+Heroku
+
+Node / Express
+
+___
+
+## Above and Beyond
+
+___
+
+## Next Steps
+
+UI/UX
+
+More Functionalities
+
+More Integrations
+
+___
+
+# Extras 
 ___
 
 ## API Documentation
@@ -106,3 +137,18 @@ The server is designed as a REST API with endpoints that return data back to the
 Click [here](https://github.com/eduardocgarza/server-436i/blob/master/docs/API.md) to see the full documented **educonnections API**.
 
 ___
+
+## Prototypes
+
+We have a Figma project set up. We used this to build our vision of what we wanted the front end app to look like. 
+
+Click [here](https://www.figma.com/file/oiIWgoWzIHamqnbqVc6KMo/Friendly?node-id=0%3A1) for a read-only view of our prototype.
+
+We envisioned four main modules to the front end of the application. 
+1. A place for users to upload their course information and view classmates
+2. A place for users to see all of their matches and find out common information/hobbies
+3. A place for users to decide which integrations to provide (Spotify, Facebook, Instagram, etc.) and to deauthorize permissions when they want
+4. A place for users to view each other's profiles as well as their own
+
+___
+
