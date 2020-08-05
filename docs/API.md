@@ -1014,7 +1014,7 @@ On success, the HTTP status code in the response header is `200` OK and the resp
 | commonCourses | [CourseGetResponse[]](#CourseGetResponse) | An array of common courses (unnecessary fields omitted) |
 | commonArtists | [Artist[]](#artists) | An array of common artists (unnecessary fields omitted) |
 | commonTracks | [Track[]](#tracks) | An array of common tracks (unnecessary fields omitted) |
-| commonLikes | FacebookLike[](#facebooklike) | An array of common likes (unncessary fields omitted) |
+| commonLikes | [FacebookLike[]](#facebooklike) | An array of common likes (unncessary fields omitted) |
 
 **Response Example:** <a name="MatchAPIResponse"></a>
 
