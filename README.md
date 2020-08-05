@@ -93,9 +93,13 @@ ___
 
 Javascript / Typescript
 
+We used Typescript and React-Typescript for this project. The development experience was much smoother as it allowed us to strongly type and enforce the structure of data moving inside and outside our server. Integration of the front-end and back-end was simpler as we knew what to expect between the client and server. The downside is the extra work needed by our team in planning and coding. This came in the form of considering what data we needed to move around; as well, it required us to build these Objects/Interfaces to enforce these structures.
+
 React / React-hooks
 
 MongoDB
+Early on in our project, we had a goal of building a matching algorithm based on hobbies. Along the way, we learned that our database schema would play a large role in the success of this algorithm. The end result of our schema essentially writes any incoming data twice. Once in the Account collection and once in the Hobby collection. For example, consider that user X likes Despacito. Our schema would store that X likes Despacito in X's account document, at the same time, the Despacito spotify_track document would store that the song is liked by X. 
+The flexibility of NoSQL allowed us to build the database to our liking, which as described in the example above, involved some data duplication. This referencing allowed us to match users with similar users appropriately. A typical SQL database might have more difficulty in achieving this due to the traditional constraints that a SQL database imposes like Key constraints, etc.
 
 Heroku
 
