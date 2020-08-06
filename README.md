@@ -105,23 +105,21 @@ Heroku
 
 Node / Express
 
-
 ___
 
 ## Above and Beyond
 
+TODO
 ___
 
-## Next Steps
+## Next Steps 
 
-#### Development Experience
-- implement a test suite to allow for automated unit testing and integration testing. This should eventually allow for a Continuous Integration pipeline to complement our Continuous Deployment set-up. This would help ease the workload as our current testing process is manual.
+#### #1 Priority - UI/UX
+- Test the current user experience with general users to determine what needs to highlighted in the workflow and determine if we should build something to help new users step through our application
+- Improve the User Experience for courses. Currently, once you upload a calendar file, you can no longer upload a new calendar. This would mean that when a new semester comes, the user would not be able to upload their new schedule
+- Improve the experience after finding a match. Currently users have no actionable step in our app past the matching stage. The current expected workaround for users is to navigate to a match's profile and email them. This is probably not intuitive to a user
 
-#### UI/UX
-- Improve the User Experience for courses. Currently, once you upload a calendar file, you can no longer upload a new calendar. This would mean that when a new semester comes, the user would not be able to upload their new schedule.
-- Improve the experience after finding a match. Currently users have no actionable step in our app past the matching stage. The current expected workaround for users is to navigate to a match's profile and email them. This is probably not intuitive to a user.
-
-#### More Functionalities
+#### #2 Priority - More Functionalities
 - Allow users to opt out and deauthorize integrated apps, currently we keep track of who likes what songs, artists, likes, etc. Using this same information, we should be able to determine what data needs to be removed from our database when a user wants to deauthorize an integration.
 - More Integrations
 	- Create new integrations (Reddit, Instagram, Snapchat)
@@ -141,6 +139,9 @@ ___
 	- implement a chat feature that allows users to chat with one another within our application
 	- Add "Community Pages" where users can discuss their hobbies about that page's specific topic
 		eg. Pages for every artist in our database where people can find a list of all other users that like some artist and can discuss with one another through some sort of post feed
+
+#### #3 Priority - Development Experience
+- implement a test suite to allow for automated unit testing and integration testing. This should eventually allow for a Continuous Integration pipeline to complement our Continuous Deployment set-up. This would help ease the workload as our current testing process is manual
 
 ___
 
