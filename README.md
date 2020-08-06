@@ -105,6 +105,7 @@ Heroku
 
 Node / Express
 
+
 ___
 
 ## Above and Beyond
@@ -113,11 +114,33 @@ ___
 
 ## Next Steps
 
-UI/UX
+#### Development Experience
+- implement a test suite to allow for automated unit testing and integration testing. This should eventually allow for a Continuous Integration pipeline to complement our Continuous Deployment set-up. This would help ease the workload as our current testing process is manual.
 
-More Functionalities
+#### UI/UX
+- Improve the User Experience for courses. Currently, once you upload a calendar file, you can no longer upload a new calendar. This would mean that when a new semester comes, the user would not be able to upload their new schedule.
+- Improve the experience after finding a match. Currently users have no actionable step in our app past the matching stage. The current expected workaround for users is to navigate to a match's profile and email them. This is probably not intuitive to a user.
 
-More Integrations
+#### More Functionalities
+- Allow users to opt out and deauthorize integrated apps, currently we keep track of who likes what songs, artists, likes, etc. Using this same information, we should be able to determine what data needs to be removed from our database when a user wants to deauthorize an integration.
+- More Integrations
+	- Create new integrations (Reddit, Instagram, Snapchat)
+		- Reddit 
+			- get a user's followed subreddits
+			- get a user's most posted subreddits
+			- other basic data that we can pull from Redit
+		- Instagram
+			- get a user's followed profiles
+			- get a user's following profiles
+			- get a user's most recent posts so that we can show their instagram feed
+			- get a user's most liked posts, most commented posts
+			- get a user's post location tags
+		- Snapchat
+			- get basic user data like snapscore, most snapped contacts, streaks
+- Basic social features
+	- implement a chat feature that allows users to chat with one another within our application
+	- Add "Community Pages" where users can discuss their hobbies about that page's specific topic
+		eg. Pages for every artist in our database where people can find a list of all other users that like some artist and can discuss with one another through some sort of post feed
 
 ___
 
